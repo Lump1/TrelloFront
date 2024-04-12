@@ -40,6 +40,31 @@ main {
 
 /* Cards css */
 
+.main-card-container {
+    display: flex;
+    flex-direction: column;
+    width: 300px;
+    height: 450px;
+}
+
+.header-card-container{
+    display: inline-flex;
+    flex-direction: row;
+}
+
+.main-card-men, .main-card-p {
+    font-size: small;
+}
+
+.main-card-p {
+    font-weight: bold;
+}
+
+.main-card-men {
+    float: right;
+    margin-right: 15px;
+}
+
 /* Ends here */
 
 
