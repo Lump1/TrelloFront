@@ -1,7 +1,7 @@
 /* Work space css */
 
 html, body {
-    height: 100%;
+    /* height: 100%; */
     width: 100%;
     margin: 0;
     padding: 0;
@@ -22,9 +22,9 @@ aside {
 }
 
 header {
-    height: 15%;
+    height: 100px;
     width: 100%;
-    position: absolute;
+    position: sticky;
     top: 0;
     background-color: rgb(252, 125, 125);
 }
@@ -45,26 +45,86 @@ main {
     flex-direction: column;
     width: 300px;
     height: 450px;
+    margin-top: 15px;
+    /* align-items: center; */
+    /* border-radius: 2%; */
+
+    background: #383838;
+}
+
+.helping-container {
+    width: 100%;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .header-card-container{
     display: inline-flex;
     flex-direction: row;
-}
 
-.main-card-men, .main-card-p {
-    font-size: small;
+    margin-bottom: 30px;
 }
 
 .main-card-p {
+    font-size: large;
     font-weight: bold;
+    margin-left: 15px;
+    margin-top: 10px;
+    color: rgb(227, 226, 233);
 }
 
 .main-card-men {
+    font-size: small;
+    margin-left: auto;
     float: right;
     margin-right: 15px;
+    margin-top: 15px;
+    color: rgb(163, 163, 163);
 }
 
+.card-text {
+    color: rgb(227, 226, 233);
+}
+
+.main-card {
+    background: #333336;
+    width: 90%;
+    
+}
+
+.card-tag {
+    color: white !important;
+    background: rgb(34, 34, 82);
+    padding: 5px;
+    width: fit-content;
+}
+
+.card-footer {
+    display: inline-flex;
+}
+
+.card-sm-text {
+    font-size: small;
+}
+
+.text-footer {
+    margin-left: 10px;
+    margin-top: 5px;
+}
+
+.card-sm-img {
+    width: 16px;
+    height: 16px;
+
+    filter: invert(1);
+}
+
+.clock-img {
+    margin-top: 7px;
+    margin-left: 5px;
+}
 /* Ends here */
 
 
