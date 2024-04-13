@@ -42,6 +42,126 @@ main {
 
 /* Cards css */
 
+/* div {
+    border-color: transparent;
+}
+p {
+    border-cnone: transparent;
+} */
+
+.main-card-container {
+    display: flex;
+    flex-direction: column;
+    width: 300px;
+    height: 450px;
+    margin-top: 15px;
+    /* align-items: center; */
+    /* border-radius: 2%; */
+
+    background: #383838;
+}
+
+.helping-container {
+    width: 100%;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.header-card-container{
+    display: inline-flex;
+    flex-direction: row;
+
+    /* margin-bottom: 30px; */
+}
+
+.main-card-p {
+    font-size: large;
+    font-weight: bold;
+    margin-left: 15px;
+    margin-top: 10px;
+    color: rgb(227, 226, 233);
+}
+
+.main-card-men {
+    font-size: small;
+    margin-left: auto;
+    float: right;
+    margin-right: 15px;
+    margin-top: 15px;
+    color: rgb(163, 163, 163);
+}
+
+.card-text {
+    color: rgb(227, 226, 233);
+}
+
+.card-main-text {
+    margin-left: 25px;
+}
+
+.card-header-man{
+    margin-right: 16px;
+    margin-left: 12px;
+    margin-top: 16px;
+}
+
+.main-card {
+    background: #2b2b2e;
+    height: 160px;
+    width: 90%;
+}
+
+.card-tag {
+    color: white !important;
+    background: rgb(25, 25, 31);
+    padding: 3px;
+    width: fit-content;
+}
+
+.card-footer-man {
+    margin-top: 16px;
+    margin-left: 12px;
+    display: flex;
+    flex-direction: row;
+    align-items: left;
+}
+
+.card-sm-text {
+    font-size: small;
+}
+
+.text-footer {
+    margin-top: -3px;
+
+    /* margin-left: 10px; */
+    /* margin-top: 5px; */
+}
+
+.card-sm-img {
+    width: 16px;
+    height: 16px;
+
+    filter: invert(1);
+}
+
+.clock-img {
+    /* margin-top: 7px; */
+    margin-left: 5px;
+}
+
+.sm-mar-l {
+    margin-left: 5px;
+}
+
+.m-mar-l {
+    margin-left: 15px;
+}
+
+.b-mar-l {
+    margin-left: 25px;
+}
 /* Ends here */
 
 
