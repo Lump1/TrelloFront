@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DRO Chello</title>
+    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
     <link rel="stylesheet" href="styles.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 </head>
@@ -81,7 +82,7 @@
         
         
 
-        <article>
+        <article class="main-cards-container">
             <div class="main-card-container rounded-2">
                 <div class="header-card-container">
                     <p class="main-card-p">Upcoming</p>
@@ -110,9 +111,89 @@
                             </div>
                         </div>
                     </div>
+                    <div class="main-card rounded-2">
+                        <div class="card-header-man">
+                            <p class="card-tag card-sm-text">Front-end</p>
+                        </div>
+    
+                        <div class="card-main">
+                            <p class="card-main-text card-text">Windows on top at the touch of a buttons</p>
+                        </div>
+                        <div class="card-footer-man">
+                            <div class="d-inline-flex">
+                                <img src="assets/free-icon-clock-2088617.png" class="card-sm-img clock-img"> 
+                                <p class="card-text card-sm-text text-footer sm-mar-l">Sep 21</p>
+                            </div>
+                            <div class="d-inline-flex">
+                                <img src="assets/list.png" class="card-sm-img b-mar-l">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-plus-but rounded-2">
+                        <img src="assets/plus.png" class="card-m-img plus-img">
+                    </div>
+                </div>
+            </div>
+
+            <div class="main-card-container rounded-2">
+                <div class="header-card-container">
+                    <p class="main-card-p">In Progress</p>
+                    <p class="main-card-men">•••</p>
+                </div>
+                <div class="helping-container">
+                    <div class="main-card rounded-2">
+                        <div class="card-header-man">
+                            <p class="card-tag card-sm-text">Back-end</p>
+                        </div>
+    
+                        <div class="card-main">
+                            <p class="card-main-text card-text">Database associations</p>
+                        </div>
+                        <div class="card-footer-man">
+                            <div class="d-inline-flex">
+                                <img src="assets/free-icon-clock-2088617.png" class="card-sm-img clock-img"> 
+                                <p class="card-text card-sm-text text-footer sm-mar-l">Sep 19</p>
+                            </div>
+                            <div class="d-inline-flex">
+                                <img src="assets/check-mark.png" class="card-sm-img b-mar-l">
+                                <p class="card-text card-sm-text text-footer sm-mar-l">0/4</p>
+                            </div>
+                            <div class="d-inline-flex">
+                                <img src="assets/attach-file-icon-1.png" class="card-sm-img b-mar-l">
+                                <p class="card-text card-sm-text text-footer sm-mar-l">2</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card-plus-but rounded-2">
+                        <img src="assets/plus.png" class="card-m-img plus-img">
+                    </div>
+                </div>
+            </div>
+            <div class="main-card-container rounded-2">
+                <div class="header-card-container">
+                    <p class="main-card-p">Done</p>
+                    <p class="main-card-men">•••</p>
+                </div>
+                <div class="helping-container">
+                    <div class="card-plus-but">
+                        <img src="assets/plus.png" class="card-m-img plus-img">
+                    </div>
                 </div>
             </div>
         </article>      
     </main>
+
+    <script>
+        $('.card-plus-but').mouseenter(function () {
+            $(this).animate({
+                borderColor: 'white'
+            }, 500);
+        }).mouseleave(function () {
+            $(this).animate({
+                borderColor: 'transparent'
+            }, 100);
+        });
+    </script>
 </body>
 </html>

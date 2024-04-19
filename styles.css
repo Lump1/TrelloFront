@@ -267,8 +267,10 @@ p {
     display: flex;
     flex-direction: column;
     width: 300px;
-    height: 450px;
-    margin-top: 15px;
+    height: fit-content;
+    margin-top: 50px;
+    margin-left: 65px;
+    padding-bottom: 10px;
     /* align-items: center; */
     /* border-radius: 2%; */
 
@@ -323,8 +325,10 @@ p {
 
 .main-card {
     background: #2b2b2e;
-    height: 160px;
+    height: fit-content;
     width: 90%;
+    padding-bottom: 20px;
+    margin-top: 10px;
 }
 
 .card-tag {
@@ -360,10 +364,61 @@ p {
     filter: invert(1);
 }
 
+.card-m-img {
+    width: 28px;
+    height: 28px;
+}
+
+.plus-img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+
+    filter: invert(1);
+}
+
 .clock-img {
     /* margin-top: 7px; */
     margin-left: 5px;
 }
+
+.card-plus-but {
+    border: 1, solid, transparent;
+    width: 90%;
+    margin-top: 10px;
+    padding-top: 8px;
+    padding-bottom: 8px;
+}
+
+.card-plus-but:hover {
+    animation-name: cpb-hover;
+    animation-duration: 1.3s;
+}
+
+.card-plus-but:hover .plus-img {
+    animation-name: cpb-hover-img;
+    animation-duration: 1.3s;
+}
+
+/* @keyframes cpb-hover {
+    from {
+        border: solid 1px rgba(255, 255, 255, 0);
+    }
+    to {
+        border: solid 1px rgb(255, 255, 255);
+    }
+} */
+
+/* @keyframes cpb-hover-img {
+    from {
+        filter: invert(1);
+    }
+    to {
+        filter: invert(0.4);
+    }
+} */
+
+
 
 .sm-mar-l {
     margin-left: 5px;
@@ -375,6 +430,10 @@ p {
 
 .b-mar-l {
     margin-left: 25px;
+}
+
+.main-cards-container {
+    display: inline-flex;
 }
 /* Ends here */
 
