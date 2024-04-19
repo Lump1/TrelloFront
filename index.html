@@ -12,75 +12,67 @@
 
 
     <header>
-        <h1>Trello</h1>
+        <h1>DRO Chelo</h1>
         <div class="header-content">
             <div class="workspace-dropdown">
                 <button type="button" id="workspace-dropdown-toggle">Workspace ▼</button>
                 <ul id="workspace-list">
-
                     <li>workspace 1</li>
                     <li>workspace 2</li>
                     <li>workspace 3</li>
                 </ul>
             </div>
         </div>
-        <div class="search-bar-container">
-            <div class="search-bar">
-                <input type="text" placeholder="Search" id="search-input">
-                <button type="button" id="search-button">&#128269;</button>
-                
 
-            </div>
-        </div>
-    </header>
-    
-    
-
-    <main id="content">     
-        <aside id="aside-container">
-            <h2 id="project-title">Project Management
-                <div class="favorite-container">
-                <button type="button" id="favorite-button">&#9734;</button>
-                 </div>
-            </h2>
-            
-            <div class="participants-container">
-                <!-- Иконки участников -->
-                <div class="participant">
-                    <img src="assets/participant1.png" alt="Participant 1">
-                </div>
-                <div class="participant">
-                    <img src="assets/participant1.png" alt="Participant 2">
-                </div>
-               
-            </div>
-            
+        <div class="header-but-container d-inline-flex">
             <div class="invite-container">
                 <button type="button" id="invite-button">Invite</button>
             </div>
-
-       
             <div class="workspace-visible-container">
-                <button type="button" id="workspace-visible-button">&#128100; Workspace Visible</button>
-                
+                <button type="button" id="workspace-visible-button">Workspace Visible</button>
             </div>
-
             <div class="board-dropdown">
                 <button type="button" id="board-dropdown-toggle">Board ▼</button>
                 <ul id="board-list">
                     <li>Board 1</li>
                     <li>Board 2</li>
                     <li>Board 3</li>
-                    
+
                 </ul>
             </div>
-            
-            
+        </div>
+
+        <div class="search-bar-container">
+            <div class="search-bar">
+                <input type="text" placeholder="Search" id="search-input">
+                <button type="button" id="search-button">&#128269;</button>
+
+
+            </div>
+        </div>
+    </header>
+
+
+
+    <main id="content">
+        <aside id="aside-container">
+            <h2 id="project-title">Project Management
+                <div class="favorite-container">
+                <button type="button" id="favorite-button">&#9734;</button>
+                 </div>
+            </h2>
+
+            <div class="participants-container">
+                <!-- Иконки участников -->
+                <div class="participant" id="participant1">
+                    <img src="assets/avatar_face_girl_female_woman_profile_smiley_happy_people_icon_181662.png" alt="Participant 1">
+                </div>
+                <div class="participant" id="participant2">
+                    <img src="assets/avatar_face_girl_female_woman_profile_smiley_happy_people_icon_181665.png" alt="Participant 2">
+                </div>
+                <p class="contributors-view">•••</p>
+            </div>
         </aside>
-        
-        
-        
-        
 
         <article class="main-cards-container">
             <div class="main-card-container rounded-2">
@@ -93,13 +85,13 @@
                         <div class="card-header-man">
                             <p class="card-tag card-sm-text">Front-end</p>
                         </div>
-    
+
                         <div class="card-main">
                             <p class="card-main-text card-text">Drag-and-drop function with jQuerry</p>
                         </div>
                         <div class="card-footer-man">
                             <div class="d-inline-flex">
-                                <img src="assets/free-icon-clock-2088617.png" class="card-sm-img clock-img"> 
+                                <img src="assets/free-icon-clock-2088617.png" class="card-sm-img clock-img">
                                 <p class="card-text card-sm-text text-footer sm-mar-l">Sep 20</p>
                             </div>
                             <div class="d-inline-flex">
@@ -115,13 +107,13 @@
                         <div class="card-header-man">
                             <p class="card-tag card-sm-text">Front-end</p>
                         </div>
-    
+
                         <div class="card-main">
                             <p class="card-main-text card-text">Windows on top at the touch of a buttons</p>
                         </div>
                         <div class="card-footer-man">
                             <div class="d-inline-flex">
-                                <img src="assets/free-icon-clock-2088617.png" class="card-sm-img clock-img"> 
+                                <img src="assets/free-icon-clock-2088617.png" class="card-sm-img clock-img">
                                 <p class="card-text card-sm-text text-footer sm-mar-l">Sep 21</p>
                             </div>
                             <div class="d-inline-flex">
@@ -145,13 +137,13 @@
                         <div class="card-header-man">
                             <p class="card-tag card-sm-text">Back-end</p>
                         </div>
-    
+
                         <div class="card-main">
                             <p class="card-main-text card-text">Database associations</p>
                         </div>
                         <div class="card-footer-man">
                             <div class="d-inline-flex">
-                                <img src="assets/free-icon-clock-2088617.png" class="card-sm-img clock-img"> 
+                                <img src="assets/free-icon-clock-2088617.png" class="card-sm-img clock-img">
                                 <p class="card-text card-sm-text text-footer sm-mar-l">Sep 19</p>
                             </div>
                             <div class="d-inline-flex">
@@ -181,10 +173,10 @@
                     </div>
                 </div>
             </div>
-        </article>      
+        </article>
     </main>
 
-    <script>
+    <!-- <script>
         $('.card-plus-but').mouseenter(function () {
             $(this).animate({
                 borderColor: 'white'
@@ -194,6 +186,6 @@
                 borderColor: 'transparent'
             }, 100);
         });
-    </script>
+    </script> -->
 </body>
 </html>

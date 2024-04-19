@@ -13,12 +13,12 @@ body {
 }
 
 aside {
-    width: 20%; /* Устанавливаем ширину сайдбара на 20% от ширины родительского контейнера */
+    width: 15%; /* Устанавливаем ширину сайдбара на 20% от ширины родительского контейнера */
     height: 100vh; /* Задаем высоту сайдбара на всю высоту видимой области экрана */
     padding-left: 15px; /* Отступ слева внутри сайдбара */
     margin-right: 30px; /* Отступ справа от сайдбара до других элементов */
     float: left; /* Выравниваем сайдбар слева */
-    background-color: #2b2b2e; /* Цвет фона сайдбара */
+    background-color: #2b2b2ee3; /* Цвет фона сайдбара */
     color: white; /* Цвет текста */
 }
 
@@ -51,51 +51,71 @@ aside {
     margin-bottom: 30px; /* Добавляем небольшой отступ снизу */
 }
 
-.participant {
-    width: 40px; /* Устанавливаем ширину блока для каждой иконки участника */
-    height: 40px; /* Устанавливаем высоту блока для каждой иконки участника */
+#participant2 {
+    position: relative;
+    left: -40px;
+    top: 25px;
+
+    width: 50px; /* Устанавливаем ширину блока для каждой иконки участника */
+    height: 50px; /* Устанавливаем высоту блока для каждой иконки участника */
     border-radius: 50%; /* Создаем круглую форму для блока с помощью скругления углов */
     overflow: hidden; /* Обрезаем изображение участника, чтобы оно не выходило за пределы блока */
-    margin-right: 5px; /* Добавляем небольшой отступ между иконками участников */
+}
+
+#participant1 {
+    width: 70px; /* Устанавливаем ширину блока для каждой иконки участника */
+    height: 70px; /* Устанавливаем высоту блока для каждой иконки участника */
+    border-radius: 50%; /* Создаем круглую форму для блока с помощью скругления углов */
+    overflow: hidden; /* Обрезаем изображение участника, чтобы оно не выходило за пределы блока */
 }
 
 .participant img {
     width: 100%; /* Изображение участника занимает всю доступную ширину блока */
     height: 100%; /* Изображение участника занимает всю доступную высоту блока */
+    background-color: white !important;
     object-fit: cover; /* Изображение участника сохраняет пропорции и центрируется внутри блока */
 }
 
+.contributors-view {
+    color: #a1a1a1;
+    font-size: 28px;
+    position: absolute;
+    margin-left: 85px;
+    margin-top: 50px;
+    float: left;
+}
+
+.header-but-container {
+    margin-left: 25px;
+}
+
 #invite-button {
-   
-    margin-bottom: 30px; /* Добавляем небольшой отступ снизу */
-    width:90%;
-    background-color:#434349; /* Цвет фона кнопок "Invite"  */
+    margin-right: 20px;
+    width: fit-content;
+    background-color: transparent; /* Цвет фона кнопок "Invite"  */
     color: white; /* Цвет текста кнопок */
  
     border: none;
-    padding: 10px 20px; /* Внутренний отступ кнопок */
-    border-radius: 10px; /* Создаем скругленные углы у кнопок */
     cursor: pointer; /* Задаем курсор при наведении на кнопки */
     opacity: 0.8;
 }
 
 #workspace-visible-button {
-    background-color: #434349; /* Цвет фона кнопок и "Workspace Visible" */
+    background-color: transparent;
+    text-wrap: nowrap;
     color: white; /* Цвет текста кнопок */
     border: none; /* Убираем границу у кнопок */
-    padding: 10px 20px; /* Внутренний отступ кнопок */
-    border-radius: 5px; /* Создаем скругленные углы у кнопок */
     cursor: pointer; /* Задаем курсор при наведении на кнопки */
     display: block; /* Отображаем кнопки как блочные элементы */
-    width:90%;
+    width: fit-content; 
+    margin-right: 20px;
     opacity: 0.8;
-    margin-bottom: 30px;
 }
 
 #invite-button:hover,
 #workspace-visible-button:hover {
-    background-color:#12132E; /* Цвет фона кнопок при наведении */
-    border-color:#12132E; 
+    /* background-color:#12132E;  */
+    /* border-color:#12132E;  */
 }
 
 
@@ -104,25 +124,20 @@ aside {
     margin-top: 20px; /* Добавляем отступ сверху */
 }
 .board-dropdown {
-    position: relative; /* Устанавливаем позиционирование элемента как относительное, чтобы дочерние элементы могли быть позиционированы относительно него */
-   
+      border: none !important;
 }
 
 #board-dropdown-toggle {
-    background-color: #434349; /* Устанавливаем прозрачный фон кнопки */
-    color: white; /* Устанавливаем белый цвет текста кнопки */
-    border: none; /* Убираем границы у кнопки */
-    padding: 10px 20px; /* Отступы кнопки */
-    border-radius: 5px; /* Закругляем углы кнопки */
+    background-color: transparent;
+    border: none !important;
+    color: rgb(196, 196, 196); /* Устанавливаем белый цвет текста кнопки */
     cursor: pointer; /* Устанавливаем курсор в виде указателя при наведении на кнопку */
-    width:90%;
+    width: fit-content;
 }
 
-#board-dropdown-toggle:hover {
-    background-color: rgba(255, 255, 255, 0.1); /* Устанавливаем прозрачный белый цвет фона кнопки при наведении */
-}
+
 .board-dropdown:hover #board-list {
-    display: block; /* Показываем список при наведении на контейнер с классом workspace-dropdown */
+    display: block;
 }
 #board-list {
     display: none; /* Скрываем список по умолчанию */
@@ -151,11 +166,11 @@ aside {
 
 
 header {
-    height: 100px;
+    height: 55px;
     width: 100%;
     position: sticky;
     top: 0;
-    background-color: #2b2b2e;
+    background-color: #161618;
     color:#c5c6c7;
     padding: 10px 20px;
     display: flex;
@@ -248,9 +263,8 @@ main {
     flex: auto;
     width: 100%;
     height: 100%;
-    background-color: rgb(116, 245, 112);
-}
-
+    background: rgb(63,113,96);
+    background: linear-gradient(122deg, rgba(63,113,96,1) 0%, rgba(58,144,113,1) 30%, rgba(63,122,83,1) 61%, rgba(73,107,75,1) 100%);}
 /* It ends here */
 
 
