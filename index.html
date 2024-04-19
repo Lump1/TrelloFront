@@ -8,13 +8,78 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 </head>
 <body>
-    <header id="header">
-        <!-- Ur code here -->
+
+
+    <header>
+        <h1>Trello</h1>
+        <div class="header-content">
+            <div class="workspace-dropdown">
+                <button type="button" id="workspace-dropdown-toggle">Workspace ▼</button>
+                <ul id="workspace-list">
+
+                    <li>workspace 1</li>
+                    <li>workspace 2</li>
+                    <li>workspace 3</li>
+                </ul>
+            </div>
+        </div>
+        <div class="search-bar-container">
+            <div class="search-bar">
+                <input type="text" placeholder="Search" id="search-input">
+                <button type="button" id="search-button">&#128269;</button>
+                
+
+            </div>
+        </div>
     </header>
+    
+    
+
     <main id="content">     
         <aside id="aside-container">
-            <!-- Ur code here -->
+            <h2 id="project-title">Project Management
+                <div class="favorite-container">
+                <button type="button" id="favorite-button">&#9734;</button>
+                 </div>
+            </h2>
+            
+            <div class="participants-container">
+                <!-- Иконки участников -->
+                <div class="participant">
+                    <img src="assets/participant1.png" alt="Participant 1">
+                </div>
+                <div class="participant">
+                    <img src="assets/participant1.png" alt="Participant 2">
+                </div>
+               
+            </div>
+            
+            <div class="invite-container">
+                <button type="button" id="invite-button">Invite</button>
+            </div>
+
+       
+            <div class="workspace-visible-container">
+                <button type="button" id="workspace-visible-button">&#128100; Workspace Visible</button>
+                
+            </div>
+
+            <div class="board-dropdown">
+                <button type="button" id="board-dropdown-toggle">Board ▼</button>
+                <ul id="board-list">
+                    <li>Board 1</li>
+                    <li>Board 2</li>
+                    <li>Board 3</li>
+                    
+                </ul>
+            </div>
+            
+            
         </aside>
+        
+        
+        
+        
 
         <article>
             <div class="main-card-container rounded-2">

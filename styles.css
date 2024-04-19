@@ -13,20 +13,235 @@ body {
 }
 
 aside {
-    width: 20%;
-    height: 100vh;
-    padding-left: 15px;
-    margin-right: 30px;
-    float: left;
-    background-color: rgb(154, 240, 255);
+    width: 20%; /* Устанавливаем ширину сайдбара на 20% от ширины родительского контейнера */
+    height: 100vh; /* Задаем высоту сайдбара на всю высоту видимой области экрана */
+    padding-left: 15px; /* Отступ слева внутри сайдбара */
+    margin-right: 30px; /* Отступ справа от сайдбара до других элементов */
+    float: left; /* Выравниваем сайдбар слева */
+    background-color: #2b2b2e; /* Цвет фона сайдбара */
+    color: white; /* Цвет текста */
 }
+
+#project-title {
+    font-size: 30px; /* Устанавливаем размер шрифта заголовка "Project Management" */
+    margin-bottom: 30px; /* Добавляем небольшой отступ снизу */
+    margin-top: 10px;
+}
+
+.favorite-container {
+    float: right; /* Размещаем элемент справа */
+    margin-bottom: 10px; /* Добавляем небольшой отступ снизу */
+}
+
+#favorite-button {
+    background-color: transparent; /* Устанавливаем прозрачный фон */
+    color: white; /* Цвет текста */
+    border: none; /* Убираем границу */
+    font-size: 30px; /* Размер шрифта */
+    cursor: pointer; /* Курсор при наведении */
+}
+
+#favorite-button:hover {
+    background-color: rgba(255, 255, 255, 0.2); /* Изменяем цвет фона на полупрозрачный белый при наведении */
+    color: #E8E105 ;
+}
+
+.participants-container {
+    display: flex; /* Располагаем иконки участников в линию */
+    margin-bottom: 30px; /* Добавляем небольшой отступ снизу */
+}
+
+.participant {
+    width: 40px; /* Устанавливаем ширину блока для каждой иконки участника */
+    height: 40px; /* Устанавливаем высоту блока для каждой иконки участника */
+    border-radius: 50%; /* Создаем круглую форму для блока с помощью скругления углов */
+    overflow: hidden; /* Обрезаем изображение участника, чтобы оно не выходило за пределы блока */
+    margin-right: 5px; /* Добавляем небольшой отступ между иконками участников */
+}
+
+.participant img {
+    width: 100%; /* Изображение участника занимает всю доступную ширину блока */
+    height: 100%; /* Изображение участника занимает всю доступную высоту блока */
+    object-fit: cover; /* Изображение участника сохраняет пропорции и центрируется внутри блока */
+}
+
+#invite-button {
+   
+    margin-bottom: 30px; /* Добавляем небольшой отступ снизу */
+    width:90%;
+    background-color:#434349; /* Цвет фона кнопок "Invite"  */
+    color: white; /* Цвет текста кнопок */
+ 
+    border: none;
+    padding: 10px 20px; /* Внутренний отступ кнопок */
+    border-radius: 10px; /* Создаем скругленные углы у кнопок */
+    cursor: pointer; /* Задаем курсор при наведении на кнопки */
+    opacity: 0.8;
+}
+
+#workspace-visible-button {
+    background-color: #434349; /* Цвет фона кнопок и "Workspace Visible" */
+    color: white; /* Цвет текста кнопок */
+    border: none; /* Убираем границу у кнопок */
+    padding: 10px 20px; /* Внутренний отступ кнопок */
+    border-radius: 5px; /* Создаем скругленные углы у кнопок */
+    cursor: pointer; /* Задаем курсор при наведении на кнопки */
+    display: block; /* Отображаем кнопки как блочные элементы */
+    width:90%;
+    opacity: 0.8;
+    margin-bottom: 30px;
+}
+
+#invite-button:hover,
+#workspace-visible-button:hover {
+    background-color:#12132E; /* Цвет фона кнопок при наведении */
+    border-color:#12132E; 
+}
+
+
+#profile-icon {
+    font-size: 30px; /* Устанавливаем размер иконки профиля */
+    margin-top: 20px; /* Добавляем отступ сверху */
+}
+.board-dropdown {
+    position: relative; /* Устанавливаем позиционирование элемента как относительное, чтобы дочерние элементы могли быть позиционированы относительно него */
+   
+}
+
+#board-dropdown-toggle {
+    background-color: #434349; /* Устанавливаем прозрачный фон кнопки */
+    color: white; /* Устанавливаем белый цвет текста кнопки */
+    border: none; /* Убираем границы у кнопки */
+    padding: 10px 20px; /* Отступы кнопки */
+    border-radius: 5px; /* Закругляем углы кнопки */
+    cursor: pointer; /* Устанавливаем курсор в виде указателя при наведении на кнопку */
+    width:90%;
+}
+
+#board-dropdown-toggle:hover {
+    background-color: rgba(255, 255, 255, 0.1); /* Устанавливаем прозрачный белый цвет фона кнопки при наведении */
+}
+.board-dropdown:hover #board-list {
+    display: block; /* Показываем список при наведении на контейнер с классом workspace-dropdown */
+}
+#board-list {
+    display: none; /* Скрываем список по умолчанию */
+    position: absolute; /* Устанавливаем позиционирование списка как абсолютное, чтобы его можно было свободно размещать в нужном месте */
+    background-color: #303030; /* Устанавливаем цвет фона списка */
+    min-width: 100px; /* Минимальная ширина списка */
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2); /* Добавляем тень для списка */
+    z-index: 1; /* Устанавливаем z-index, чтобы список отображался поверх других элементов */
+    padding: 0; /* Убираем внутренние отступы у списка */
+    margin: 0; /* Убираем внешние отступы у списка */
+    list-style: none; /* Убираем маркеры списка */
+}
+
+#board-list li {
+    padding: 10px 20px; /* Отступы для каждого элемента списка */
+    cursor: pointer; /* Устанавливаем курсор в виде указателя при наведении на элемент списка */
+    color: white; /* Устанавливаем белый цвет текста элементов списка */
+}
+
+#board-list li:hover {
+    background-color: rgba(255, 255, 255, 0.1); /* Устанавливаем прозрачный белый цвет фона элемента списка при наведении */
+}
+
+
+  
+
 
 header {
     height: 100px;
     width: 100%;
     position: sticky;
     top: 0;
-    background-color: rgb(252, 125, 125);
+    background-color: #2b2b2e;
+    color:#c5c6c7;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#project-title {
+    font-size: 1.5vw; /* Размер шрифта в зависимости от ширины окна браузера */
+    margin-bottom: 30px;
+}
+
+
+.header-content {
+    display: flex;
+    align-items: flex-end; /* Выравниваем элементы по нижнему краю */
+}
+
+.workspace-dropdown {
+    margin-left: 20px;
+    margin-top: auto; /* Выравниваем блок по нижнему краю */
+}
+#workspace-list {
+    display: none; /* Скрываем список по умолчанию */
+    position: absolute; /* Устанавливаем позиционирование списка как абсолютное, чтобы его можно было свободно размещать в нужном месте */
+    background-color: #303030; /* Устанавливаем цвет фона списка */
+    min-width: 100px; /* Минимальная ширина списка */
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2); /* Добавляем тень для списка */
+    z-index: 1; /* Устанавливаем z-index, чтобы список отображался поверх других элементов */
+    padding: 0; /* Убираем внутренние отступы у списка */
+    margin: 0; /* Убираем внешние отступы у списка */
+    list-style: none; /* Убираем маркеры списка */
+}
+
+#workspace-list li {
+    padding: 10px 20px; /* Отступы для каждого элемента списка */
+    cursor: pointer; /* Устанавливаем курсор в виде указателя при наведении на элемент списка */
+    color: white; /* Устанавливаем белый цвет текста элементов списка */
+}
+
+#workspace-list li:hover {
+    background-color: rgba(255, 255, 255, 0.1); /* Устанавливаем прозрачный белый цвет фона элемента списка при наведении */
+}
+
+
+.workspace-dropdown:hover #workspace-list {
+    display: block; /* Показываем список при наведении на контейнер с классом workspace-dropdown */
+}
+
+#workspace-dropdown-toggle {
+    color: white;
+    background-color: #36363A;
+    border: 1px solid #36363A;
+    padding: 5px 10px;
+    border-radius: 15px;
+    cursor: pointer;
+}
+
+#workspace-dropdown-toggle:hover {
+    background-color: #36363A;
+}
+
+#search-input {
+    color: white;
+    padding: 5px 10px;
+    border: 1px solid#36363A;
+    border-radius: 5px;
+    font-size: 16px;
+    background-color: #36363A;
+}
+
+#search-button {
+    background-color:#36363A;
+
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+
+
+
+
+.search-bar-container {
+    margin-left: auto;
 }
 
 main {
@@ -37,7 +252,6 @@ main {
 }
 
 /* It ends here */
-
 
 
 /* Cards css */
