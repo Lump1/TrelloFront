@@ -48,7 +48,7 @@ aside {
 
 .participants-container {
     display: flex; /* Располагаем иконки участников в линию */
-    margin-bottom: 30px; /* Добавляем небольшой отступ снизу */
+    margin-bottom: 40px; /* Добавляем небольшой отступ снизу */
 }
 
 #participant2 {
@@ -162,8 +162,146 @@ aside {
 }
 
 
-  
+/*--------------------------------------------------------------------------------------.board-container #board-button*/
+.board-container #board-button {
+    color: white;
+    background-color: #36363A;
+    border: 1px solid #36363A;
+    padding: 5px 10px;
+    border-radius: 15px;
+    cursor: pointer;
+    width: 90%;
+    margin-bottom: 40px;
+}
 
+.board-container #board-button:hover {
+    background-color: #2d2d30; /* Цвет при наведении курсора */
+}
+/*--------------------------------------------------------------------------------------*/
+
+/*--------------------------------------------------------------------------------------workspace-settings-dropdown*/
+.workspace-settings-dropdown {
+    
+    margin-top: auto; /* Выравниваем блок по нижнему краю */
+    position: relative; /* Необходимо для корректного позиционирования списка */
+   margin-bottom: 30px;
+}
+
+#workspace-list {
+    display: none; /* Скрываем список по умолчанию */
+    position: absolute; /* Устанавливаем позиционирование списка как абсолютное, чтобы его можно было свободно размещать в нужном месте */
+    background-color: #303030; /* Устанавливаем цвет фона списка */
+    min-width: 100px; /* Минимальная ширина списка */
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2); /* Добавляем тень для списка */
+    z-index: 1; /* Устанавливаем z-index, чтобы список отображался поверх других элементов */
+    padding: 0; /* Убираем внутренние отступы у списка */
+    margin: 0; /* Убираем внешние отступы у списка */
+    list-style: none; /* Убираем маркеры списка */
+    left: 0; /* Выравниваем список по левому краю */
+    top: 100%; /* Позиционируем список под кнопкой */
+}
+
+#workspace-list li {
+    padding: 10px 20px; /* Отступы для каждого элемента списка */
+    cursor: pointer; /* Устанавливаем курсор в виде указателя при наведении на элемент списка */
+    color: white; /* Устанавливаем белый цвет текста элементов списка */
+}
+
+#workspace-list li:hover {
+    background-color: rgba(255, 255, 255, 0.1); /* Устанавливаем прозрачный белый цвет фона элемента списка при наведении */
+}
+
+.workspace-settings-dropdown:hover #workspace-list {
+    display: block; /* Показываем список при наведении на контейнер с классом workspace-dropdown */
+}
+
+#workspace-settings-dropdown-toggle {
+    color: white;
+    background-color: #36363A;
+    border: 1px solid #36363A;
+    padding: 5px 10px;
+    border-radius: 15px;
+    cursor: pointer;
+    width: 90%;
+}
+
+#workspace-settings-dropdown-toggle:hover {
+    background-color: #36363A;
+}
+/*--------------------------------------------------------------------------------------*/
+
+  /*--------------------------------------------------------------------------------------wvs*/
+
+  #wvs {
+    font-size: 1vw; /* Устанавливаем размер шрифта заголовка "Project Management" */
+    margin-bottom: 30px; /* Добавляем небольшой отступ снизу */
+   
+       }
+       #wvs1 {
+        font-size: 0.4vw; /* Устанавливаем размер шрифта заголовка "Project Management" */
+        margin-bottom: 5px; /* Добавляем небольшой отступ снизу */
+       
+           }
+           #wvs2 {
+            font-size: 0.4vw; /* Устанавливаем размер шрифта заголовка "Project Management" */
+            margin-bottom: 30px; /* Добавляем небольшой отступ снизу */
+           
+               }
+/*--------------------------------------------------------------------------------------abel-container button, Calendar-container button*/
+       .Tabel-container button,
+       .Calendar-container button{
+           color: white;
+           background-color: #36363A;
+           border: 1px solid #36363A;
+           padding: 5px 10px;
+           border-radius: 15px;
+           cursor: pointer;
+           display: flex;
+           align-items: center;
+           margin-bottom: 10px;
+           
+       }
+       
+       .Tabel-container button:hover,
+       .Calendar-container button:hover {
+           background-color: #2d2d30; /* Цвет при наведении курсора */
+       }
+       
+       .Tabel-container .icon,
+       .Calendar-container .icon {
+           font-size: 20px; /* Размер иконки */
+           margin-right: 10px; /* Отступ между иконкой и текстом */
+       }
+    
+       
+        
+    
+
+
+/*--------------------------------------------------------------------------------------My-boards-container*/
+       .My-boards-container button {
+        color: white;
+        background-color: #36363A;
+        border: 1px solid #36363A;
+        padding: 5px 10px;
+        border-radius: 15px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        width: 90%;
+    }
+    
+    .My-boards-container button:hover {
+        background-color: #2d2d30; /* Цвет при наведении курсора */
+    }
+    
+    .My-boards-container button .icon {
+        font-size: 20px; /* Размер иконки */
+        margin-left: auto; /* Отступ между иконкой и текстом */
+    }
+    
+    
+  /*--------------------------------------------------------------------------------------*/
 
 header {
     height: 55px;
