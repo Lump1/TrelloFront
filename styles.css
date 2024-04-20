@@ -12,6 +12,15 @@ body {
     flex-direction: column;
 }
 
+/* hr {
+    padding-right: 50px;
+} */
+
+.aside-line {
+    width: 90%;
+}
+
+
 aside {
     width: 15%; /* Устанавливаем ширину сайдбара на 20% от ширины родительского контейнера */
     height: 100vh; /* Задаем высоту сайдбара на всю высоту видимой области экрана */
@@ -22,6 +31,11 @@ aside {
     color: white; /* Цвет текста */
 }
 
+.header-main-text {
+    font-size: 24px;
+    font-weight: bold;
+}
+
 #project-title {
     font-size: 30px; /* Устанавливаем размер шрифта заголовка "Project Management" */
     margin-bottom: 30px; /* Добавляем небольшой отступ снизу */
@@ -30,6 +44,7 @@ aside {
 
 .favorite-container {
     float: right; /* Размещаем элемент справа */
+    padding-right: 20px;
     margin-bottom: 10px; /* Добавляем небольшой отступ снизу */
 }
 
@@ -77,11 +92,11 @@ aside {
 }
 
 .contributors-view {
-    color: #a1a1a1;
-    font-size: 28px;
+    color: #ffffff;
+    font-size: 24px;
     position: absolute;
-    margin-left: 85px;
-    margin-top: 50px;
+    margin-left: 90px;
+    margin-top: 40px;
     float: left;
 }
 
