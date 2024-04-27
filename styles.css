@@ -629,22 +629,104 @@ p {
 }
 
 .card-plus-but {
-    border: 1, solid, transparent;
-    width: 90%;
+    position: relative;
+    display: inline-block;
+    width: 270px; /* Ширина кнопки */
+    height: 44px; /* Высота кнопки */
+    cursor: pointer;
+    overflow: hidden; /* Скрытие частей анимации, выходящих за пределы кнопки */
     margin-top: 10px;
     padding-top: 8px;
     padding-bottom: 8px;
 }
 
-.card-plus-but:hover {
-    animation-name: cpb-hover;
-    animation-duration: 1.3s;
+.card-plus-but img {
+  
+    width: 28px; /* Ширина изображения "+" */
+    height: 28px; /* Высота изображения "+" */
 }
 
-.card-plus-but:hover .plus-img {
-    animation-name: cpb-hover-img;
-    animation-duration: 1.3s;
+.card-plus-but span {
+    position: absolute;
+    background-color: white;
+    opacity: 0; 
 }
+.card-plus-but:hover span {
+    opacity: 1; /* При наведении прозрачность изменяется на 1 */
+}
+
+
+.card-plus-but span:nth-child(1) {
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 2px;
+    animation: btn-anim1 1.3s linear infinite; /* Увеличил продолжительность анимации до 1.3 секунды */
+}
+
+.card-plus-but span:nth-child(2) {
+    top: -100%;
+    right: 0;
+    width: 2px;
+    height: 100%;
+    animation: btn-anim2 1.3s linear infinite; /* Увеличил продолжительность анимации до 1.3 секунды */
+    animation-delay: .25s;
+}
+
+.card-plus-but span:nth-child(3) {
+    bottom: 0;
+    right: -100%;
+    width: 100%;
+    height: 2px;
+    animation: btn-anim3 1.3s linear infinite; /* Увеличил продолжительность анимации до 1.3 секунды */
+    animation-delay: .5s;
+}
+
+.card-plus-but span:nth-child(4) {
+    bottom: -100%;
+    left: 0;
+    width: 2px;
+    height: 100%;
+    animation: btn-anim4 1.3s linear infinite; /* Увеличил продолжительность анимации до 1.3 секунды */
+    animation-delay: .75s;
+}
+
+@keyframes btn-anim1 {
+    0% {
+        left: -100%;
+    }
+    50%,100% {
+        left: 100%;
+    }
+}
+
+@keyframes btn-anim2 {
+    0% {
+        top: -100%;
+    }
+    50%,100% {
+        top: 100%;
+    }
+}
+
+@keyframes btn-anim3 {
+    0% {
+        right: -100%;
+    }
+    50%,100% {
+        right: 100%;
+    }
+}
+
+@keyframes btn-anim4 {
+    0% {
+        bottom: -100%;
+    }
+    50%,100% {
+        bottom: 100%;
+    }
+}
+
 
 /* @keyframes cpb-hover {
     from {
