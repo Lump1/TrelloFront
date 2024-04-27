@@ -665,6 +665,11 @@ p {
 } */
 
 
+.only-cards-container {
+    width: 100%;
+    height: 100%;
+}
+
 
 .sm-mar-l {
     margin-left: 5px;
