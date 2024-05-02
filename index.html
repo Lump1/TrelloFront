@@ -152,125 +152,20 @@
         </aside>
 
         <article class="main-cards-container">
-            <div class="main-card-container rounded-2">
-                <div class="header-card-container">
-                    <p class="main-card-p">Upcoming</p>
-                    <p class="main-card-men">•••</p>
-                </div>
-                <div class="helping-container">
-                    <div class="main-card rounded-2">
-                        <div class="card-header-man">
-                            <p class="card-tag card-sm-text">Front-end</p>
+            <div class="create-column-container rounded-2">
+                <a href="#create-column" rel="modal:open">
+                    <div class="column-plus-but rounded-2">
+                        <div class="animation-wrapper">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                            <span></span>
                         </div>
-
-                        <div class="card-main">
-                            <p class="card-main-text card-text">Drag-and-drop function with jQuerry</p>
-                        </div>
-                        <div class="card-footer-man">
-                            <div class="d-inline-flex">
-                                <img src="assets/free-icon-clock-2088617.png" class="card-sm-img clock-img">
-                                <p class="card-text card-sm-text text-footer sm-mar-l">Sep 20</p>
-                            </div>
-                            <div class="d-inline-flex">
-                                <img src="assets/list.png" class="card-sm-img b-mar-l">
-                            </div>
-                            <div class="d-inline-flex">
-                                <img src="assets/check-mark.png" class="card-sm-img b-mar-l">
-                                <p class="card-text card-sm-text text-footer sm-mar-l">0/3</p>
-                            </div>
-                        </div>
+                        <img src="assets/plus.png" class="card-m-img plus-img">
                     </div>
-                    <div class="main-card rounded-2">
-                        <div class="card-header-man">
-                            <p class="card-tag card-sm-text">Front-end</p>
-                        </div>
-
-                        <div class="card-main">
-                            <p class="card-main-text card-text">Windows on top at the touch of a buttons</p>
-                        </div>
-                        <div class="card-footer-man">
-                            <div class="d-inline-flex">
-                                <img src="assets/free-icon-clock-2088617.png" class="card-sm-img clock-img">
-                                <p class="card-text card-sm-text text-footer sm-mar-l">Sep 21</p>
-                            </div>
-                            <div class="d-inline-flex">
-                                <img src="assets/list.png" class="card-sm-img b-mar-l">
-                            </div>
-                        </div>
-                    </div>
-                    <a href="#create" rel="modal:open">
-                        <div class="card-plus-but rounded-2">
-                            <div class="animation-wrapper">
-                                <span></span>
-                                <span></span>
-                                <span></span>
-                                <span></span>
-                            </div>
-                            <img src="assets/plus.png" class="card-m-img plus-img">
-                        </div>
-                    </a>
-                    
-                </div>
+                </a>
             </div>
-
-            <div class="main-card-container rounded-2">
-                <div class="header-card-container">
-                    <p class="main-card-p">In Progress</p>
-                    <p class="main-card-men">•••</p>
-                </div>
-                <div  class="helping-container">
-                    <div class="main-card rounded-2">
-                        <div class="card-header-man">
-                            <p class="card-tag card-sm-text">Back-end</p>
-                        </div>
-
-                        <div class="card-main">
-                            <p class="card-main-text card-text">Database associations</p>
-                        </div>
-                        <div class="card-footer-man">
-                            <div class="d-inline-flex">
-                                <img src="assets/free-icon-clock-2088617.png" class="card-sm-img clock-img">
-                                <p class="card-text card-sm-text text-footer sm-mar-l">Sep 19</p>
-                            </div>
-                            <div class="d-inline-flex">
-                                <img src="assets/check-mark.png" class="card-sm-img b-mar-l">
-                                <p class="card-text card-sm-text text-footer sm-mar-l">0/4</p>
-                            </div>
-                            <div class="d-inline-flex">
-                                <img src="assets/attach-file-icon-1.png" class="card-sm-img b-mar-l">
-                                <p class="card-text card-sm-text text-footer sm-mar-l">2</p>
-                            </div>
-                        </div>
-                    </div>
-                    <a href="#create" rel="modal:open">
-                        <div class="card-plus-but rounded-2">
-                            <span></span>
-                            <span></span>
-                            <span></span>
-                            <span></span>
-                            <img src="assets/plus.png" class="card-m-img plus-img">
-                        </div>
-                    </a>
-                    
-                </div>
-            </div>
-            <div class="main-card-container rounded-2">
-                <div class="header-card-container">
-                    <p class="main-card-p">Done</p>
-                    <p class="main-card-men">•••</p>
-                </div>
-                <div  class="helping-container">
-                    <a href="#create" rel="modal:open">
-                        <div class="card-plus-but">
-                            <span></span>
-                            <span></span>
-                            <span></span>
-                            <span></span>
-                            <img src="assets/plus.png" class="card-m-img plus-img">
-                        </div>
-                    </a>
-                </div>
-            </div>
+            
             
         </article>
     </main>
@@ -292,8 +187,21 @@
             <div class="modal-inside-container rounded-2">
                 <p class="modal-title">Create card</p>
                 <form class="create-form" method="POST" id="createOperation">
-                    <label for="inputTagCreate">Tag</label> <br />
-                    <input id="inputTagCreate" />
+                    <!-- <label for="inputTagCreate">Tag</label> <br />
+                    <input id="inputTagCreate" /> -->
+                    
+                </form>
+            </div>
+          </div>
+          <div id="create-column" class="modal">
+            <div class="modal-inside-container rounded-2">
+                <p class="modal-title">Create column</p>
+                <form class="create-column-form" method="POST" id="createColumnOperation">
+                    <input id="titleColumnCreate" placeholder="Title" >
+                    <button type="button" id="buttonColumnCreate">Send</button>
+                    <!-- <label for="inputTagCreate">Tag</label> <br />
+                    <input id="inputTagCreate" /> -->
+                    
                 </form>
             </div>
           </div>

@@ -628,7 +628,7 @@ p {
     margin-left: 5px;
 }
 
-.card-plus-but {
+.card-plus-but, .column-plus-but {
     position: relative;
     display: inline-block;
     width: 270px; /* Ширина кнопки */
@@ -768,6 +768,12 @@ p {
 .main-cards-container {
     display: inline-flex;
     flex-wrap: wrap;
+}
+
+.create-column-container {
+    background-color: #2b2b2e;
+    margin-left: 15px;
+    margin-top: 15px;
 }
 /* Ends here */
 

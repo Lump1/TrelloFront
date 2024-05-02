@@ -1,20 +1,35 @@
 var endpoint = "https://localhost:8080/";
 var cardsEndpoint = "api/cards/";
+var statusEndpoint = "api/statuses/";
 
 
 $(document).ready(function() {
+    var colums;
+
     $.ajax({
         type: "GET",
-        url: endpoint + cardsEndpoint + "GetAllCards/",
-        dataType: "jsonp",
+        url: endpoint + statusEndpoint,
+        dataType: "json",
         async: false,
         success: function(response){
-            alert('hi');
+            colums = JSON.parse(response.response);
         },
         error: function(jqXHR, textStatus, errorThrown) {
-            alert('Request failed: ' + textStatus + ' - ' + errorThrown);
+            alert(textStatus + ": " + errorThrown);
         }
     });
+    // $.ajax({
+    //     type: "GET",
+    //     url: endpoint + cardsEndpoint,
+    //     dataType: "jsonp",
+    //     async: false,
+    //     success: function(response){
+    //         alert('hi');
+    //     },
+    //     error: function(jqXHR, textStatus, errorThrown) {
+    //         alert('Request failed: ' + textStatus + ' - ' + errorThrown);
+    //     }
+    // });
     // $.ajax ({
     //     type: "GET",
     //     url: endpoint + cardsEndpoint,
@@ -29,6 +44,18 @@ $(document).ready(function() {
     //     alert("fail " + JSON.stringify(err));
     //   });
 
+
+    // $("#buttonColumnCreate").click(function() {
+    //     var title = $("#titleColumnCreate").val();
+        
+    //     $.post(endpoint + statusEndpoint,
+    //     {
+    //         Name: title,
+    //     },
+    //     function(data,status){
+    //         alert("Data: " + data + "\nStatus: " + status);
+    //     });
+    // });
 
     // Инициализация Dragula для всех контейнеров с классом helping-container
     var drake = dragula($('.helping-container').toArray(), {
