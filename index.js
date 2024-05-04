@@ -3,6 +3,23 @@ var cardsEndpoint = "api/cards/";
 var statusEndpoint = "api/statuses/";
 
 
+
+function dateFormater(dateToFormat) {
+    var day, month;
+    day = dateToFormat.getDate();
+    month = dateToFormat.getMonth();
+
+    if (day < 10) {
+        day = '0' + day;
+    }
+    
+    if (month < 10) {
+        month = `0${month}`;
+    }
+
+    return dateToFormat.getFullYear() + "-" + month + "-" + day;
+}
+
 $(document).ready(function() {
     var colums;
 
@@ -57,6 +74,61 @@ $(document).ready(function() {
     //     });
     // });
 
+
+
+    // 
+    $("#buttonColumnCreate").on("click", function() {
+        $.ajax({
+            type: "POST",
+            url: endpoint + statusEndpoint,
+            data: {name: document.getElementById('titleColumnCreate').value.toString()},
+            success: (function(data, status) {
+                console.log(status + "|" + data);
+            }),
+            dataType: "jsonp",
+        });
+    });
+    
+    $("#buttonCardCreate").on("click", function() {
+        if($("#titleCardCreate").val().length == 0) {
+            console.warn("There is an error in data input!");
+        }
+
+        var data = {title: $("#titleCardCreate").val()
+                    , label: $("#textCardCreate").val()
+                    , startdate: dateFormater(new Date())
+                    , deadline: $("#dateCardCreate").val()
+                    , IdStatus: $("#idcolCardCreate").val() + 1
+                };
+
+        
+        Object.keys(data).forEach(function(k){
+            if(data[k] == undefined) data[k] = null;
+        });
+
+        console.log(JSON.stringify(data));
+
+        $.ajax({
+            type: "POST",
+            url: endpoint + cardsEndpoint,
+            data: JSON.stringify(data),
+            headers: { 
+                'Accept': 'application/json',
+                'Content-Type': 'application/json' 
+            },
+            success: (function(data, status) {
+                console.log(status + "|" + data);
+            }),
+            error: (function(jqXHR, textStatus) {
+                console.warn(textStatus + "|" + jqXHR.responseText);
+            }),
+            dataType: "json",
+        });
+    });
+
+
+    // 
+    
     // Инициализация Dragula для всех контейнеров с классом helping-container
     var drake = dragula($('.helping-container').toArray(), {
         invalid: function(el, handle) {
