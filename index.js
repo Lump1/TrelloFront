@@ -1,7 +1,6 @@
-var endpoint = "https://localhost:8080/";
+var endpoint = "https://localhost:7193/";
 var cardsEndpoint = "api/cards/";
 var statusEndpoint = "api/statuses/";
-
 
 
 function dateFormater(dateToFormat) {
@@ -20,7 +19,8 @@ function dateFormater(dateToFormat) {
     return dateToFormat.getFullYear() + "-" + month + "-" + day;
 }
 
-$(document).ready(function() {
+$(document).ready(function () {
+
     var colums;
 
     $.ajax({
@@ -28,51 +28,50 @@ $(document).ready(function() {
         url: endpoint + statusEndpoint,
         dataType: "json",
         async: false,
-        success: function(response){
-            colums = JSON.parse(response.response);
+        success: function (response) {
+            colums = response;
         },
-        error: function(jqXHR, textStatus, errorThrown) {
+        error: function (jqXHR, textStatus, errorThrown) {
             alert(textStatus + ": " + errorThrown);
         }
     });
-    // $.ajax({
-    //     type: "GET",
-    //     url: endpoint + cardsEndpoint,
-    //     dataType: "jsonp",
-    //     async: false,
-    //     success: function(response){
-    //         alert('hi');
-    //     },
-    //     error: function(jqXHR, textStatus, errorThrown) {
-    //         alert('Request failed: ' + textStatus + ' - ' + errorThrown);
-    //     }
-    // });
-    // $.ajax ({
-    //     type: "GET",
-    //     url: endpoint + cardsEndpoint,
-    //     dataType: "jsonp",
-    //     async: false,
-    //   }).done(function(data) {
-    //     outputJSON = JSON.stringify(data);
-    //     console.log(outputJSON);
-    //     output = JSON.parse(outputJSON);
-    //     console.log(output.Result);
-    //   }).fail(function(data, err) {
-    //     alert("fail " + JSON.stringify(err));
-    //   });
 
-
-    // $("#buttonColumnCreate").click(function() {
-    //     var title = $("#titleColumnCreate").val();
-        
-    //     $.post(endpoint + statusEndpoint,
-    //     {
-    //         Name: title,
-    //     },
-    //     function(data,status){
-    //         alert("Data: " + data + "\nStatus: " + status);
-    //     });
-    // });
+    $.ajax({
+        type: "GET",
+        url: `${endpoint}${statusEndpoint}`,
+        dataType: "json",
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        success: function (response) {
+            console.log(response);
+            Object.keys(response).forEach(item => {
+                console.log(response[item]);
+                $("article.main-cards-container").append(createColumnWithData(response[item].name, response[item].id));
+            })
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            // В случае ошибки вы можете вывести сообщение об ошибке
+            console.error(`Ошибка при получении данных о карточках: ${textStatus} - ${errorThrown}`);
+        }
+    });
+    $.ajax({
+        type: "GET",
+        url: `${endpoint}${cardsEndpoint}`,
+        dataType: "json",
+        success: function (response) {
+            console.log(response);
+            response.forEach(item => {
+                console.log(item.idStatus);
+                $("#"+item.idStatus+".helping-container").prepend(createCardWithData(item.title, item.label, item.title, item.deadline));
+            });
+            
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            console.error(`Error: ${textStatus} - ${errorThrown}`);
+        }
+    });
 
 
 
@@ -131,13 +130,13 @@ $(document).ready(function() {
     
     // Инициализация Dragula для всех контейнеров с классом helping-container
     var drake = dragula($('.helping-container').toArray(), {
-        invalid: function(el, handle) {
+        invalid: function (el, handle) {
             return el.classList.contains('card-plus-but');
         }
     });
 
     // Обработчик события, который вызывается при перемещении объекта
-    drake.on('drop', function(el, target, source, sibling) {
+    drake.on('drop', function (el, target, source, sibling) {
         // el - перемещаемый элемент (div с классом main-card)
         // target - элемент, в который перемещен объект (div с классом helping-container)
         // source - исходный элемент, из которого перемещен объект (div с классом helping-container)
