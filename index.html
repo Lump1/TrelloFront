@@ -165,6 +165,9 @@
                         <img src="assets/plus.png" class="card-m-img plus-img">
                     </div>
                 </a>
+                <a href="#create" rel="modal:open">
+                    Open
+                </a>
             </div>
             
             
@@ -188,12 +191,15 @@
             <div class="modal-inside-container rounded-2">
                 <p class="modal-title">Create card</p>
                 <form class="create-form" method="POST" id="createOperation">
-                    <!-- <label for="inputTagCreate">Tag</label> <br />
-                    <input id="inputTagCreate" /> -->
-                    
+                    <input id="titleCardCreate" placeholder="Title" />
+                    <textarea id="descriptionCardCreate" placeholder="Text(Could be null)"></textarea>
+                    <input id="dateCardCreate" type="date" />
+                    <input id="idcolCardCreate" type="number" value="0" class="d-none" />
+                    <button type="button" id="buttonCardCreate"></button>
                 </form>
             </div>
           </div>
+
           <div id="create-column" class="modal">
             <div class="modal-inside-container rounded-2">
                 <p class="modal-title">Create column</p>
