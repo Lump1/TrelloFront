@@ -1,4 +1,4 @@
-var endpoint = "https://localhost:7193/";
+var endpoint = "https://localhost:8080/";
 var cardsEndpoint = "api/cards/";
 var statusEndpoint = "api/statuses/";
 
@@ -19,43 +19,13 @@ function dateFormater(dateToFormat) {
     return dateToFormat.getFullYear() + "-" + month + "-" + day;
 }
 
-$(document).ready(function () {
+function setStatId(id) {
+    console.log(id);
+    $("#idcolCardCreate").val(id);
+    console.log($("#idcolCardCreate").val());
+}
 
-    var colums;
-
-    $.ajax({
-        type: "GET",
-        url: endpoint + statusEndpoint,
-        dataType: "json",
-        async: false,
-        success: function (response) {
-            colums = response;
-        },
-        error: function (jqXHR, textStatus, errorThrown) {
-            alert(textStatus + ": " + errorThrown);
-        }
-    });
-
-    $.ajax({
-        type: "GET",
-        url: `${endpoint}${statusEndpoint}`,
-        dataType: "json",
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-        },
-        success: function (response) {
-            console.log(response);
-            Object.keys(response).forEach(item => {
-                console.log(response[item]);
-                $("article.main-cards-container").append(createColumnWithData(response[item].name, response[item].id));
-            })
-        },
-        error: function (jqXHR, textStatus, errorThrown) {
-            // В случае ошибки вы можете вывести сообщение об ошибке
-            console.error(`Ошибка при получении данных о карточках: ${textStatus} - ${errorThrown}`);
-        }
-    });
+function addCards(){
     $.ajax({
         type: "GET",
         url: `${endpoint}${cardsEndpoint}`,
@@ -72,6 +42,31 @@ $(document).ready(function () {
             console.error(`Error: ${textStatus} - ${errorThrown}`);
         }
     });
+}
+
+$(document).ready(function () {
+    $.ajax({
+        type: "GET",
+        url: `${endpoint}${statusEndpoint}`,
+        dataType: "json",
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        success: function (response) {
+            console.log(response);
+            Object.keys(response).forEach(item => {
+                console.log(response[item]);
+                $("article.main-cards-container").append(createColumnWithData(response[item].name, response[item].id));
+            })
+
+            addCards();
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            console.error(`Ошибка при получении данных о карточках: ${textStatus} - ${errorThrown}`);
+        }
+    });
+
 
 
 
@@ -80,11 +75,19 @@ $(document).ready(function () {
         $.ajax({
             type: "POST",
             url: endpoint + statusEndpoint,
-            data: {name: document.getElementById('titleColumnCreate').value.toString()},
+            headers: { 
+                'Accept': 'application/json',
+                'Content-Type': 'application/json' 
+            },
+            data: JSON.stringify({name: document.getElementById('titleColumnCreate').value.toString()}),
             success: (function(data, status) {
-                console.log(status + "|" + data);
+                console.log(data);
+                $("article.main-cards-container").append(createColumnWithData(data.name, data.id));
             }),
-            dataType: "jsonp",
+            error: (function(jqXHR, textStatus) {
+                console.warn(textStatus + "|" + jqXHR.responseText);
+            }),
+            dataType: "json",
         });
     });
     
@@ -97,7 +100,7 @@ $(document).ready(function () {
                     , label: $("#textCardCreate").val()
                     , startdate: dateFormater(new Date())
                     , deadline: $("#dateCardCreate").val()
-                    , IdStatus: $("#idcolCardCreate").val() + 1
+                    , IdStatus: $("#idcolCardCreate").val()
                 };
 
         
@@ -116,7 +119,9 @@ $(document).ready(function () {
                 'Content-Type': 'application/json' 
             },
             success: (function(data, status) {
-                console.log(status + "|" + data);
+                console.log(data);
+                console.log("#" + data.idStatus + ".helping-container");
+                $("#" + data.idStatus + ".helping-container").prepend(createCardWithData(data.title, data.label, data.title, data.deadline));
             }),
             error: (function(jqXHR, textStatus) {
                 console.warn(textStatus + "|" + jqXHR.responseText);

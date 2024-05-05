@@ -137,6 +137,11 @@
                 <button  type="button" class="settings-button">
                     <img src="assets/group-icon-2.png" class="img-color-inv img-settings-button" />
                 </button>
+                <a href="#create-column" rel="modal:open">
+                    <button  type="button" class="settings-button">
+                        <img src="assets/plus.png" class="img-color-inv img-settings-button" />
+                    </button>
+                </a>
             </div>
         
         
@@ -153,22 +158,7 @@
         </aside>
 
         <article class="main-cards-container">
-            <div class="create-column-container rounded-2">
-                <a href="#create-column" rel="modal:open">
-                    <div class="column-plus-but rounded-2">
-                        <div class="animation-wrapper">
-                            <span></span>
-                            <span></span>
-                            <span></span>
-                            <span></span>
-                        </div>
-                        <img src="assets/plus.png" class="card-m-img plus-img">
-                    </div>
-                </a>
-                <a href="#create" rel="modal:open">
-                    Open
-                </a>
-            </div>
+
             
             
         </article>
@@ -194,7 +184,7 @@
                     <input id="titleCardCreate" placeholder="Title" />
                     <textarea id="descriptionCardCreate" placeholder="Text(Could be null)"></textarea>
                     <input id="dateCardCreate" type="date" />
-                    <input id="idcolCardCreate" type="number" value="0" class="d-none" />
+                    <input id="idcolCardCreate" type="number" readonly/>
                     <button type="button" id="buttonCardCreate"></button>
                 </form>
             </div>

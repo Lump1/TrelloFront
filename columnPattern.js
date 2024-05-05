@@ -5,7 +5,7 @@ var columnPattern = `
         <p class="main-card-men">•••</p>
     </div>
     <div class="helping-container"id="PLACEHOLDERid">
-        <a href="#create" rel="modal:open">
+        <a href="#create" rel="modal:open" onclick="setStatId(PLACEHOLDERid)" id="PLACEHOLDERid">
             <div class="card-plus-but rounded-2">
                 <div class="animation-wrapper">
                     <span></span>
