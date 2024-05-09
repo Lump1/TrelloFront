@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,8 +14,10 @@
     <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" /> -->
     <script src="index.js"></script>
     <link rel="stylesheet" href="styles.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 </head>
+
 <body>
 
 
@@ -52,7 +55,8 @@
         <div class="search-bar-container">
             <div class="search-bar">
                 <input type="text" placeholder="Search" id="search-input">
-                <button type="button" id="search-button"><img src="assets/search-interface-symbol.png" class="card-sm-img"></button>
+                <button type="button" id="search-button"><img src="assets/search-interface-symbol.png"
+                        class="card-sm-img"></button>
 
 
             </div>
@@ -72,7 +76,7 @@
             </article>
 
             <hr class="aside-line" />
-            
+
             <!-- <div class="board-container">
                 <button type="button" id="board-button">Boards</button>
             </div>
@@ -86,31 +90,31 @@
                 </ul>
             </div> -->
 
-           <h2 id="wvs">Workspace viewing modes</h2>
-            
-           <div class="Tabel-container">
-                <button  type="button">
+            <h2 id="wvs">Workspace viewing modes</h2>
+
+            <div class="Tabel-container">
+                <button type="button">
                     <span class="icon">
                         <img src="assets/cells-icon-1.png" class="card-sm-img" />
                     </span> Tables
                 </button>
-           </div>
-           
-           <div class="Calendar-container">
-                <button  type="button">
+            </div>
+
+            <div class="Calendar-container">
+                <button type="button">
                     <span class="icon">
                         <img src="assets/calendar-icon-1.png" class="card-sm-img" />
                     </span>Calendar
                 </button>
-           </div>
+            </div>
 
-           <hr class="aside-line" />
+            <hr class="aside-line" />
 
-           <div class="My-boards-container">
-                <button  type="button">
+            <div class="My-boards-container">
+                <button type="button">
                     <span class="icon">
                         <img src="assets/board-meeting.png" class="card-sm-img" />
-                    </span>My boards<span class="icon-plus">&#43;</span> 
+                    </span>My boards<span class="icon-plus">&#43;</span>
                 </button>
 
                 <div class="">
@@ -119,26 +123,26 @@
             </div>
 
             <hr class="aside-line" />
-            
+
             <div class="settings-container">
-                <button  type="button" class="settings-button">
+                <button type="button" class="settings-button">
                     <img src="assets/settings-icon-1.png" class="img-color-inv img-settings-button" />
                 </button>
-                <button  type="button" class="settings-button">
+                <button type="button" class="settings-button">
                     <img src="assets/brush-icon-1.png" class="img-color-inv img-settings-button" />
                 </button>
-                <button  type="button" class="settings-button">
+                <button type="button" class="settings-button">
                     <img src="assets/bubble-chat-icon-1.png" class="img-color-inv img-settings-button" />
                 </button>
-                <button  type="button" class="settings-button">
+                <button type="button" class="settings-button">
                     <img src="assets/user-icon-1.png" class="img-color-inv img-settings-button" />
                 </button>
-                <button  type="button" class="settings-button">
+                <button type="button" class="settings-button">
                     <img src="assets/group-icon-2.png" class="img-color-inv img-settings-button" />
                 </button>
             </div>
-        
-        
+
+
             <!-- <div class="participants-container">
                 <div class="participant" id="participant1">
                     <img src="assets/avatar_face_girl_female_woman_profile_smiley_happy_people_icon_181662.png" alt="Participant 1">
@@ -165,8 +169,8 @@
                     </div>
                 </a>
             </div>
-            
-            
+
+
         </article>
     </main>
 
@@ -189,22 +193,32 @@
                 <form class="create-form" method="POST" id="createOperation">
                     <!-- <label for="inputTagCreate">Tag</label> <br />
                     <input id="inputTagCreate" /> -->
-                    
+
                 </form>
             </div>
-          </div>
-          <div id="create-column" class="modal">
+        </div>
+        <div id="create-column" class="modal">
             <div class="modal-inside-container rounded-2">
-                <p class="modal-title">Create column</p>
-                <form class="create-column-form" method="POST" id="createColumnOperation">
-                    <input id="titleColumnCreate" placeholder="Title" >
-                    <button type="button" id="buttonColumnCreate">Send</button>
-                    <!-- <label for="inputTagCreate">Tag</label> <br />
+                <div class="main-container-modal">
+                    <div class="img-container-modal">
+                        <img class="img-modal-item" src="assets/database.png">
+                    </div>
+                    <div class="main-content-modal">
+                        <p class="modal-title">Create column</p>
+                            <form class="create-column-form" method="POST" id="createColumnOperation">
+                                <input class="input-modal" id="titleColumnCreate" placeholder="Title">
+                        <div class="button-confirm-container-modal">
+                            <button class="button-confirm-modal" type="button" id="buttonColumnCreate">Send</button>
+                        </div>
+                        <!-- <label for="inputTagCreate">Tag</label> <br />
                     <input id="inputTagCreate" /> -->
-                    
-                </form>
+
+                        </form>
+                    </div>
+                </div>
             </div>
-          </div>
+        </div>
     </div>
 </body>
+
 </html>

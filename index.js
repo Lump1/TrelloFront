@@ -4,20 +4,20 @@ var statusEndpoint = "api/statuses/";
 
 
 $(document).ready(function() {
-    var colums;
+    // var colums;
 
-    $.ajax({
-        type: "GET",
-        url: endpoint + statusEndpoint,
-        dataType: "json",
-        async: false,
-        success: function(response){
-            colums = JSON.parse(response.response);
-        },
-        error: function(jqXHR, textStatus, errorThrown) {
-            alert(textStatus + ": " + errorThrown);
-        }
-    });
+    // $.ajax({
+    //     type: "GET",
+    //     url: endpoint + statusEndpoint,
+    //     dataType: "json",
+    //     async: false,
+    //     success: function(response){
+    //         colums = JSON.parse(response.response);
+    //     },
+    //     error: function(jqXHR, textStatus, errorThrown) {
+    //         alert(textStatus + ": " + errorThrown);
+    //     }
+    // });
     // $.ajax({
     //     type: "GET",
     //     url: endpoint + cardsEndpoint,
