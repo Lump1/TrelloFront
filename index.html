@@ -13,6 +13,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
     <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" /> -->
     <script src="index.js"></script>
+    <script src ="columnPattern.js"></script>
     <link rel="stylesheet" href="styles.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
@@ -140,6 +141,11 @@
                 <button type="button" class="settings-button">
                     <img src="assets/group-icon-2.png" class="img-color-inv img-settings-button" />
                 </button>
+                <a href="#create-column" rel="modal:open">
+                    <button  type="button" class="settings-button">
+                        <img src="assets/plus.png" class="img-color-inv img-settings-button" />
+                    </button>
+                </a>
             </div>
 
 
@@ -156,48 +162,25 @@
         </aside>
 
         <article class="main-cards-container">
-            <div class="create-column-container rounded-2">
-                <a href="#create-column" rel="modal:open">
-                    <div class="column-plus-but rounded-2">
-                        <div class="animation-wrapper">
-                            <span></span>
-                            <span></span>
-                            <span></span>
-                            <span></span>
-                        </div>
-                        <img src="assets/plus.png" class="card-m-img plus-img">
-                    </div>
-                </a>
-            </div>
-
 
         </article>
     </main>
-
-    <!-- <script>
-        $('.card-plus-but').mouseenter(function () {
-            $(this).animate({
-                borderColor: 'white'
-            }, 500);
-        }).mouseleave(function () {
-            $(this).animate({
-                borderColor: 'transparent'
-            }, 100);
-        });
-    </script> -->
 
     <div class="d-none">
         <div id="create" class="modal">
             <div class="modal-inside-container rounded-2">
                 <p class="modal-title">Create card</p>
                 <form class="create-form" method="POST" id="createOperation">
-                    <!-- <label for="inputTagCreate">Tag</label> <br />
-                    <input id="inputTagCreate" /> -->
-
+                    <input id="titleCardCreate" placeholder="Title" />
+                    <textarea id="descriptionCardCreate" placeholder="Text(Could be null)"></textarea>
+                    <input id="dateCardCreate" type="date" />
+                    <input id="idcolCardCreate" type="number" readonly/>
+                    <button type="button" id="buttonCardCreate"></button>
                 </form>
             </div>
-        </div>
-        <div id="create-column" class="modal">
+          </div>
+  
+          <div id="create-column" class="modal">
             <div class="modal-inside-container rounded-2">
                 <div class="main-container-modal">
                     <div class="img-container-modal">
