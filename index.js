@@ -4,7 +4,6 @@ var statusEndpoint = "api/statuses/";
 
 
 
-$(document).ready(function() {
 
 function dateFormater(dateToFormat) {
     var day, month;
