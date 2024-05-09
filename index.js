@@ -3,6 +3,9 @@ var cardsEndpoint = "api/cards/";
 var statusEndpoint = "api/statuses/";
 
 
+
+$(document).ready(function() {
+
 function dateFormater(dateToFormat) {
     var day, month;
     day = dateToFormat.getDate();
@@ -108,7 +111,6 @@ $(document).ready(function () {
                     , deadline: $("#dateCardCreate").val()
                     , IdStatus: $("#idcolCardCreate").val()
                 };
-
         
         Object.keys(data).forEach(function(k){
             if(data[k] == undefined) data[k] = null;
