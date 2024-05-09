@@ -20,9 +20,14 @@ function dateFormater(dateToFormat) {
 }
 
 function setStatId(id) {
-    console.log(id);
     $("#idcolCardCreate").val(id);
-    console.log($("#idcolCardCreate").val());
+}
+
+function getDataFormat(date) {
+    return new Date(date).toLocaleString("en", {
+        month: 'short',
+        day: 'numeric'
+    });
 }
 
 function addCards(){
@@ -31,12 +36,11 @@ function addCards(){
         url: `${endpoint}${cardsEndpoint}`,
         dataType: "json",
         success: function (response) {
-            console.log(response);
             response.forEach(item => {
-                console.log(item.idStatus);
-                $("#"+item.idStatus+".helping-container").prepend(createCardWithData(item.title, item.label, item.title, item.deadline));
+                getQuerryTemplate("Card", {title: item.title, label: item.label, deadline: getDataFormat(item.deadline)}).then(resultHTML => {
+                    $("#"+item.idStatus+".helping-container").prepend(resultHTML);
+                });
             });
-            
         },
         error: function (jqXHR, textStatus, errorThrown) {
             console.error(`Error: ${textStatus} - ${errorThrown}`);
@@ -56,8 +60,9 @@ $(document).ready(function () {
         success: function (response) {
             console.log(response);
             Object.keys(response).forEach(item => {
-                console.log(response[item]);
-                $("article.main-cards-container").append(createColumnWithData(response[item].name, response[item].id));
+                getQuerryTemplate("Column", {name: response[item].name, id: response[item].id}).then(resultHTML => {
+                    $("article.main-cards-container").append(resultHTML);
+                });
             })
 
             addCards();
@@ -81,8 +86,9 @@ $(document).ready(function () {
             },
             data: JSON.stringify({name: document.getElementById('titleColumnCreate').value.toString()}),
             success: (function(data, status) {
-                console.log(data);
-                $("article.main-cards-container").append(createColumnWithData(data.name, data.id));
+                getQuerryTemplate("Column", {name: data.name, id: data.id}).then(resultHTML => {
+                    $("article.main-cards-container").append(resultHTML);
+                });
             }),
             error: (function(jqXHR, textStatus) {
                 console.warn(textStatus + "|" + jqXHR.responseText);
@@ -121,7 +127,9 @@ $(document).ready(function () {
             success: (function(data, status) {
                 console.log(data);
                 console.log("#" + data.idStatus + ".helping-container");
-                $("#" + data.idStatus + ".helping-container").prepend(createCardWithData(data.title, data.label, data.title, data.deadline));
+                getQuerryTemplate("Card", {title: data.title, label: data.label, deadline: getDataFormat(data.deadline)}).then(resultHTML => {
+                    $("#" + data.idStatus + ".helping-container").prepend(resultHTML);
+                });
             }),
             error: (function(jqXHR, textStatus) {
                 console.warn(textStatus + "|" + jqXHR.responseText);
