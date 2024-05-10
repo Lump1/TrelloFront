@@ -43,10 +43,30 @@ function addCards(){
                     $("#"+item.idStatus+".helping-container").prepend(resultHTML);
                 });
             });
+
+            dragulaReload();
         },
         error: function (jqXHR, textStatus, errorThrown) {
             console.error(`Error: ${textStatus} - ${errorThrown}`);
         }
+    });
+}
+
+function dragulaReload() {
+    var drake = dragula($('.helping-container').toArray(), {
+        invalid: function (el, handle) {
+            return el.classList.contains('card-plus-but');
+        }
+    });
+
+    drake.on('drop', function (el, target, source, sibling) {
+        // el - перемещаемый элемент (div с классом main-card)
+        // target - элемент, в который перемещен объект (div с классом helping-container)
+        // source - исходный элемент, из которого перемещен объект (div с классом helping-container)
+        // sibling - соседний элемент, перед которым был перемещен объект (div с классом main-card)
+
+        // Здесь можно добавить дополнительную логику после перемещения объекта
+        console.log('Карточка перемещена!');
     });
 }
 
@@ -68,6 +88,8 @@ $(document).ready(function () {
             })
 
             addCards();
+
+            dragulaReload();
         },
         error: function (jqXHR, textStatus, errorThrown) {
             console.error(`Ошибка при получении данных о карточках: ${textStatus} - ${errorThrown}`);
@@ -91,6 +113,8 @@ $(document).ready(function () {
                 getQuerryTemplate("Column", {name: data.name, id: data.id}).then(resultHTML => {
                     $("article.main-cards-container").append(resultHTML);
                 });
+
+                dragulaReload();
             }),
             error: (function(jqXHR, textStatus) {
                 console.warn(textStatus + "|" + jqXHR.responseText);
@@ -131,6 +155,8 @@ $(document).ready(function () {
                 getQuerryTemplate("Card", {title: data.title, label: data.label, deadline: getDataFormat(data.deadline)}).then(resultHTML => {
                     $("#" + data.idStatus + ".helping-container").prepend(resultHTML);
                 });
+
+                dragulaReload();
             }),
             error: (function(jqXHR, textStatus) {
                 console.warn(textStatus + "|" + jqXHR.responseText);
@@ -140,27 +166,11 @@ $(document).ready(function () {
     });
 
 
-    // 
-    
-    // Инициализация Dragula для всех контейнеров с классом helping-container
-    var drake = dragula($('.helping-container').toArray(), {
-        invalid: function (el, handle) {
-            return el.classList.contains('card-plus-but');
-        }
-    });
 
-    // Обработчик события, который вызывается при перемещении объекта
-    drake.on('drop', function (el, target, source, sibling) {
-        // el - перемещаемый элемент (div с классом main-card)
-        // target - элемент, в который перемещен объект (div с классом helping-container)
-        // source - исходный элемент, из которого перемещен объект (div с классом helping-container)
-        // sibling - соседний элемент, перед которым был перемещен объект (div с классом main-card)
 
-        // Здесь можно добавить дополнительную логику после перемещения объекта
-        console.log('Карточка перемещена!');
-    });
 
 });
+
 
 
 

@@ -169,33 +169,38 @@
     <div class="d-none">
         <div id="create" class="modal">
             <div class="modal-inside-container rounded-2">
-                <p class="modal-title">Create card</p>
-                <form class="create-form" method="POST" id="createOperation">
-                    <input id="titleCardCreate" placeholder="Title" />
-                    <textarea id="descriptionCardCreate" placeholder="Text(Could be null)"></textarea>
-                    <input id="dateCardCreate" type="date" />
-                    <input id="idcolCardCreate" type="number" readonly/>
-                    <button type="button" id="buttonCardCreate"></button>
-                </form>
+                <div class="main-container-modal">
+                    <div class="img-container-modal">
+                        <img class="img-modal-item" src="assets/column-ico-4.svg">
+                    </div>
+                    <div class="main-content-modal">
+                            <p class="modal-title">Create card</p>
+                            <form class="create-column-form" method="POST" id="createOperation">
+                                <input id="titleCardCreate" placeholder="Title" type="text" class="input-modal form-control" />
+                                <input id="dateCardCreate" type="date" />
+                                <input id="idcolCardCreate" type="number" readonly class="input-modal form-control"/>
+
+                                <div class="button-confirm-container-modal">
+                                    <button class="button-confirm-modal btn btn-outline-light" type="button" id="buttonCardCreate">Send</button>
+                                </div>
+                            </form>
+                    </div>
+                </div>
             </div>
-          </div>
   
           <div id="create-column" class="modal">
             <div class="modal-inside-container rounded-2">
                 <div class="main-container-modal">
                     <div class="img-container-modal">
-                        <img class="img-modal-item" src="assets/database.png">
+                        <img class="img-modal-item" src="assets/column-ico-4.svg">
                     </div>
                     <div class="main-content-modal">
-                        <p class="modal-title">Create column</p>
-                            <form class="create-column-form" method="POST" id="createColumnOperation">
-                                <input class="input-modal" id="titleColumnCreate" placeholder="Title">
-                        <div class="button-confirm-container-modal">
-                            <button class="button-confirm-modal" type="button" id="buttonColumnCreate">Send</button>
-                        </div>
-                        <!-- <label for="inputTagCreate">Tag</label> <br />
-                    <input id="inputTagCreate" /> -->
-
+                            <p class="modal-title">Create column</p>
+                                <form class="create-column-form" method="POST" id="createColumnOperation">
+                                    <input type="text" class="input-modal form-control" id="titleColumnCreate" placeholder="Title">
+                            <div class="button-confirm-container-modal">
+                                <button class="button-confirm-modal btn btn-outline-light" type="button" id="buttonColumnCreate">Send</button>
+                            </div>
                         </form>
                     </div>
                 </div>
