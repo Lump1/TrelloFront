@@ -9,6 +9,10 @@
     <link rel="stylesheet" href="reglog.css">
 </head>
 <body style="display:flex; align-items:center; justify-content:center;">
+  <div id="notification" class="notification">
+    
+</div>
+
 <div class="login-page">
   <div class="form">
     <form class="register-form" method="POST">
@@ -27,7 +31,7 @@
     </form>
     <form class="login-form" method="post">
       <h2>Login</h2>
-      <input type="text" name="loginUsername" placeholder="Username" required />
+      <input type="text" name="loginIdentifier" placeholder="Username or Email" required />
       <input type="password" name="loginPassword" placeholder="Password" required/>
       <a id="loginButton" class="btn" href="#">
         <span></span>

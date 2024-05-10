@@ -5,9 +5,7 @@ var statusEndpoint = "api/statuses/";
 
 
 $(document).ready(function () {
-    const endpoint = "https://localhost:8080/";
-    const usersEndpoint = "api/users/";
-
+   
     function emailValidator(email){    
         const emailPattern = /^[a-zA-Z0-9_]+@[a-zA-Z0-9_]+\.[a-zA-Z]{2,}$/;
         return emailPattern.test(email);
@@ -26,6 +24,16 @@ $(document).ready(function () {
         }
         return true;
     }
+          
+    function showNotification(message, type) {
+        var notification = $("#notification");
+        notification.text(message);
+        notification.removeClass("error success").addClass(type).addClass("show");
+
+        setTimeout(function() {
+            notification.removeClass("show");
+        }, 5000);
+    }
 
     $("#registrationButton").on("click", function(){
         var email = $("input[name='email']").val().trim();
@@ -33,11 +41,10 @@ $(document).ready(function () {
         var password = $("input[name='password']").val().trim();
 
         if (!fieldsTests(email, username, password) || !emailValidator(email) || !usernameValidator(username)) {
-            alert("Please fill in all fields correctly.");
+            showNotification("Please fill in all fields.", "error");
             return;
         }
 
-        
         $.ajax({
             url: endpoint + usersEndpoint,
             method: "POST",
@@ -48,38 +55,49 @@ $(document).ready(function () {
             },
             data: {email: email, username: username, password: password},
             success: function(data) {
-                alert("Registration successful.");
+                showNotification("Registration successful.", "success");
             },
             error: function(jqXHR, textStatus, errorThrown) {
-                alert("Error occurred during registration.");
+                showNotification("Error occurred during registration.", "error");
             }
         });
     });
 
     $("#loginButton").on("click", function() {
-        var username = $("input[name='loginUsername']").val().trim();
+        var identifier = $("input[name='loginIdentifier']").val().trim(); 
         var password = $("input[name='loginPassword']").val().trim();
-
-        if (!fieldsTests(username, password)) {
-            alert("Please fill in all fields.");
+    
+        if (!fieldsTests(identifier, password)) {
+            showNotification("Please fill in all fields.", "error");
             return;
         }
-
+    
+        var requestData = {email:"",username:""}; 
+        if (emailValidator(identifier)) { 
+            requestData.email = identifier;
+        } else { 
+            requestData.username = identifier;
+        }
+    
+        requestData.password = password; 
+        console.log(requestData)
     
         $.ajax({
-            url: endpoint + usersEndpoint + "auth/",
+            url: endpoint + usersEndpoint + "auth",
             method: "GET",
             dataType: "json",
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
             },
-            data: {username: username, password: password},
+            data: JSON.stringify(requestData), 
             success: function(data) {
-                alert("Login successful.");
+                showNotification("Login successful.", "success");
             },
             error: function(jqXHR, textStatus, errorThrown) {
-                alert("Error occurred during login.");
+                showNotification(textStatus, "error");
+                console.log(errorThrown, textStatus, jqXHR)
+            
             }
         });
     });
