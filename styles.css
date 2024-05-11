@@ -15,7 +15,6 @@
 /* Work space css */
 
 html, body {
-    height: 100%; 
     width: 100%;
     margin: 0;
     padding: 0;
@@ -970,17 +969,23 @@ p {
     height: 100%;
 }
 
+.main-content-modal {
+    flex-grow: 1;
+}
+
 .img-container-modal{
-    margin-top:8%;
-    margin-left: 20px;
+    margin-top: 10px;
     margin-right: 20px;
-    height: 50%;
+    align-content: flex-start;
+    height: 100%;
     width: 45%;
 }
 
 .img-modal-item{
-    height: 150%;
-    filter: invert(1);
+    height: 80%;
+    margin-left: 10px;
+    margin-top: 20px;
+    transform: scale(1.2, 1.2);
 }
 
 .button-confirm-container-modal{
@@ -988,32 +993,44 @@ p {
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
-    margin-top: 32%;
-    margin-left: 11%;
-    
+    margin-top: 30%;
+    margin-left: 17%;
 }
 
 .button-confirm-modal{
-    width: 250%;
-    border-radius: 12%;
+    width: 150px;
+    padd-bottom: 20px;
 }
 
 
 .input-modal{
-    width: 100%;
-    border-radius: 10%;
+    margin-top: 10px;
+    margin-right: 20px;
+    width: 200px;
 }
 
+.create-column-form {
+    margin-top: 10px;
+    margin-right: 15px;
+}
+
+input[type="text"], textarea {
+    background-color : #404042;
+    color: white;
+  }
+
+  input[type=text]:focus {
+    background-color: #404042;
+    border: solid 1.5px #ffffff;
+  }
 
 .modal-title {
     text-align: right;
     font-size: 1.5rem;
     font-weight: bold;
     color: white;
-    margin-right: 30px;
+    margin-right: 20px;
     margin-top: 10px;
-    margin-left: 15px;
-    
 }
 
 
