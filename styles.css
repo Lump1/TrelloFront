@@ -15,7 +15,7 @@
 /* Work space css */
 
 html, body {
-    /* height: 100%; */
+    height: 100%; 
     width: 100%;
     margin: 0;
     padding: 0;
@@ -463,8 +463,14 @@ header {
 
 .sidenav-right{
     width: 100%; 
+    height: 100%;
     margin-left: 20px; 
-    background-color: rgb(255, 255, 255);
+    background-color: transparent;
+} 
+
+.RvWs-config{
+    margin-left: 5px;
+    margin-top: 5px;
 }
 
 .sidenav-fight-top{
@@ -476,7 +482,8 @@ header {
     font-family: Arial, Helvetica, sans-serif;
     font-weight: bold;
     padding-left: 5px;
-    padding-top: 3px;
+    display: flex;
+    flex-direction: column;
 }
 
 .sidenav-cards-top{
@@ -500,6 +507,8 @@ header {
     font-weight: bold;
     padding-left: 5px;
     padding-top: 3px;
+    display: flex;
+    flex-direction: column;
 }
 
 
