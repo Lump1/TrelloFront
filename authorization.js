@@ -1,4 +1,4 @@
-var endpoint = "https://localhost:7193/";
+var endpoint = "https://localhost:8080/";
 var usersEndpoint = "api/users/";
 var cardsEndpoint = "api/cards/";
 var statusEndpoint = "api/statuses/";
@@ -53,12 +53,13 @@ $(document).ready(function () {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
             },
-            data: {email: email, username: username, password: password},
+            data: JSON.stringify({email: email, username: username, password: password}),
             success: function(data) {
                 showNotification("Registration successful.", "success");
+                console.log(data);
             },
             error: function(jqXHR, textStatus, errorThrown) {
-                showNotification("Error occurred during registration.", "error");
+                showNotification(jqXHR.responseText, "error");
             }
         });
     });
@@ -73,18 +74,21 @@ $(document).ready(function () {
         }
     
         var requestData = {email:"",username:""}; 
-        if (emailValidator(identifier)) { 
+        if (identifier.includes("@") && emailValidator(identifier)) { 
             requestData.email = identifier;
-        } else { 
+        } else if(usernameValidator(identifier)) { 
             requestData.username = identifier;
+        }
+        else {
+            showNotification("Use please only common charecters {a-z; A-Z; 0-9} .", "error");
         }
     
         requestData.password = password; 
-        console.log(requestData)
+        console.log(JSON.stringify(requestData))
     
         $.ajax({
             url: endpoint + usersEndpoint + "auth",
-            method: "GET",
+            method: "POST",
             dataType: "json",
             headers: {
                 'Accept': 'application/json',
@@ -93,11 +97,10 @@ $(document).ready(function () {
             data: JSON.stringify(requestData), 
             success: function(data) {
                 showNotification("Login successful.", "success");
+                console.log(data);
             },
             error: function(jqXHR, textStatus, errorThrown) {
-                showNotification(textStatus, "error");
-                console.log(errorThrown, textStatus, jqXHR)
-            
+                showNotification(jqXHR.responseText, "error");
             }
         });
     });
