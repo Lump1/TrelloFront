@@ -15,7 +15,6 @@
 /* Work space css */
 
 html, body {
-    height: 100%;
     width: 100%;
     margin: 0;
     padding: 0;
@@ -365,6 +364,163 @@ header {
     margin-bottom: 30px;
 }
 
+
+
+
+
+
+/* Home page layout */
+
+/*===================================== Header block */
+
+.header-conteiner{
+    display: flex;
+    align-items: flex-end;
+}
+
+
+.nav-dropdown{
+    margin-left: 10px;
+    margin-top: auto;
+    margin-bottom: 5px;
+}
+
+.nav-dropdown {
+    border: none !important;
+}
+
+#nav-dropdown-toggle {
+  background-color: transparent;
+  border: none !important;
+  color: rgb(196, 196, 196); /* Устанавливаем белый цвет текста кнопки */
+  cursor: pointer; /* Устанавливаем курсор в виде указателя при наведении на кнопку */
+  width: fit-content;
+}
+
+
+.nav-dropdown:hover #nav-list {
+  display: block;
+}
+
+#nav-list {
+  display: none; /* Скрываем список по умолчанию */
+  position: absolute; /* Устанавливаем позиционирование списка как абсолютное, чтобы его можно было свободно размещать в нужном месте */
+  background-color: #303030; /* Устанавливаем цвет фона списка */
+  min-width: 100px; /* Минимальная ширина списка */
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2); /* Добавляем тень для списка */
+  z-index: 1; /* Устанавливаем z-index, чтобы список отображался поверх других элементов */
+  padding: 0; /* Убираем внутренние отступы у списка */
+  margin: 0; /* Убираем внешние отступы у списка */
+  list-style: none; /* Убираем маркеры списка */
+}
+
+#nav-list li {
+  padding: 10px 20px; /* Отступы для каждого элемента списка */
+  cursor: pointer; /* Устанавливаем курсор в виде указателя при наведении на элемент списка */
+  color: white; /* Устанавливаем белый цвет текста элементов списка */
+}
+
+#nav-list li:hover {
+  background-color: rgba(255, 255, 255, 0.1); /* Устанавливаем прозрачный белый цвет фона элемента списка при наведении */
+}
+
+.create-container{
+    margin-left: 10px;
+    margin-top: auto;
+}
+
+/* MAIN */
+
+/*======================================================================== SaideBar block */
+
+
+/* левая часть */
+
+.sidenav{
+    height: 100%; 
+    width: 100%;
+}
+
+
+.sidenav-left{
+    width: 300px; 
+    background-color:#303030;
+}
+
+.sidenav-button{
+    margin: 5%;
+    margin-left: 20%;
+    padding: 2%;
+}
+
+.sidenav-button-btHpWs{
+    width: 80%;
+    text-align: left;
+}
+
+/* правая верхняя */
+
+.sidenav-right{
+    width: 100%; 
+    height: 100%;
+    margin-left: 20px; 
+    background-color: transparent;
+} 
+
+.RvWs-config{
+    margin-left: 5px;
+    margin-top: 5px;
+}
+
+.sidenav-fight-top{
+    margin-bottom: 0.20%;
+    height: 300px; 
+    background-color: #303030; 
+    width: 100%;
+    font-size: large;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: bold;
+    padding-left: 5px;
+    display: flex;
+    flex-direction: column;
+}
+
+.sidenav-cards-top{
+    width: 200px; 
+    height: 150px; 
+    margin: 10px; 
+    background-color: burlywood;
+    padding-left: 5px;
+    padding-top: 5px;
+}
+
+/* правая нижняя */
+
+.sidenav-fight-bottom{
+    height: 500px; 
+    background-color: #303030; 
+    width: 100%; 
+    flex-wrap: wrap;
+    font-size: large;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: bold;
+    padding-left: 5px;
+    padding-top: 3px;
+    display: flex;
+    flex-direction: column;
+}
+
+
+.sidenav-cards-bottom{
+    width: 200px; 
+    height: 150px; 
+    margin: 10px; 
+    background-color: burlywood;
+    padding-left: 5px;
+    padding-top: 5px;
+}
+
+/* Header content */
 
 .header-content {
     display: flex;
@@ -839,7 +995,6 @@ p {
     justify-content: flex-end;
     margin-top: 30%;
     margin-left: 17%;
-    
 }
 
 .button-confirm-modal{

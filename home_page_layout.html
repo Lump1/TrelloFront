@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+  <link rel="stylesheet" href="styles.css">
+  <title>Document</title>
+</head>
+
+<body>
+
+  <header>
+    <h1 class="header-main-text" href="#">Chello</h1>
+    <div class="header-conteiner">
+      <div class="workspace-dropdown">
+        <button type="button" id="workspace-dropdown-toggle">Workspaces ▼</button>
+        <ul id="workspace-list">
+          <li>workspace 1</li>
+          <li>workspace 2</li>
+          <li>workspace 3</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="header-but-container d-inline-flex">
+
+
+      <div class="nav-dropdown">
+        <button type="button" id="nav-dropdown-toggle">Recent ▼</button>
+        <ul id="nav-list">
+          <li>recent 1</li>
+          <li>recent 2</li>
+          <li>recent 3</li>
+        </ul>
+      </div>
+      <div class="nav-dropdown">
+        <button type="button" id="nav-dropdown-toggle">Favorites ▼</button>
+        <ul id="nav-list">
+          <li>Favorites 1</li>
+          <li>Favorites 2</li>
+          <li>Favorites 3</li>
+        </ul>
+      </div>
+    </div>
+    <div class="nav-dropdown">
+      <button type="button" id="nav-dropdown-toggle">Templates ▼</button>
+      <ul id="nav-list">
+        <li>Templates 1</li>
+        <li>Templates 2</li>
+        <li>Templates 3</li>
+      </ul>
+    </div>
+    <div class="create-container">
+      <button class="btn btn-outline-light" type="button" id="create-button">Create</button>
+    </div>
+    </div>
+
+    <div class="search-bar-container">
+      <div class="search-bar">
+        <input type="text" placeholder="Search" id="search-input">
+        <button type="button" id="search-button"><img src="assets/search-interface-symbol.png"
+            class="card-sm-img"></button>
+
+
+      </div>
+    </div>
+  </header>
+
+
+  <main>
+    <div class="d-inline-flex sidenav">
+      <div class="sidenav-left">
+
+        <div class="sidenav-button">
+          <button class="sidenav-button-btHpWs">Boards</button>         <!-- btHpWs - рассшифровка b - Boards, t - Templates, Hp - Home page, Ws - Working space -->
+        </div>
+
+        <div class="sidenav-button">
+          <button type="button" class="sidenav-button-btHpWs">Templates</button>        <!-- Templates сделал вместе что бы было видно что их нужно соеденить -->
+          <br>
+          <button type="button" class="sidenav-button-btHpWs">Templates 1</button>
+          <br>
+          <button type="button" class="sidenav-button-btHpWs">Templates 1</button>
+          <br>
+          <button type="button" class="sidenav-button-btHpWs">Templates 1</button>
+        </div>
+
+        <div class="sidenav-button">
+          <button class="sidenav-button-btHpWs">Home page</button>
+        </div>
+
+        <hr style="color: azure;">
+        <h5 style="color: azure; margin-left: 65px;">Working space</h5>
+
+        <div class="sidenav-button">
+          <button type="button" class="sidenav-button-btHpWs">Working space</button>        <!-- Working space сделал вместе что бы было видно что их нужно соеденить -->
+          <br>
+          <button type="button" class="sidenav-button-btHpWs">Boards</button>
+          <br>
+          <button type="button" class="sidenav-button-btHpWs">Important events</button>
+          <br>
+          <button type="button" class="sidenav-button-btHpWs">Representation</button>
+          <br>
+          <button type="button" class="sidenav-button-btHpWs">Participants</button>
+          <br>
+          <button type="button" class="sidenav-button-btHpWs">Settings</button>
+        </div>
+
+      </div>
+
+      <div class="sidenav-right">
+        <div class="sidenav-fight-top">
+          <div class="RvWs-config">                         <!-- RvWs - рассшифровка Rv- Recently Viewed, Ws - Working space -->
+            <h5 style="color: azure;">Recently Viewed</h5>
+          </div>
+
+          <div class="d-inline-flex">
+            <div class="sidenav-cards-top">
+              <div class="sidenav-cards-top-setting">
+                Cards 1
+              </div>
+            </div>
+            <div class="sidenav-cards-top">
+              <div class="sidenav-cards-top-setting">
+                Cards 2
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="sidenav-fight-bottom">
+          <div class="RvWs-config">
+            <h5 style="color: azure;">Working space</h5>
+            <button>Boards</button>
+            <button>Important events</button>
+            <button>Representation</button>
+            <button>Participants</button>
+            <button>Settings</button>
+          </div>
+          <div class="d-inline-flex">
+            <div class="sidenav-cards-bottom">
+
+              <div class="sidenav-cards-bottom-setting">
+                Cards 1
+              </div>
+            </div>
+
+            <div class="sidenav-cards-bottom">
+              <div class="sidenav-cards-bottom-setting">
+                Cards 2
+              </div>
+            </div>
+
+            <div class="sidenav-cards-bottom">
+              <div class="sidenav-cards-bottom-setting">
+                Cards 3
+              </div>
+            </div>
+
+            <div class="sidenav-cards-bottom">
+              <div class="sidenav-cards-bottom-setting">
+                Cards 4
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+    </div>
+  </main>
+
+</body>
+
+</html>
