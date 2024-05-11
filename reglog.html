@@ -4,19 +4,23 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="authorization.js"></script>
     <link rel="stylesheet" href="reglog.css">
 </head>
 <body style="display:flex; align-items:center; justify-content:center;">
+  <div id="notification" class="notification">
+    
+</div>
+
 <div class="login-page">
   <div class="form">
     <form class="register-form" method="POST">
       <h2>Register</h2>
-      <input type="text" placeholder="Full Name *" required/>
-      <input type="text" placeholder="Username *" required/>
-      <input type="email" placeholder="Email *" required/>
-      <input type="password" placeholder="Password *" required/>
-      <a class="btn" href="#">
+      <input type="text" name="username" placeholder="Username *" required/>
+      <input type="email" name="email" placeholder="Email *" required/>
+      <input type="password" name="password" placeholder="Password *" required/>
+      <a id="registrationButton" class="btn" href="#">
         <span></span>
         <span></span>
         <span></span>
@@ -26,10 +30,10 @@
       <p class="message">Already registered? <a href="#">Sign In</a></p>
     </form>
     <form class="login-form" method="post">
-      <h2></i> Login</h2>
-      <input type="text" placeholder="Username" required />
-      <input type="password" placeholder="Password" required/>
-      <a class="btn" href="#">
+      <h2>Login</h2>
+      <input type="text" name="loginIdentifier" placeholder="Username or Email" required />
+      <input type="password" name="loginPassword" placeholder="Password" required/>
+      <a id="loginButton" class="btn" href="#">
         <span></span>
         <span></span>
         <span></span>
@@ -43,8 +47,9 @@
 
 </body>
 </html>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 <script>
 $('.message a').click(function(){
   $('form').animate({height: "toggle", opacity: "toggle"}, "slow");
-});</script>
+});
+</script>
