@@ -560,11 +560,44 @@ header {
     padding: 2%;
 }
 
+.sidenav-button-home-page{
+    margin: 5%;
+    margin-left: 20%;
+    padding: 2%;
+}
+
 .sidenav-button-btHpWs {
     width: 80%;
     text-align: left;
     color: #ffffff;
 }
+
+#sidenav-button-temlates-js {
+    padding: 5px;
+    cursor: pointer;
+}
+
+#sidenav-button-temlates-menu-js {
+    display: none;
+    margin-top: 10px;
+    width: 150px;
+    height: 150px;
+    background-color: #303030;
+}
+
+#sidenav-button-Ws-js {
+    padding: 5px;
+    cursor: pointer;
+}
+
+#sidenav-button-bIerps-js {
+    display: none;
+    margin-top: 10px;
+    width: 150px;
+    height: 150px;
+    background-color: #303030;
+}
+
 
 /* правая верхняя */
 
@@ -644,31 +677,6 @@ header {
     width: 160px;
 }
 
-#sidenav-button-temlates-js {
-    padding: 5px;
-    cursor: pointer;
-}
-
-#sidenav-button-temlates-menu-js {
-    display: none;
-    margin-top: 10px;
-    width: 150px;
-    height: 150px;
-    background: #d3d3d3;
-}
-
-#sidenav-button-Ws-js {
-    padding: 5px;
-    cursor: pointer;
-}
-
-#sidenav-button-bIerps-js {
-    display: none;
-    margin-top: 10px;
-    width: 150px;
-    height: 150px;
-    background: #d3d3d3;
-}
 
 /* .sidenav-close-button-bottom-boards{
     display: flex;

@@ -1,4 +1,4 @@
-var endpoint = "https://localhost:8080/";
+var endpoint = "https://localhost:7193/";
 var cardsEndpoint = "api/cards/";
 var statusEndpoint = "api/statuses/";
 
