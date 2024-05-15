@@ -15,6 +15,7 @@
 /* Work space css */
 
 html, body {
+    /* height: 100%; */
     width: 100%;
     margin: 0;
     padding: 0;
@@ -42,6 +43,10 @@ aside {
     float: left; /* Выравниваем сайдбар слева */
     background-color: #2b2b2ee3; /* Цвет фона сайдбара */
     color: white; /* Цвет текста */
+}
+
+#aside-container {
+    width: 15%
 }
 
 .header-main-text {
@@ -286,7 +291,8 @@ aside {
                }
 /*--------------------------------------------------------------------------------------abel-container button, Calendar-container button*/
        .Tabel-container button,
-       .Calendar-container button{
+       .Calendar-container button, 
+       .sidenav-container button {
            color: white;
            background-color: #36363A;
            border: 1px solid #36363A;
@@ -301,20 +307,18 @@ aside {
        }
        
        .Tabel-container button:hover,
-       .Calendar-container button:hover {
+       .Calendar-container button:hover,
+       .sidenav-container button:hover {
            background-color: #2d2d30; /* Цвет при наведении курсора */
        }
        
        .Tabel-container .icon,
-       .Calendar-container .icon {
+       .Calendar-container .icon, 
+       .sidenav-container .icon {
            font-size: 20px; /* Размер иконки */
            margin-right: 10px; /* Отступ между иконкой и текстом */
            margin-bottom: 5px;
        }
-    
-       
-        
-    
 
 
 /*--------------------------------------------------------------------------------------My-boards-container*/
@@ -463,44 +467,25 @@ header {
 .sidenav-right{
     width: 100%; 
     height: 100%;
+    margin-top: 20px;
     margin-left: 20px; 
+    padding-right: 20px;
+
     background-color: transparent;
 } 
 
 .RvWs-config{
     margin-left: 5px;
-    margin-top: 5px;
+    margin-top: 15px;
+    margin-bottom: 10px;
 }
 
-.sidenav-fight-top{
-    margin-bottom: 0.20%;
-    height: 300px; 
-    background-color: #303030; 
-    width: 100%;
-    font-size: large;
-    font-family: Arial, Helvetica, sans-serif;
-    font-weight: bold;
-    padding-left: 5px;
-    display: flex;
-    flex-direction: column;
-}
-
-.sidenav-cards-top{
-    width: 200px; 
-    height: 150px; 
-    margin: 10px; 
-    background-color: burlywood;
-    padding-left: 5px;
-    padding-top: 5px;
-}
-
-/* правая нижняя */
-
-.sidenav-fight-bottom{
-    height: 500px; 
-    background-color: #303030; 
-    width: 100%; 
-    flex-wrap: wrap;
+.sidenav-fight{
+    margin-bottom: 10px;
+    height: fit-content; 
+    padding-bottom: 20px;
+    background-color: #2b2b2e36; 
+    max-width: 100%;
     font-size: large;
     font-family: Arial, Helvetica, sans-serif;
     font-weight: bold;
@@ -510,14 +495,62 @@ header {
     flex-direction: column;
 }
 
+.sidenav-cards-container {
+    display: inline-flex;
+    flex-wrap: wrap;
 
-.sidenav-cards-bottom{
-    width: 200px; 
-    height: 150px; 
+}
+
+.sidenav-card {
+    position: relative;
+
+    width: 250px; 
+    height: 125px; 
     margin: 10px; 
-    background-color: burlywood;
     padding-left: 5px;
     padding-top: 5px;
+
+    background-color: #2b2b2e;
+    
+    border: solid 5px rgba(31, 112, 53, 0.15);
+    border-radius: 3%;
+}
+
+.sidenav-sticker {
+    position: absolute;
+    display: inline-flex;
+    flex-direction: row-reverse;
+    width: fit-content;
+    height: fit-content;
+    bottom: 10px;
+    right: 10px;
+}
+
+.sidenav-cards-top{
+
+}
+
+.sidenav-cards-bottom{
+
+}
+
+/* #card-id-1.sidenav-card {
+    border-color: #e8e0055d;
+} */
+/* #card-id-2.sidenav-card {
+    background-color: rgba(41, 91, 138, 0.85);
+}
+#card-id-3.sidenav-card {
+    background-color: rgb(138, 136, 41, 0.85);
+}
+#card-id-4.sidenav-card {
+    background-color: rgb(138, 41, 54, 0.85);
+} */
+
+
+.sidenav-cards-setting {
+    color: white;
+    text-wrap: balanced;
 }
 
 /* Header content */
@@ -599,6 +632,7 @@ header {
 
 main {
     flex: auto;
+    display: inline-flex;
     flex-wrap: nowrap;
     width: 100%;
     height: 100%;
