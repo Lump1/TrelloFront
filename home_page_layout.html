@@ -72,108 +72,150 @@
   </header>
 
 
-  <main>
-    <div class="d-inline-flex sidenav">
-      <div class="sidenav-left">
+  <main id="content-home">
+    <aside id="aside-container">
+      <article class="aside-h-container">
+        <h2 id="project-title">Home
+        </h2>
+      </article>
+      <hr class="aside-line" />
+      <div class="sidenav-container">
+        <button type="button">
+          <span class="icon">
+            <img src="assets/plus.png" class="card-sm-img" />
+          </span> Create board
+        </button>
+        <button type="button">
+          <span class="icon">
+            <img src="assets/colum-modal-img.png" class="card-sm-img" />
+          </span> Templates
+        </button>
+      </div>
+      <hr class="aside-line" />
+      <div class="My-boards-container">
+        <button type="button">
+          <span class="icon">
+            <img src="assets/board-meeting.png" class="card-sm-img" />
+          </span>My boards<span class="icon-plus">&#43;</span>
+        </button>
 
-        <div class="sidenav-button">
-          <button class="btn btn-outline-secondary sidenav-button-btHpWs">Boards</button>        <!-- btHpWs - рассшифровка b - Boards, t - Templates, Hp - Home page, Ws - Working space -->
+        <div class="">
         </div>
-
-        <div class="sidenav-button">
-          <button type="button" class="btn btn-outline-secondary sidenav-button-btHpWs" id="sidenav-button-temlates-js">Templates</button>        <!-- Templates сделал вместе что бы было видно что их нужно соеденить -->
-          <br>
-          <button type="button" class="btn btn-outline-secondary sidenav-button-btHpWs" id="sidenav-button-temlates-menu-js">Templates 1</button>
-          <br>
-          <button type="button" class="btn btn-outline-secondary sidenav-button-btHpWs" id="sidenav-button-temlates-menu-js">Templates 1</button>
-          <br>
-          <button type="button" class="btn btn-outline-secondary sidenav-button-btHpWs" id="sidenav-button-temlates-menu-js">Templates 1</button>
-        </div>
-
-        <div class="sidenav-button-home-page">
-          <button class="btn btn-outline-secondary sidenav-button-btHpWs">Home page</button>
-        </div>
-
-        <hr style="color: azure;">
-        <h5 style="color: azure; margin-left: 65px;">Working space</h5>
-
-        <div class="sidenav-button">
-          <button type="button" class="btn btn-outline-secondary sidenav-button-btHpWs" id="sidenav-button-Ws-js">Working space</button>  <!-- Working space сделал вместе что бы было видно что их нужно соеденить -->
-          <br>
-          <button type="button" class="btn btn-outline-secondary sidenav-button-btHpWs" id="sidenav-button-bIerps-js">Boards</button>
-          <br>
-          <button type="button" class="btn btn-outline-secondary sidenav-button-btHpWs" id="sidenav-button-bIerps-js">Important events</button>
-          <br>
-          <button type="button" class="btn btn-outline-secondary sidenav-button-btHpWs" id="sidenav-button-bIerps-js">Representation</button>
-          <br>
-          <button type="button" class="btn btn-outline-secondary sidenav-button-btHpWs" id="sidenav-button-bIerps-js">Participants</button>
-          <br>
-          <button type="button" class="btn btn-outline-secondary sidenav-button-btHpWs" id="sidenav-button-bIerps-js">Settings</button>
-        </div>
-
       </div>
 
-      <div class="sidenav-right">
-        <div class="sidenav-fight-top">
-          <div class="RvWs-config">                         <!-- RvWs - рассшифровка Rv- Recently Viewed, Ws - Working space -->
-            <h5 style="color: azure;">Recently Viewed</h5>
-          </div>
+      <hr class="aside-line" />
 
-          <div class="d-inline-flex">
-            <div class="sidenav-cards-top">
-              <div class="sidenav-cards-top-setting">
-                Board 1
-              </div>
-            </div>
-            <div class="sidenav-cards-top">
-              <div class="sidenav-cards-top-setting">
-                Board 2
-              </div>
-            </div>
-          </div>
+      <div class="settings-container">
+        <button type="button" class="settings-button">
+          <img src="assets/settings-icon-1.png" class="img-color-inv img-settings-button" />
+        </button>
+        <button type="button" class="settings-button">
+          <img src="assets/bubble-chat-icon-1.png" class="img-color-inv img-settings-button" />
+        </button>
+        <button type="button" class="settings-button">
+          <img src="assets/user-icon-1.png" class="img-color-inv img-settings-button" />
+        </button>
+        <button type="button" class="settings-button">
+          <img src="assets/group-icon-2.png" class="img-color-inv img-settings-button" />
+        </button>
+      </div>
+
+    </aside>
+
+    <div class="sidenav-right">
+      <div class="sidenav-fight">
+        <div class="RvWs-config"> <!-- RvWs - рассшифровка Rv- Recently Viewed, Ws - Working space -->
+          <h5 style="color: azure;">Recently Viewed</h5>
         </div>
 
-        <div class="sidenav-fight-bottom">
-          <div class="RvWs-config">
-            <h5 style="color: azure;">Working space</h5>
-            <button type="button" class="btn btn-outline-secondary sidenav-button-btHpWs-config">Boards</button>
-            <button type="button" class="btn btn-outline-secondary sidenav-button-btHpWs-config">Important events</button>
-            <button type="button" class="btn btn-outline-secondary sidenav-button-btHpWs-config">Representation</button>
-            <button type="button" class="btn btn-outline-secondary sidenav-button-btHpWs-config">Participants</button>
-            <button type="button" class="btn btn-outline-secondary sidenav-button-btHpWs-config">Settings</button>
+        <div class="sidenav-cards-container">
+          <div class="sidenav-cards-top sidenav-card" id="card-id-1">
+            <div class="sidenav-cards-setting">
+              Project menagment
+            </div>
+            <div class="sidenav-sticker">
+              <span>👻</span>
+              <span>⭐</span>
+            </div>
           </div>
-          <div class="d-inline-flex">
-
-            <div class="sidenav-cards-bottom">
-              <div class="sidenav-cards-bottom-setting">
-                Board 1
-              </div>
+          <div class="sidenav-cards-top sidenav-card" id="card-id-4">
+            <div class="sidenav-cards-setting">
+              Good project (We're doing something good for our planet)
             </div>
-
-            <div class="sidenav-cards-bottom">
-              <div class="sidenav-cards-bottom-setting">
-                Board 2
-              </div>
+            <div class="sidenav-sticker">
+              <span>😺</span>
             </div>
-
-            <div class="sidenav-cards-bottom">
-              <div class="sidenav-cards-bottom-setting">
-                Board 3
-              </div>
+            
+          </div>
+        </div>
+      </div>
+      <div class="sidenav-fight">
+        <div class="RvWs-config">
+          <h5 style="color: azure;">Boards</h5>
+          <!-- <button>Boards</button>
+          <button>Important events</button>
+          <button>Representation</button>
+          <button>Participants</button>
+          <button>Settings</button> -->
+        </div>
+        <div class="sidenav-cards-container">
+          <div class="sidenav-cards-bottom sidenav-card" id="card-id-1">
+            <div class="sidenav-cards-setting">
+              Project menagment
             </div>
+            <div class="sidenav-sticker">
+              <span>👻</span>
+              <span>⭐</span>
+            </div>
+          </div>
 
-            <div class="sidenav-cards-bottom">
-              <div class="sidenav-cards-bottom-setting">
-                Board 4
-              </div>
+          <div class="sidenav-cards-bottom sidenav-card" id="card-id-2">
+            <div class="sidenav-cards-setting">
+              Chello front-end
+            </div>
+            <div class="sidenav-sticker">
+              <span>🫠</span>
+            </div>
+          </div>
+          <div class="sidenav-cards-bottom sidenav-card" id="card-id-3">
+            <div class="sidenav-cards-setting">
+              Good project (We're doing something good for our planet)
+            </div>
+            <div class="sidenav-sticker">
+              <span>😺</span>
+            </div>
+          </div>
+          <div class="sidenav-cards-bottom sidenav-card" id="card-id-4">
+            <div class="sidenav-cards-setting">
+              Game: Team Defend
+            </div>
+            <div class="sidenav-sticker">
+              <span>🤑</span>
             </div>
             <!-- <div class="sidenav-close-button-bottom-boards">
               <button type="button" class="btn btn-outline-secondary sidenav-close-button-bottom-boards-config ">Close all boards</button>
             </div> -->
           </div>
-
         </div>
+
       </div>
+      <div class="sidenav-fight">
+        <div class="RvWs-config"> <!-- RvWs - рассшифровка Rv- Recently Viewed, Ws - Working space -->
+          <h5 style="color: azure;">Favorites</h5>
+        </div>
+
+        <div class="sidenav-cards-container">
+          <div class="sidenav-cards-top sidenav-card" id="card-id-1">
+            <div class="sidenav-cards-setting">
+              Project menagment
+            </div>
+            <div class="sidenav-sticker">
+              <span>👻</span>
+              <span>⭐</span>
+            </div>
+          </div>
+      </div>
+    </div>
     </div>
     </div>
   </main>
