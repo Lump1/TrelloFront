@@ -98,6 +98,13 @@ $(document).ready(function () {
             success: function(data) {
                 showNotification("Login successful.", "success");
                 console.log(data);
+
+                    timer = setTimeout(function(){
+                        timer = null; 
+                        $(document).ready(function(){
+                            window.location.href = 'http://127.0.0.1:5500/home_page_layout.html';
+                        });
+                    }, 1000);
             },
             error: function(jqXHR, textStatus, errorThrown) {
                 showNotification(jqXHR.responseText, "error");

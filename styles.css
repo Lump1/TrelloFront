@@ -3,11 +3,12 @@
 @font-face {
     font-family: "Florida Vibes";
     src: url("/fonts/FloridaVibes.otf");
-  }
+}
+
 @font-face {
     font-family: "Dearlove";
     src: url("/fonts/Dearlove.ttf");
-  }
+}
 
 /*  */
 
@@ -36,13 +37,19 @@ body {
 
 
 aside {
-    width: 13%; /* Устанавливаем ширину сайдбара на 20% от ширины родительского контейнера */
+    width: 13%;
+    /* Устанавливаем ширину сайдбара на 20% от ширины родительского контейнера */
     min-width: 170px;
-    height: 100vh; /* Задаем высоту сайдбара на всю высоту видимой области экрана */
-    padding-left: 15px; /* Отступ слева внутри сайдбара */
-    float: left; /* Выравниваем сайдбар слева */
-    background-color: #2b2b2ee3; /* Цвет фона сайдбара */
-    color: white; /* Цвет текста */
+    height: 100vh;
+    /* Задаем высоту сайдбара на всю высоту видимой области экрана */
+    padding-left: 15px;
+    /* Отступ слева внутри сайдбара */
+    float: left;
+    /* Выравниваем сайдбар слева */
+    background-color: #2b2b2ee3;
+    /* Цвет фона сайдбара */
+    color: white;
+    /* Цвет текста */
 }
 
 #aside-container {
@@ -63,32 +70,43 @@ aside {
 }
 
 #project-title {
-    font-size: 30px; /* Устанавливаем размер шрифта заголовка "Project Management" */
+    font-size: 30px;
+    /* Устанавливаем размер шрифта заголовка "Project Management" */
     font-weight: 720;
 }
 
 .favorite-container {
-    float: right; /* Размещаем элемент справа */
+    float: right;
+    /* Размещаем элемент справа */
     padding-right: 20px;
-    margin-bottom: 10px; /* Добавляем небольшой отступ снизу */
+    margin-bottom: 10px;
+    /* Добавляем небольшой отступ снизу */
 }
 
 #favorite-button {
-    background-color: transparent; /* Устанавливаем прозрачный фон */
-    color: white; /* Цвет текста */
-    border: none; /* Убираем границу */
-    font-size: 30px; /* Размер шрифта */
-    cursor: pointer; /* Курсор при наведении */
+    background-color: transparent;
+    /* Устанавливаем прозрачный фон */
+    color: white;
+    /* Цвет текста */
+    border: none;
+    /* Убираем границу */
+    font-size: 30px;
+    /* Размер шрифта */
+    cursor: pointer;
+    /* Курсор при наведении */
 }
 
 #favorite-button:hover {
-    background-color: rgba(255, 255, 255, 0.2); /* Изменяем цвет фона на полупрозрачный белый при наведении */
-    color: #E8E105 ;
+    background-color: rgba(255, 255, 255, 0.2);
+    /* Изменяем цвет фона на полупрозрачный белый при наведении */
+    color: #E8E105;
 }
 
 .participants-container {
-    display: flex; /* Располагаем иконки участников в линию */
-    margin-top: 40px; /* Добавляем небольшой отступ снизу */
+    display: flex;
+    /* Располагаем иконки участников в линию */
+    margin-top: 40px;
+    /* Добавляем небольшой отступ снизу */
 
 }
 
@@ -97,24 +115,35 @@ aside {
     left: -40px;
     top: 25px;
 
-    width: 50px; /* Устанавливаем ширину блока для каждой иконки участника */
-    height: 50px; /* Устанавливаем высоту блока для каждой иконки участника */
-    border-radius: 50%; /* Создаем круглую форму для блока с помощью скругления углов */
-    overflow: hidden; /* Обрезаем изображение участника, чтобы оно не выходило за пределы блока */
+    width: 50px;
+    /* Устанавливаем ширину блока для каждой иконки участника */
+    height: 50px;
+    /* Устанавливаем высоту блока для каждой иконки участника */
+    border-radius: 50%;
+    /* Создаем круглую форму для блока с помощью скругления углов */
+    overflow: hidden;
+    /* Обрезаем изображение участника, чтобы оно не выходило за пределы блока */
 }
 
 #participant1 {
-    width: 70px; /* Устанавливаем ширину блока для каждой иконки участника */
-    height: 70px; /* Устанавливаем высоту блока для каждой иконки участника */
-    border-radius: 50%; /* Создаем круглую форму для блока с помощью скругления углов */
-    overflow: hidden; /* Обрезаем изображение участника, чтобы оно не выходило за пределы блока */
+    width: 70px;
+    /* Устанавливаем ширину блока для каждой иконки участника */
+    height: 70px;
+    /* Устанавливаем высоту блока для каждой иконки участника */
+    border-radius: 50%;
+    /* Создаем круглую форму для блока с помощью скругления углов */
+    overflow: hidden;
+    /* Обрезаем изображение участника, чтобы оно не выходило за пределы блока */
 }
 
 .participant img {
-    width: 100%; /* Изображение участника занимает всю доступную ширину блока */
-    height: 100%; /* Изображение участника занимает всю доступную высоту блока */
+    width: 100%;
+    /* Изображение участника занимает всю доступную ширину блока */
+    height: 100%;
+    /* Изображение участника занимает всю доступную высоту блока */
     background-color: white !important;
-    object-fit: cover; /* Изображение участника сохраняет пропорции и центрируется внутри блока */
+    object-fit: cover;
+    /* Изображение участника сохраняет пропорции и центрируется внутри блока */
 }
 
 .contributors-view {
@@ -133,22 +162,29 @@ aside {
 #invite-button {
     margin-right: 20px;
     width: fit-content;
-    background-color: transparent; /* Цвет фона кнопок "Invite"  */
-    color: white; /* Цвет текста кнопок */
- 
+    background-color: transparent;
+    /* Цвет фона кнопок "Invite"  */
+    color: white;
+    /* Цвет текста кнопок */
+
     border: none;
-    cursor: pointer; /* Задаем курсор при наведении на кнопки */
+    cursor: pointer;
+    /* Задаем курсор при наведении на кнопки */
     opacity: 0.8;
 }
 
 #workspace-visible-button {
     background-color: transparent;
     text-wrap: nowrap;
-    color: white; /* Цвет текста кнопок */
-    border: none; /* Убираем границу у кнопок */
-    cursor: pointer; /* Задаем курсор при наведении на кнопки */
-    display: block; /* Отображаем кнопки как блочные элементы */
-    width: fit-content; 
+    color: white;
+    /* Цвет текста кнопок */
+    border: none;
+    /* Убираем границу у кнопок */
+    cursor: pointer;
+    /* Задаем курсор при наведении на кнопки */
+    display: block;
+    /* Отображаем кнопки как блочные элементы */
+    width: fit-content;
     margin-right: 20px;
     opacity: 0.8;
 }
@@ -161,18 +197,23 @@ aside {
 
 
 #profile-icon {
-    font-size: 30px; /* Устанавливаем размер иконки профиля */
-    margin-top: 20px; /* Добавляем отступ сверху */
+    font-size: 30px;
+    /* Устанавливаем размер иконки профиля */
+    margin-top: 20px;
+    /* Добавляем отступ сверху */
 }
+
 .board-dropdown {
-      border: none !important;
+    border: none !important;
 }
 
 #board-dropdown-toggle {
     background-color: transparent;
     border: none !important;
-    color: rgb(196, 196, 196); /* Устанавливаем белый цвет текста кнопки */
-    cursor: pointer; /* Устанавливаем курсор в виде указателя при наведении на кнопку */
+    color: rgb(196, 196, 196);
+    /* Устанавливаем белый цвет текста кнопки */
+    cursor: pointer;
+    /* Устанавливаем курсор в виде указателя при наведении на кнопку */
     width: fit-content;
 }
 
@@ -180,26 +221,40 @@ aside {
 .board-dropdown:hover #board-list {
     display: block;
 }
+
 #board-list {
-    display: none; /* Скрываем список по умолчанию */
-    position: absolute; /* Устанавливаем позиционирование списка как абсолютное, чтобы его можно было свободно размещать в нужном месте */
-    background-color: #303030; /* Устанавливаем цвет фона списка */
-    min-width: 100px; /* Минимальная ширина списка */
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2); /* Добавляем тень для списка */
-    z-index: 1; /* Устанавливаем z-index, чтобы список отображался поверх других элементов */
-    padding: 0; /* Убираем внутренние отступы у списка */
-    margin: 0; /* Убираем внешние отступы у списка */
-    list-style: none; /* Убираем маркеры списка */
+    display: none;
+    /* Скрываем список по умолчанию */
+    position: absolute;
+    /* Устанавливаем позиционирование списка как абсолютное, чтобы его можно было свободно размещать в нужном месте */
+    background-color: #303030;
+    /* Устанавливаем цвет фона списка */
+    min-width: 100px;
+    /* Минимальная ширина списка */
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    /* Добавляем тень для списка */
+    z-index: 1;
+    /* Устанавливаем z-index, чтобы список отображался поверх других элементов */
+    padding: 0;
+    /* Убираем внутренние отступы у списка */
+    margin: 0;
+    /* Убираем внешние отступы у списка */
+    list-style: none;
+    /* Убираем маркеры списка */
 }
 
 #board-list li {
-    padding: 10px 20px; /* Отступы для каждого элемента списка */
-    cursor: pointer; /* Устанавливаем курсор в виде указателя при наведении на элемент списка */
-    color: white; /* Устанавливаем белый цвет текста элементов списка */
+    padding: 10px 20px;
+    /* Отступы для каждого элемента списка */
+    cursor: pointer;
+    /* Устанавливаем курсор в виде указателя при наведении на элемент списка */
+    color: white;
+    /* Устанавливаем белый цвет текста элементов списка */
 }
 
 #board-list li:hover {
-    background-color: rgba(255, 255, 255, 0.1); /* Устанавливаем прозрачный белый цвет фона элемента списка при наведении */
+    background-color: rgba(255, 255, 255, 0.1);
+    /* Устанавливаем прозрачный белый цвет фона элемента списка при наведении */
 }
 
 
@@ -216,44 +271,62 @@ aside {
 }
 
 .board-container #board-button:hover {
-    background-color: #2d2d30; /* Цвет при наведении курсора */
+    background-color: #2d2d30;
+    /* Цвет при наведении курсора */
 }
+
 /*--------------------------------------------------------------------------------------*/
 
 /*--------------------------------------------------------------------------------------workspace-settings-dropdown*/
 .workspace-settings-dropdown {
-    
-    margin-top: auto; /* Выравниваем блок по нижнему краю */
-    position: relative; /* Необходимо для корректного позиционирования списка */
-   margin-bottom: 30px;
+
+    margin-top: auto;
+    /* Выравниваем блок по нижнему краю */
+    position: relative;
+    /* Необходимо для корректного позиционирования списка */
+    margin-bottom: 30px;
 }
 
 #workspace-list {
-    display: none; /* Скрываем список по умолчанию */
-    position: absolute; /* Устанавливаем позиционирование списка как абсолютное, чтобы его можно было свободно размещать в нужном месте */
-    background-color: #303030; /* Устанавливаем цвет фона списка */
-    min-width: 100px; /* Минимальная ширина списка */
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2); /* Добавляем тень для списка */
-    z-index: 1; /* Устанавливаем z-index, чтобы список отображался поверх других элементов */
-    padding: 0; /* Убираем внутренние отступы у списка */
-    margin: 0; /* Убираем внешние отступы у списка */
-    list-style: none; /* Убираем маркеры списка */
-    left: 0; /* Выравниваем список по левому краю */
-    top: 100%; /* Позиционируем список под кнопкой */
+    display: none;
+    /* Скрываем список по умолчанию */
+    position: absolute;
+    /* Устанавливаем позиционирование списка как абсолютное, чтобы его можно было свободно размещать в нужном месте */
+    background-color: #303030;
+    /* Устанавливаем цвет фона списка */
+    min-width: 100px;
+    /* Минимальная ширина списка */
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    /* Добавляем тень для списка */
+    z-index: 1;
+    /* Устанавливаем z-index, чтобы список отображался поверх других элементов */
+    padding: 0;
+    /* Убираем внутренние отступы у списка */
+    margin: 0;
+    /* Убираем внешние отступы у списка */
+    list-style: none;
+    /* Убираем маркеры списка */
+    top: 100%;
+    /* Позиционируем список под кнопкой */
 }
 
 #workspace-list li {
-    padding: 10px 20px; /* Отступы для каждого элемента списка */
-    cursor: pointer; /* Устанавливаем курсор в виде указателя при наведении на элемент списка */
-    color: white; /* Устанавливаем белый цвет текста элементов списка */
+    padding: 10px 20px;
+    /* Отступы для каждого элемента списка */
+    cursor: pointer;
+    /* Устанавливаем курсор в виде указателя при наведении на элемент списка */
+    color: white;
+    /* Устанавливаем белый цвет текста элементов списка */
 }
 
 #workspace-list li:hover {
-    background-color: rgba(255, 255, 255, 0.1); /* Устанавливаем прозрачный белый цвет фона элемента списка при наведении */
+    background-color: rgba(255, 255, 255, 0.1);
+    /* Устанавливаем прозрачный белый цвет фона элемента списка при наведении */
 }
 
 .workspace-settings-dropdown:hover #workspace-list {
-    display: block; /* Показываем список при наведении на контейнер с классом workspace-dropdown */
+    display: block;
+    /* Показываем список при наведении на контейнер с классом workspace-dropdown */
 }
 
 #workspace-settings-dropdown-toggle {
@@ -269,26 +342,36 @@ aside {
 #workspace-settings-dropdown-toggle:hover {
     background-color: #36363A;
 }
+
 /*--------------------------------------------------------------------------------------*/
 
-  /*--------------------------------------------------------------------------------------wvs*/
+/*--------------------------------------------------------------------------------------wvs*/
 
-  #wvs {
-    font-size: 1vw; /* Устанавливаем размер шрифта заголовка "Project Management" */
+#wvs {
+    font-size: 1vw;
+    /* Устанавливаем размер шрифта заголовка "Project Management" */
     font-weight: lighter;
-    margin-bottom: 10px; /* Добавляем небольшой отступ снизу */
-   
-       }
-       #wvs1 {
-        font-size: 0.4vw; /* Устанавливаем размер шрифта заголовка "Project Management" */
-        margin-bottom: 5px; /* Добавляем небольшой отступ снизу */
-       
-           }
-           #wvs2 {
-            font-size: 0.4vw; /* Устанавливаем размер шрифта заголовка "Project Management" */
-            margin-bottom: 30px; /* Добавляем небольшой отступ снизу */
-           
-               }
+    margin-bottom: 10px;
+    /* Добавляем небольшой отступ снизу */
+
+}
+
+#wvs1 {
+    font-size: 0.4vw;
+    /* Устанавливаем размер шрифта заголовка "Project Management" */
+    margin-bottom: 5px;
+    /* Добавляем небольшой отступ снизу */
+
+}
+
+#wvs2 {
+    font-size: 0.4vw;
+    /* Устанавливаем размер шрифта заголовка "Project Management" */
+    margin-bottom: 30px;
+    /* Добавляем небольшой отступ снизу */
+
+}
+
 /*--------------------------------------------------------------------------------------abel-container button, Calendar-container button*/
        .Tabel-container button,
        .Calendar-container button, 
@@ -322,33 +405,36 @@ aside {
 
 
 /*--------------------------------------------------------------------------------------My-boards-container*/
-       .My-boards-container button {
-        color: white;
-        background-color: #36363A;
-        border: 1px solid #36363A;
-        padding: 5px 10px;
-        border-radius: 3px;
-        cursor: pointer;
-        display: flex;
-        align-items: baseline;
-        width: 90%;
-    }
-    
-    .My-boards-container button:hover {
-        background-color: #2d2d30; /* Цвет при наведении курсора */
-    }
-    
-    .My-boards-container button .icon {
-        font-size: 20px; /* Размер иконки */
-        margin-left: 0; /* Отступ между иконкой и текстом */
-        margin-right: 10px;
-    }
-    
-    .icon-plus {
-        margin-left: auto;
-    }
-    
-  /*--------------------------------------------------------------------------------------*/
+.My-boards-container button {
+    color: white;
+    background-color: #36363A;
+    border: 1px solid #36363A;
+    padding: 5px 10px;
+    border-radius: 3px;
+    cursor: pointer;
+    display: flex;
+    align-items: baseline;
+    width: 90%;
+}
+
+.My-boards-container button:hover {
+    background-color: #2d2d30;
+    /* Цвет при наведении курсора */
+}
+
+.My-boards-container button .icon {
+    font-size: 20px;
+    /* Размер иконки */
+    margin-left: 0;
+    /* Отступ между иконкой и текстом */
+    margin-right: 10px;
+}
+
+.icon-plus {
+    margin-left: auto;
+}
+
+/*--------------------------------------------------------------------------------------*/
 
 header {
     height: 55px;
@@ -356,7 +442,7 @@ header {
     position: sticky;
     top: 0;
     background-color: #161618;
-    color:#c5c6c7;
+    color: #c5c6c7;
     padding: 10px 20px;
     display: flex;
     justify-content: space-between;
@@ -364,7 +450,8 @@ header {
 }
 
 #project-title {
-    font-size: 1.5vw; /* Размер шрифта в зависимости от ширины окна браузера */
+    font-size: 1.5vw;
+    /* Размер шрифта в зависимости от ширины окна браузера */
     margin-bottom: 30px;
 }
 
@@ -377,13 +464,13 @@ header {
 
 /*===================================== Header block */
 
-.header-conteiner{
+.header-conteiner {
     display: flex;
     align-items: flex-end;
 }
 
 
-.nav-dropdown{
+.nav-dropdown {
     margin-left: 10px;
     margin-top: auto;
     margin-bottom: 5px;
@@ -394,41 +481,56 @@ header {
 }
 
 #nav-dropdown-toggle {
-  background-color: transparent;
-  border: none !important;
-  color: rgb(196, 196, 196); /* Устанавливаем белый цвет текста кнопки */
-  cursor: pointer; /* Устанавливаем курсор в виде указателя при наведении на кнопку */
-  width: fit-content;
+    background-color: transparent;
+    border: none !important;
+    color: rgb(196, 196, 196);
+    /* Устанавливаем белый цвет текста кнопки */
+    cursor: pointer;
+    /* Устанавливаем курсор в виде указателя при наведении на кнопку */
+    width: fit-content;
 }
 
 
 .nav-dropdown:hover #nav-list {
-  display: block;
+    display: block;
 }
 
 #nav-list {
-  display: none; /* Скрываем список по умолчанию */
-  position: absolute; /* Устанавливаем позиционирование списка как абсолютное, чтобы его можно было свободно размещать в нужном месте */
-  background-color: #303030; /* Устанавливаем цвет фона списка */
-  min-width: 100px; /* Минимальная ширина списка */
-  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2); /* Добавляем тень для списка */
-  z-index: 1; /* Устанавливаем z-index, чтобы список отображался поверх других элементов */
-  padding: 0; /* Убираем внутренние отступы у списка */
-  margin: 0; /* Убираем внешние отступы у списка */
-  list-style: none; /* Убираем маркеры списка */
+    display: none;
+    /* Скрываем список по умолчанию */
+    position: absolute;
+    /* Устанавливаем позиционирование списка как абсолютное, чтобы его можно было свободно размещать в нужном месте */
+    background-color: #303030;
+    /* Устанавливаем цвет фона списка */
+    min-width: 100px;
+    /* Минимальная ширина списка */
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    /* Добавляем тень для списка */
+    z-index: 1;
+    /* Устанавливаем z-index, чтобы список отображался поверх других элементов */
+    padding: 0;
+    /* Убираем внутренние отступы у списка */
+    margin: 0;
+    /* Убираем внешние отступы у списка */
+    list-style: none;
+    /* Убираем маркеры списка */
 }
 
 #nav-list li {
-  padding: 10px 20px; /* Отступы для каждого элемента списка */
-  cursor: pointer; /* Устанавливаем курсор в виде указателя при наведении на элемент списка */
-  color: white; /* Устанавливаем белый цвет текста элементов списка */
+    padding: 10px 20px;
+    /* Отступы для каждого элемента списка */
+    cursor: pointer;
+    /* Устанавливаем курсор в виде указателя при наведении на элемент списка */
+    color: white;
+    /* Устанавливаем белый цвет текста элементов списка */
 }
 
 #nav-list li:hover {
-  background-color: rgba(255, 255, 255, 0.1); /* Устанавливаем прозрачный белый цвет фона элемента списка при наведении */
+    background-color: rgba(255, 255, 255, 0.1);
+    /* Устанавливаем прозрачный белый цвет фона элемента списка при наведении */
 }
 
-.create-container{
+.create-container {
     margin-left: 10px;
     margin-top: auto;
 }
@@ -440,46 +542,78 @@ header {
 
 /* левая часть */
 
-.sidenav{
-    height: 100%; 
+.sidenav {
+    height: 100%;
     width: 100%;
 }
 
 
-.sidenav-left{
-    width: 300px; 
-    background-color:#303030;
+.sidenav-left {
+    width: 300px;
+    background-color: #303030;
 }
 
-.sidenav-button{
+.sidenav-button {
     margin: 5%;
     margin-left: 20%;
     padding: 2%;
 }
 
-.sidenav-button-btHpWs{
+.sidenav-button-home-page{
+    margin: 5%;
+    margin-left: 20%;
+    padding: 2%;
+}
+
+.sidenav-button-btHpWs {
     width: 80%;
     text-align: left;
+    color: #ffffff;
 }
+
+#sidenav-button-temlates-js {
+    padding: 5px;
+    cursor: pointer;
+}
+
+#sidenav-button-temlates-menu-js {
+    display: none;
+    margin-top: 10px;
+    width: 150px;
+    height: 150px;
+    background-color: #303030;
+}
+
+#sidenav-button-Ws-js {
+    padding: 5px;
+    cursor: pointer;
+}
+
+#sidenav-button-bIerps-js {
+    display: none;
+    margin-top: 10px;
+    width: 150px;
+    height: 150px;
+    background-color: #303030;
+}
+
 
 /* правая верхняя */
 
-.sidenav-right{
-    width: 100%; 
+.sidenav-right {
+    width: 100%;
     height: 100%;
     margin-top: 20px;
     margin-left: 20px; 
     padding-right: 20px;
-
     background-color: transparent;
-} 
+}
 
-.RvWs-config{
+.RvWs-config {
     margin-left: 5px;
     margin-top: 15px;
     margin-bottom: 10px;
 }
-
 .sidenav-fight{
     margin-bottom: 10px;
     height: fit-content; 
@@ -509,9 +643,7 @@ header {
     margin: 10px; 
     padding-left: 5px;
     padding-top: 5px;
-
     background-color: #2b2b2e;
-    
     border: solid 5px rgba(31, 112, 53, 0.15);
     border-radius: 3%;
 }
@@ -534,61 +666,77 @@ header {
 
 }
 
-/* #card-id-1.sidenav-card {
-    border-color: #e8e0055d;
-} */
-/* #card-id-2.sidenav-card {
-    background-color: rgba(41, 91, 138, 0.85);
-}
-#card-id-3.sidenav-card {
-    background-color: rgb(138, 136, 41, 0.85);
-}
-#card-id-4.sidenav-card {
-    background-color: rgb(138, 41, 54, 0.85);
-} */
-
 
 .sidenav-cards-setting {
     color: white;
     text-wrap: balanced;
 }
 
+.sidenav-cards-bottom-setting {
+    color: #ffffff;
+}
+
+
+.sidenav-button-btHpWs-config {
+    color: #ffffff;
+    margin-left: 5px;
+    width: 160px;
+}
+
+
 /* Header content */
 
 .header-content {
     display: flex;
-    align-items: flex-end; /* Выравниваем элементы по нижнему краю */
+    align-items: flex-end;
+    /* Выравниваем элементы по нижнему краю */
 }
 
 .workspace-dropdown {
     margin-left: 20px;
-    margin-top: auto; /* Выравниваем блок по нижнему краю */
+    margin-top: auto;
+    /* Выравниваем блок по нижнему краю */
 }
+
 #workspace-list {
-    display: none; /* Скрываем список по умолчанию */
-    position: absolute; /* Устанавливаем позиционирование списка как абсолютное, чтобы его можно было свободно размещать в нужном месте */
-    background-color: #303030; /* Устанавливаем цвет фона списка */
-    min-width: 100px; /* Минимальная ширина списка */
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2); /* Добавляем тень для списка */
-    z-index: 1; /* Устанавливаем z-index, чтобы список отображался поверх других элементов */
-    padding: 0; /* Убираем внутренние отступы у списка */
-    margin: 0; /* Убираем внешние отступы у списка */
-    list-style: none; /* Убираем маркеры списка */
+    display: none;
+    /* Скрываем список по умолчанию */
+    position: absolute;
+    /* Устанавливаем позиционирование списка как абсолютное, чтобы его можно было свободно размещать в нужном месте */
+    background-color: #303030;
+    /* Устанавливаем цвет фона списка */
+    min-width: 100px;
+    /* Минимальная ширина списка */
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    /* Добавляем тень для списка */
+    z-index: 1;
+    /* Устанавливаем z-index, чтобы список отображался поверх других элементов */
+    padding: 0;
+    /* Убираем внутренние отступы у списка */
+    margin: 0;
+    /* Убираем внешние отступы у списка */
+    list-style: none;
+    /* Убираем маркеры списка */
 }
 
 #workspace-list li {
-    padding: 10px 20px; /* Отступы для каждого элемента списка */
-    cursor: pointer; /* Устанавливаем курсор в виде указателя при наведении на элемент списка */
-    color: white; /* Устанавливаем белый цвет текста элементов списка */
+    padding: 10px 20px;
+    /* Отступы для каждого элемента списка */
+    cursor: pointer;
+    /* Устанавливаем курсор в виде указателя при наведении на элемент списка */
+    color: white;
+    /* Устанавливаем белый цвет текста элементов списка */
 }
 
 #workspace-list li:hover {
-    background-color: rgba(255, 255, 255, 0.1); /* Устанавливаем прозрачный белый цвет фона элемента списка при наведении */
+    background-color: rgba(255, 255, 255, 0.1);
+    /* Устанавливаем прозрачный белый цвет фона элемента списка при наведении */
 }
 
 
 .workspace-dropdown:hover #workspace-list {
-    display: block; /* Показываем список при наведении на контейнер с классом workspace-dropdown */
+    display: block;
+    /* Показываем список при наведении на контейнер с классом workspace-dropdown */
 }
 
 #workspace-dropdown-toggle {
@@ -614,7 +762,7 @@ header {
 }
 
 #search-button {
-    background-color:#36363A;
+    background-color: #36363A;
 
     border: none;
     padding: 5px 10px;
@@ -636,8 +784,8 @@ main {
     flex-wrap: nowrap;
     width: 100%;
     height: 100%;
-    background: rgb(63,113,96);
-    background: linear-gradient(122deg, rgba(63,113,96,1) 0%, rgba(58,144,113,1) 30%, rgba(63,122,83,1) 61%, rgba(73,107,75,1) 100%);
+    background: rgb(63, 113, 96);
+    background: linear-gradient(122deg, rgba(63, 113, 96, 1) 0%, rgba(58, 144, 113, 1) 30%, rgba(63, 122, 83, 1) 61%, rgba(73, 107, 75, 1) 100%);
 }
 
 /* Settings */
@@ -670,7 +818,8 @@ main {
 }
 
 .settings-button:hover {
-    background-color: #2d2d30; /* Цвет при наведении курсора */
+    background-color: #2d2d30;
+    /* Цвет при наведении курсора */
 }
 
 .img-color-inv {
@@ -720,7 +869,7 @@ p {
     align-items: center;
 }
 
-.header-card-container{
+.header-card-container {
     display: inline-flex;
     flex-direction: row;
 
@@ -753,7 +902,7 @@ p {
     padding-right: 20px;
 }
 
-.card-header-man{
+.card-header-man {
     margin-right: 16px;
     margin-left: 12px;
     margin-top: 16px;
@@ -818,31 +967,39 @@ p {
     margin-left: 5px;
 }
 
-.card-plus-but, .column-plus-but {
+.card-plus-but,
+.column-plus-but {
     position: relative;
     display: inline-block;
-    width: 270px; /* Ширина кнопки */
-    height: 44px; /* Высота кнопки */
+    width: 270px;
+    /* Ширина кнопки */
+    height: 44px;
+    /* Высота кнопки */
     cursor: pointer;
-    overflow: hidden; /* Скрытие частей анимации, выходящих за пределы кнопки */
+    overflow: hidden;
+    /* Скрытие частей анимации, выходящих за пределы кнопки */
     margin-top: 10px;
     padding-top: 8px;
     padding-bottom: 8px;
 }
 
 .card-plus-but img {
-  
-    width: 28px; /* Ширина изображения "+" */
-    height: 28px; /* Высота изображения "+" */
+
+    width: 28px;
+    /* Ширина изображения "+" */
+    height: 28px;
+    /* Высота изображения "+" */
 }
 
 .card-plus-but span {
     position: absolute;
     background-color: white;
-    opacity: 0; 
+    opacity: 0;
 }
+
 .card-plus-but:hover span {
-    opacity: 1; /* При наведении прозрачность изменяется на 1 */
+    opacity: 1;
+    /* При наведении прозрачность изменяется на 1 */
 }
 
 
@@ -851,7 +1008,8 @@ p {
     left: -100%;
     width: 100%;
     height: 2px;
-    animation: btn-anim1 1.3s linear infinite; /* Увеличил продолжительность анимации до 1.3 секунды */
+    animation: btn-anim1 1.3s linear infinite;
+    /* Увеличил продолжительность анимации до 1.3 секунды */
 }
 
 .card-plus-but span:nth-child(2) {
@@ -859,7 +1017,8 @@ p {
     right: 0;
     width: 2px;
     height: 100%;
-    animation: btn-anim2 1.3s linear infinite; /* Увеличил продолжительность анимации до 1.3 секунды */
+    animation: btn-anim2 1.3s linear infinite;
+    /* Увеличил продолжительность анимации до 1.3 секунды */
     animation-delay: .25s;
 }
 
@@ -868,7 +1027,8 @@ p {
     right: -100%;
     width: 100%;
     height: 2px;
-    animation: btn-anim3 1.3s linear infinite; /* Увеличил продолжительность анимации до 1.3 секунды */
+    animation: btn-anim3 1.3s linear infinite;
+    /* Увеличил продолжительность анимации до 1.3 секунды */
     animation-delay: .5s;
 }
 
@@ -877,7 +1037,8 @@ p {
     left: 0;
     width: 2px;
     height: 100%;
-    animation: btn-anim4 1.3s linear infinite; /* Увеличил продолжительность анимации до 1.3 секунды */
+    animation: btn-anim4 1.3s linear infinite;
+    /* Увеличил продолжительность анимации до 1.3 секунды */
     animation-delay: .75s;
 }
 
@@ -885,7 +1046,9 @@ p {
     0% {
         left: -100%;
     }
-    50%,100% {
+
+    50%,
+    100% {
         left: 100%;
     }
 }
@@ -894,7 +1057,9 @@ p {
     0% {
         top: -100%;
     }
-    50%,100% {
+
+    50%,
+    100% {
         top: 100%;
     }
 }
@@ -903,7 +1068,9 @@ p {
     0% {
         right: -100%;
     }
-    50%,100% {
+
+    50%,
+    100% {
         right: 100%;
     }
 }
@@ -912,7 +1079,9 @@ p {
     0% {
         bottom: -100%;
     }
-    50%,100% {
+
+    50%,
+    100% {
         bottom: 100%;
     }
 }
@@ -965,6 +1134,7 @@ p {
     margin-left: 15px;
     margin-top: 15px;
 }
+
 /* Ends here */
 
 
@@ -994,10 +1164,10 @@ p {
     background-color: #404042;
 
     box-sizing: border-box;
-    box-shadow: 0 15px 25px rgba(0,0,0,.6);
+    box-shadow: 0 15px 25px rgba(0, 0, 0, .6);
 }
 
-.main-container-modal{
+.main-container-modal {
     display: inline-flex;
     width: 100%;
     height: 100%;
@@ -1022,7 +1192,7 @@ p {
     transform: scale(1.2, 1.2);
 }
 
-.button-confirm-container-modal{
+.button-confirm-container-modal {
     position: absolute;
     display: flex;
     flex-direction: column;
@@ -1076,4 +1246,110 @@ input[type="text"], textarea {
 .close-modal {
     display: none !important;
 }
+
 /* Ends here */
+
+/*======================================== POPUP-WINDOW */
+
+.popup-window{
+    background-color: #383838;
+    width: 15%;
+    display: flex;
+    flex-wrap: wrap;
+    margin-left: 20%;
+    margin-top: 5%;
+    border-radius: 2%;
+}
+
+.popup-window-header{
+    color: #ffffff;
+    font-size: large;
+    font-weight: bolder;
+    margin-left: 7%;
+    margin-bottom: 5%;
+}
+
+.popup-window-header-img-close-button-cross{
+    margin-left: 60px;
+    margin-top: 5%;
+    font-size: small;
+    right: 0;
+}
+
+.popup-window-hr-setting{
+    color: #ffffff;
+    width: 100%;
+}
+
+.pop-over-acms{
+    float: left;
+    flex-wrap: wrap;
+    margin-left: 1%;
+    width: 100%;
+}
+
+.pop-over-acms-settings{
+    color: #ffffff;
+    flex-wrap: nowrap;
+    font-size: small;
+    margin-left: 5%;
+    margin-top: 2.5%;
+    width: 40%;
+}
+
+.pop-over-sort{
+    margin-left: 1%;
+    width: 86%;
+}
+
+.sort-cards{
+    margin-left: 6%;
+    margin-right: 10%;
+    width: 100%;
+    color: #ffffff;
+}
+
+.pop-over-list{
+    margin-left: 5%;
+}
+
+.section-title-automation{
+    color: #ffffff;
+    font-size: large;
+    font-weight: bolder;
+    margin-bottom: 5%;
+    margin-left: 2%;
+}
+
+.section-title-automation-setting{
+    color: #ffffff;
+    font-size: large;
+    font-weight: bolder;
+}
+
+.menu-item{
+    margin-top: 2.5%;
+    width: 95%;
+    text-align: left;
+    color: #ffffff;
+}
+
+.menu-item-text{
+    font-size: small;
+}
+
+.pop-over-list-MaCards{
+    margin-top: 2.5%;
+    color: #ffffff;
+    text-align: left;
+    font-size: small;
+    width: 80%;
+}
+
+.close-list{
+    margin-top: 2.5%;
+    color: #ffffff;
+    text-align: left;
+    margin-bottom: 20%;
+
+}
