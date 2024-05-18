@@ -1,39 +1,136 @@
 startPointColumn
-    <div class="main-card-container rounded-2" id="PLACEHOLDERid">
-        <div class="header-card-container">
-            <p class="main-card-p">PLACEHOLDERname</p>
-            <p class="main-card-men">•••</p>
+<div class="main-card-container rounded-2" id="PLACEHOLDERid">
+  <div class="header-card-container">
+    <p class="main-card-p">PLACEHOLDERname</p>
+    <p class="main-card-men">•••</p>
+  </div>
+  <div class="helping-container" id="PLACEHOLDERid">
+    <a
+      href="#create"
+      rel="modal:open"
+      onclick="setStatId(PLACEHOLDERid)"
+      id="PLACEHOLDERid"
+    >
+      <div class="card-plus-but rounded-2">
+        <div class="animation-wrapper">
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
         </div>
-        <div class="helping-container"id="PLACEHOLDERid">
-            <a href="#create" rel="modal:open" onclick="setStatId(PLACEHOLDERid)" id="PLACEHOLDERid">
-                <div class="card-plus-but rounded-2">
-                    <div class="animation-wrapper">
-                        <span></span>
-                        <span></span>
-                        <span></span>
-                        <span></span>
-                    </div>
-                    <img src="assets/plus.png" class="card-m-img plus-img">
-                </div>
-            </a>
-        </div>
-        </div>
-breakPointColumn
-
-
-startPointCard
-    <div class="main-card rounded-2">
-        <div class="card-header-man">
-            <p class="card-tag card-sm-text">Backend</p>
-        </div>
-        <div class="card-main">
-            <p class="card-main-text card-text">PLACEHOLDERtitle</p>
-        </div>
-        <div class="card-footer-man">
-            <div class="d-inline-flex">
-                <img src="assets/free-icon-clock-2088617.png" class="card-sm-img clock-img">
-                <p class="card-text card-sm-text text-footer sm-mar-l">PLACEHOLDERdeadline</p>
-            </div>
-        </div>
+        <img src="assets/plus.png" class="card-m-img plus-img" />
+      </div>
+    </a>
+  </div>
+</div>
+breakPointColumn startPointCard
+<div
+  class="main-card rounded-2"
+  data-card-id="PLACEHOLDERcardid"
+  data-column-id="PLACEHOLDERcolumnid"
+>
+  <div class="card-header-man">
+    <p class="card-tag card-sm-text">Backend</p>
+  </div>
+  <div class="card-main">
+    <p class="card-main-text card-text">PLACEHOLDERtitle</p>
+  </div>
+  <div class="card-footer-man">
+    <div class="d-inline-flex">
+      <img
+        src="assets/free-icon-clock-2088617.png"
+        class="card-sm-img clock-img"
+      />
+      <p class="card-text card-sm-text text-footer sm-mar-l">
+        PLACEHOLDERdeadline
+      </p>
     </div>
-breakPointCard
+  </div>
+</div>
+breakPointCard startPointPopup
+<div class="popup-window" id="PLACEHOLDERid">
+  <div class="popup-window-header">
+    <span class="pop-up-window-header-Awal-settings"
+      >Actions with a column</span
+    >
+    <!--Awal - расшифровка A - Actions, w - with, a, l - list -->
+    <button
+      class="btn btn-outline-secondary popup-window-header-img-close-button-cross"
+    >
+      x
+    </button>
+  </div>
+
+  <!-- <div>
+    <div> -->
+
+  <div class="pop-over-acms">
+    <!--ACMS - Расшифровка, A - Add a card, C - Copyring a list, M - Move list, S - Subscribe-->
+    <button class="btn btn-outline-secondary pop-over-acms-settings">
+      Add a card
+    </button>
+    <button class="btn btn-outline-secondary pop-over-acms-settings">
+      Copying a list
+    </button>
+    <button class="btn btn-outline-secondary pop-over-acms-settings">
+      Move list
+    </button>
+    <button
+      class="btn btn-outline-secondary highlight-icon pop-over-acms-settings"
+    >
+      Subscribe
+    </button>
+  </div>
+
+  <hr class="popup-window-hr-setting" />
+
+  <div class="pop-over-sort">
+    <button class="btn btn-outline-secondary sort-cards">Sort by...</button>
+  </div>
+
+  <hr class="popup-window-hr-setting" />
+
+  <div class="pop-over-list">
+    <div class="section-title">
+      <div class="section-title-automation">
+        <span class="section-title-automation-setting">Automation</span>
+      </div>
+      <nav class="menu-items">
+        <div>
+          <button class="btn btn-outline-secondary menu-item">
+            <span class="menu-item-text"
+              >When a card is added to a column...</span
+            >
+          </button>
+          <button class="btn btn-outline-secondary menu-item">
+            <span class="menu-item-text">Every day, sort by...</span>
+          </button>
+          <button class="btn btn-outline-secondary menu-item">
+            <span class="menu-item-text">Every Monday, sort by...</span>
+          </button>
+        </div>
+      </nav>
+    </div>
+  </div>
+
+  <hr class="popup-window-hr-setting" />
+
+  <div class="pop-over-list">
+    <button class="btn btn-outline-secondary pop-over-list-MaCards">
+      Move all cards in this list
+    </button>
+    <button class="btn btn-outline-secondary pop-over-list-MaCards">
+      Archive all cards in this list
+    </button>
+  </div>
+
+  <hr class="popup-window-hr-setting" />
+
+  <div class="pop-over-list">
+    <button class="btn btn-outline-secondary close-list">Archive list</button>
+  </div>
+
+  <!-- </div>
+  </div> -->
+</div>
+endPointPopup
