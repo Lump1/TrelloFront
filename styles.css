@@ -1222,66 +1222,85 @@ input[type="text"]:focus {
 /*======================================== POPUP-WINDOW */
 
 .popup-window {
-  background-color: #383838;
+  background-color: #404040;
   position: absolute;
-  top: 10px;
-  left: 10px;
-  width: 280px;
+  width: 220px;
   display: flex;
   flex-wrap: wrap;
+  border: solid #c5c6c7 1px;
   border-radius: 10px;
 }
 
 .popup-window-header {
+  display: flex;
   color: #ffffff;
-  font-size: large;
-  font-weight: bolder;
+  font-size: medium;
+  font-weight: 500;
+  width: 90%;
   margin-top: 20px;
   margin-left: 7%;
-  margin-bottom: 5%;
+  margin-bottom: 10%;
 }
 
 .popup-window-header-img-close-button-cross {
-  margin-left: 50px;
+  margin-left: auto;
+  margin-right: 15px;
+  height: fit-content;
   font-size: small;
-  right: 0;
+  font-size: 10px;
+  color: #676767;
+  text-decoration: none;
 }
 
 .popup-window-hr-setting {
+  margin-left: auto;
+  margin-right: auto;
   color: #ffffff;
-  width: 100%;
+  width: 90%;
 }
 
 .pop-over-acms {
-  float: left;
+  display: flex;
   flex-wrap: wrap;
-  margin-left: 1%;
-  width: 100%;
+  margin-left: 5%;
+  width: 90%;
+}
+
+.pop-over-acms-left {
+  margin-right: auto;
+  display: flex;
+  flex-direction: column;
+}
+.pop-over-acms-right {
+  margin-left: auto;
+  display: flex;
+  flex-direction: column;
 }
 
 .pop-over-acms-settings {
   color: #ffffff;
   flex-wrap: nowrap;
   font-size: small;
-  margin-left: 5%;
   margin-top: 2.5%;
-  width: 40%;
+  width: 100%;
 }
 
 .pop-over-sort {
-  margin-left: 1%;
-  width: 86%;
+  margin-left: 5%;
+  width: 90%;
+  display: flex;
+  justify-content: center;
+
 }
 
 .sort-cards {
-  margin-left: 6%;
-  margin-right: 10%;
   width: 100%;
   color: #ffffff;
 }
 
 .pop-over-list {
   margin-left: 5%;
+  width: 90%;
 }
 
 .section-title-automation {
@@ -1314,12 +1333,12 @@ input[type="text"]:focus {
   color: #ffffff;
   text-align: left;
   font-size: small;
-  width: 80%;
+  width: 100%;
 }
 
 .close-list {
   margin-top: 2.5%;
   color: #ffffff;
   text-align: left;
-  margin-bottom: 20%;
+  margin-bottom: 10%;
 }

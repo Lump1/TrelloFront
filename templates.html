@@ -2,7 +2,7 @@ startPointColumn
 <div class="main-card-container rounded-2" id="PLACEHOLDERid">
   <div class="header-card-container">
     <p class="main-card-p">PLACEHOLDERname</p>
-    <p class="main-card-men">•••</p>
+    <p class="main-card-men" id="PLACEHOLDERid">•••</p>
   </div>
   <div class="helping-container" id="PLACEHOLDERid">
     <a
@@ -54,32 +54,31 @@ breakPointCard startPointPopup
       >Actions with a column</span
     >
     <!--Awal - расшифровка A - Actions, w - with, a, l - list -->
-    <button
-      class="btn btn-outline-secondary popup-window-header-img-close-button-cross"
-    >
-      x
-    </button>
   </div>
 
   <!-- <div>
-    <div> -->
+  <div> -->
 
   <div class="pop-over-acms">
     <!--ACMS - Расшифровка, A - Add a card, C - Copyring a list, M - Move list, S - Subscribe-->
-    <button class="btn btn-outline-secondary pop-over-acms-settings">
-      Add a card
-    </button>
-    <button class="btn btn-outline-secondary pop-over-acms-settings">
-      Copying a list
-    </button>
-    <button class="btn btn-outline-secondary pop-over-acms-settings">
-      Move list
-    </button>
-    <button
-      class="btn btn-outline-secondary highlight-icon pop-over-acms-settings"
-    >
-      Subscribe
-    </button>
+    <div class="pop-over-acms-left">
+      <button class="btn btn-outline-secondary pop-over-acms-settings">
+        Add card
+      </button>
+      <button class="btn btn-outline-secondary pop-over-acms-settings">
+        Copy list
+      </button>
+    </div>
+    <div class="pop-over-acms-right"> 
+      <button class="btn btn-outline-secondary pop-over-acms-settings">
+        Move list
+      </button>
+      <button
+        class="btn btn-outline-secondary highlight-icon pop-over-acms-settings"
+      >
+        Subscribe
+      </button>
+    </div>
   </div>
 
   <hr class="popup-window-hr-setting" />
@@ -88,7 +87,7 @@ breakPointCard startPointPopup
     <button class="btn btn-outline-secondary sort-cards">Sort by...</button>
   </div>
 
-  <hr class="popup-window-hr-setting" />
+  <!-- <hr class="popup-window-hr-setting" />
 
   <div class="pop-over-list">
     <div class="section-title">
@@ -111,7 +110,7 @@ breakPointCard startPointPopup
         </div>
       </nav>
     </div>
-  </div>
+  </div> -->
 
   <hr class="popup-window-hr-setting" />
 
@@ -127,10 +126,9 @@ breakPointCard startPointPopup
   <hr class="popup-window-hr-setting" />
 
   <div class="pop-over-list">
-    <button class="btn btn-outline-secondary close-list">Archive list</button>
+    <button class="btn btn-outline-secondary close-list">
+      Archive list
+    </button>
   </div>
-
-  <!-- </div>
-  </div> -->
 </div>
-endPointPopup
+breakPointPopup
