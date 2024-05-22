@@ -61,10 +61,12 @@ function dragulaReload() {
     // target - элемент, в который перемещен объект (div с классом helping-container)
     // source - исходный элемент, из которого перемещен объект (div с классом helping-container)
     // sibling - соседний элемент, перед которым был перемещен объект (div с классом main-card)
-
+      
     var cardid = $(el).data("card-id");
-    var columnid = $(el).data("column-id");
-
+    var columnid = $(target).attr("id");
+  
+     console.log(cardid+" "+columnid)
+     console.log($(target))
     $.ajax({
       type: "PUT",
       url: endpoint + cardsEndpoint,
@@ -72,9 +74,10 @@ function dragulaReload() {
         Accept: "application/json",
         "Content-Type": "application/json",
       },
-      data: JSON.stringify({
+      data: JSON.stringify(  {
         id: cardid,
-        statusId: columnid,
+        title:"PLACEHOLDER",
+        idStatus: columnid,
       }),
       success: function (data, status) {
         console.log(data);
@@ -190,7 +193,7 @@ $(document).ready(function () {
       label: $("#textCardCreate").val(),
       startdate: dateFormater(new Date()),
       deadline: $("#dateCardCreate").val(),
-      IdStatus: $("#idcolCardCreate").val(),
+      idStatus: $("#idcolCardCreate").val(),
     };
 
     Object.keys(data).forEach(function (k) {
