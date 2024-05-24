@@ -39,9 +39,40 @@
 //     window.location.href='http://127.0.0.1:5500/index.html' //пока что для проверки
 //   });
 // });
-
+function boardCardRender(Board){
+  getQuerryTemplate("Boardcard", { name: Board.name}).then(
+    (resultHTML) => {
+      $("#AllBoards.sidenav-fight").append(resultHTML);
+    }
+  );
+}
 
 $(document).ready(function(){
+  $.ajax({
+    type: "GET",
+    url: `${endpoint}${boardsEndpoint}`,
+    dataType: "json",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
+    data: {"guid": userGUID},
+    success: function (response) {
+      Object.keys(response).forEach((item) => {
+        boardCardRender(response[item]);
+      });
+
+      addCards();
+
+      dragulaReload();
+    },
+    error: function (jqXHR, textStatus, errorThrown) {
+      console.error(
+        `Ошибка при получении данных о карточках: ${textStatus} - ${errorThrown}`
+      );
+    },
+  });
+
   $(document).on("click", function(e) {
     var t = $('#sidenav-button-temlates-menu-js');
     if (e.target.id === 'sidenav-button-temlates-js' || e.target.id === 'sidenav-button-temlates-menu-js') {
