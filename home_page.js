@@ -1,3 +1,5 @@
+const jscookies = require('js-cookie');
+
 // document.addEventListener("click", function(e) {
 //   let t = document.getElementById('sidenav-button-temlates-menu-js');
 //   if (e.target.id != 'sidenav-button-temlates-js' && e.target.id != 'sidenav-button-temlates-menu-js') {
@@ -39,10 +41,10 @@
 //     window.location.href='http://127.0.0.1:5500/index.html' //пока что для проверки
 //   });
 // });
-function boardCardRender(Board){
-  getQuerryTemplate("Boardcard", { name: Board.name}).then(
+function boardCardRender(board, target="AllBoards"){
+  getQuerryTemplate("Boardcard", { name: board.name, id: board.id}).then(
     (resultHTML) => {
-      $("#AllBoards.sidenav-fight").append(resultHTML);
+      $("#" + target + ".sidenav-fight").append(resultHTML);
     }
   );
 }
@@ -58,8 +60,13 @@ $(document).ready(function(){
     },
     data: {"guid": userGUID},
     success: function (response) {
+      var recentArray = JSON.parse(jscookies.Cookies.get("recent"));
+
       Object.keys(response).forEach((item) => {
         boardCardRender(response[item]);
+        if(recentArray != null && recentArray.includes(response[item].id)){
+          boardCardRender(response[item], "Recent");
+        }
       });
 
       addCards();
@@ -92,15 +99,32 @@ $(document).ready(function(){
     }
   });
 
-  $(".sidenav-cards-top").click(function(){
-    console.log('test')
-     window.location.href ='http://127.0.0.1:5500/index.html'
+  $(".sidenav-cards").click(function(){
+    var recentArray = JSON.parse(jscookies.Cookies.get("recent"));
+    var identifier = $(this).attr("id");
+
+    if(recentArray != null) {
+      if(recentArray.includes(identifier)) {
+        let index = recentArray.indexOf(identifier);
+        recentArray.splice(index, index);
+      }
+
+      recentArray.unshift(identifier);
+
+      if(recentArray.length > 6)
+        recentArray.pop();
+    }
+    else {
+      recentArray = [];
+      recentArray.push(identifier);
+    }
+
+    jscookies.Cookies.set("recent", JSON.stringify(recentArray));
+
+    window.location.href ='http://127.0.0.1:5500/index.html'
   });
 
-  $(".sidenav-cards-bottom").click(function(){
-    console.log('test')
-     window.location.href ='http://127.0.0.1:5500/index.html'
-  });
+
 
   $(".sidenav-button-home-page").click(function(){
     window.location.href='http://127.0.0.1:5500/index.html' //пока что для проверки
