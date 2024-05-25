@@ -1,3 +1,8 @@
+
+var endpoint = "https://localhost:7193/";
+var boardsEndpoint = "api/boards/";
+var usersBoardEndpoint = "api/users/boards/";
+
 // document.addEventListener("click", function(e) {
 //   let t = document.getElementById('sidenav-button-temlates-menu-js');
 //   if (e.target.id != 'sidenav-button-temlates-js' && e.target.id != 'sidenav-button-temlates-menu-js') {
@@ -40,8 +45,102 @@
 //   });
 // });
 
+function boardCardRender(board, target="AllBoards"){
+  getQuerryTemplate("Board", { name: board.name, id: board.id}).then(
+    (resultHTML) => {
+      $("#" + target + ".sidenav-cards-container").append(resultHTML);
+      stickerRender(board.id);
+
+      clickReload();
+    }
+  );
+}
+
+function generateSticker() {
+  return Math.floor(Math.random() * (650 - 600) + 600);
+}
+
+function stickerRender(boardid){
+  var char = Cookies.get("BoardSticker_" + boardid);
+  var sticker;
+  if(char == null) {
+    char = "0x1F" + generateSticker();
+    Cookies.set("BoardSticker_" + boardid, char);
+
+    sticker = String.fromCodePoint(char);
+  }
+  else {
+    sticker = String.fromCodePoint(char);
+  }
+  console.log($("#" + boardid + ".sidenav-sticker"));
+
+  $("#" + boardid + ".sidenav-sticker").append('<span class="sidenav-sticker-span">' + sticker + '</span>');
+}
+
+function clickReload() {
+  $(".sidenav-cards").click(function(){
+    var recentArray = JSON.parse(Cookies.get("recent"));
+    var identifier = $(this).attr("id");
+
+    if(recentArray != null) {
+      if(recentArray.includes(identifier)) {
+        let index = recentArray.indexOf(identifier);
+        recentArray.splice(index, index);
+      }
+
+      recentArray.unshift(identifier);
+
+      if(recentArray.length > 6)
+        recentArray.pop();
+    }
+    else {
+      recentArray = [];
+      recentArray.push(identifier);
+    }
+
+    Cookies.set("recent", JSON.stringify(recentArray));
+
+    window.location.href ='http://127.0.0.1:5500/index.html?boardid=' + identifier;
+  });
+}
 
 $(document).ready(function(){
+  $.ajax({
+    type: "GET",
+    url: `${endpoint}${usersBoardEndpoint}${Cookies.get("userGUID")}`,
+    dataType: "json",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
+    // data: {"userGuid": Cookies.get("userGUID")},
+    success: function (response) {
+      console.log(response);
+
+      var recentArray = Cookies.get("recent") != null ? JSON.parse(Cookies.get("recent")) : [];
+      var favArray = Cookies.get("favorite") != null ? JSON.parse(Cookies.get("favorite")) : [];
+
+      Object.keys(response).forEach((item) => {
+        boardCardRender(response[item]);
+
+        if(recentArray != null && recentArray.includes(response[item].id)){
+          boardCardRender(response[item], "Recent");
+        }
+
+        if(favArray != null && favArray.includes(response[item].id)){
+          boardCardRender(response[item], "Favorite");
+        }
+
+        
+      });
+    },
+    error: function (jqXHR, textStatus, errorThrown) {
+      console.error(
+        `Ошибка при получении данных: ${textStatus} - ${errorThrown}`
+      );
+    },
+  });
+
   $(document).on("click", function(e) {
     var t = $('#sidenav-button-temlates-menu-js');
     if (e.target.id === 'sidenav-button-temlates-js' || e.target.id === 'sidenav-button-temlates-menu-js') {
@@ -60,17 +159,6 @@ $(document).ready(function(){
       w.slideUp("slow");
     }
   });
-
-  $(".sidenav-cards-top").click(function(){
-    console.log('test')
-     window.location.href ='http://127.0.0.1:5500/index.html'
-  });
-
-  $(".sidenav-cards-bottom").click(function(){
-    console.log('test')
-     window.location.href ='http://127.0.0.1:5500/index.html'
-  });
-
   $(".sidenav-button-home-page").click(function(){
     window.location.href='http://127.0.0.1:5500/index.html' //пока что для проверки
   });

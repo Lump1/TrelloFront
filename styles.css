@@ -609,6 +609,7 @@ header {
 }
 
 .sidenav-cards-container {
+  min-height: 145px;
   display: inline-flex;
   flex-wrap: wrap;
 }
@@ -638,12 +639,6 @@ header {
 
 .sidenav-sticker-span {
   padding-left: 10px;
-}
-
-.sidenav-cards-top {
-}
-
-.sidenav-cards-bottom {
 }
 
 .sidenav-cards-setting {

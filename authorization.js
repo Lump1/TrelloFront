@@ -5,6 +5,9 @@ var statusEndpoint = "api/statuses/";
 
 
 $(document).ready(function () {
+    if(Cookies.get("userGUID") != null) {
+        window.location.href = 'http://127.0.0.1:5500/home_page_layout.html';
+    }
    
     function emailValidator(email){    
         const emailPattern = /^[a-zA-Z0-9_]+@[a-zA-Z0-9_]+\.[a-zA-Z]{2,}$/;
@@ -97,7 +100,7 @@ $(document).ready(function () {
             data: JSON.stringify(requestData), 
             success: function(data) {
                 showNotification("Login successful.", "success");
-                console.log(data);
+                Cookies.set("userGUID", data.guid);
 
                     timer = setTimeout(function(){
                         timer = null; 
