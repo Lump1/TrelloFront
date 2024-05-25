@@ -2,6 +2,8 @@ var endpoint = "https://localhost:7193/";
 var cardsEndpoint = "api/cards/";
 var statusEndpoint = "api/statuses/";
 
+var isPopupOpened = false;
+
 function dateFormater(dateToFormat) {
     var day, month;
     day = dateToFormat.getDate();
@@ -85,13 +87,22 @@ function dragulaReload() {
 }
 
 function columnSettingsRender(id) {
-    var target = "#" + id + ".main-card-men";
-    console.log(target);
-    getQuerryTemplate("Popup", { id: id }).then((resultHTML) => {
-        $(target).on("click", function () {
-            $("#" + id + ".popup-window").show();
-        });
+  var target = "#" + id + ".main-card-men";
+  console.log(target);
+  getQuerryTemplate("Popup", { id: id }).then((resultHTML) => {
+    $("#content").append(resultHTML);
+
+    $("#" + id + ".popup-window").hide();
+
+    $(target).on("click", function (e) {
+      isPopupOpened = true;
+  
+      $("#" + id + ".popup-window").show();
+      $("#" + id + ".popup-window").css("left", e.pageX).css("top", e.pageY);
     });
+  }).catch(function(erorr) {
+    console.log(erorr);
+  });
 }
 
 function columnRender(data) {
@@ -213,6 +224,20 @@ $(document).ready(function () {
 
         divs.hide();
     });
+  });
+
+  $(document).mouseup(function (e) {
+    if(isPopupOpened && 
+      (!$(e.target).hasClass("popup-window") &&
+      $(e.target).closest(".popup-window").length == 0)) 
+    {
+      console.log("Text;")
+      isPopupOpened = false;
+      $(".popup-window").toArray().forEach(element => {
+        $(element).hide();
+      })
+    }
+  });
 
     
      function loadTags(boardId) {
