@@ -1,224 +1,226 @@
-var endpoint = "https://localhost:7193/";
-var cardsEndpoint = "api/cards/";
-var statusEndpoint = "api/statuses/";
+  var endpoint = "https://localhost:7193/";
+  var cardsEndpoint = "api/cards/";
+  var statusEndpoint = "api/statuses/";
 
-function dateFormater(dateToFormat) {
-  var day, month;
-  day = dateToFormat.getDate();
-  month = dateToFormat.getMonth();
+  function dateFormater(dateToFormat) {
+    var day, month;
+    day = dateToFormat.getDate();
+    month = dateToFormat.getMonth();
 
-  if (day < 10) {
-    day = "0" + day;
-  }
-
-  if (month < 10) {
-    month = `0${month}`;
-  }
-
-  return dateToFormat.getFullYear() + "-" + month + "-" + day;
-}
-
-function setStatId(id) {
-  $("#idcolCardCreate").val(id);
-}
-
-function getDataFormat(date) {
-  return new Date(date).toLocaleString("en", {
-    month: "short",
-    day: "numeric",
-  });
-}
-
-function addCards() {
-  $.ajax({
-    type: "GET",
-    url: `${endpoint}${cardsEndpoint}`,
-    dataType: "json",
-    success: function (response) {
-      response.forEach((item) => {
-        cardRender(item);
-      });
-
-      dragulaReload();
-    },
-    error: function (jqXHR, textStatus, errorThrown) {
-      console.error(`Error: ${textStatus} - ${errorThrown}`);
-    },
-  });
-}
-
-function dragulaReload() {
-  var drake = dragula($(".helping-container").toArray(), {
-    invalid: function (el, handle) {
-      return el.classList.contains("card-plus-but");
-    },
-  });
-
-  drake.on("drop", function (el, target, source, sibling) {
-    // el - перемещаемый элемент (div с классом main-card)
-    // target - элемент, в который перемещен объект (div с классом helping-container)
-    // source - исходный элемент, из которого перемещен объект (div с классом helping-container)
-    // sibling - соседний элемент, перед которым был перемещен объект (div с классом main-card)
-      
-    var cardid = $(el).data("card-id");
-    var columnid = $(target).attr("id");
-  
-     console.log(cardid+" "+columnid)
-     console.log($(target))
-    $.ajax({
-      type: "PUT",
-      url: endpoint + cardsEndpoint,
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      data: JSON.stringify(  {
-        id: cardid,
-        title:"PLACEHOLDER",
-        idStatus: columnid,
-      }),
-      success: function (data, status) {
-        console.log(data);
-      },
-      error: function (jqXHR, textStatus) {
-        console.warn(textStatus + "|" + jqXHR.responseText);
-      },
-      dataType: "json",
-    });
-  });
-}
-
-function columnSettingsRender(id) {
-  var target = "#" + id + ".main-card-men";
-  console.log(target)
-  getQuerryTemplate("Popup", { id: id }).then((resultHTML) => {
-
-
-    $(target).on("click", function () {
-      $("#" + id + ".popup-window").show();
-    });
-  });
-}
-
-function columnRender(data) {
-  getQuerryTemplate("Column", { name: data.name, id: data.id }).then(
-    (resultHTML) => {
-      $("article.main-cards-container").append(resultHTML);
+    if (day < 10) {
+      day = "0" + day;
     }
-  );
 
-  columnSettingsRender(data.id);
-}
+    if (month < 10) {
+      month = `0${month}`;
+    }
 
-function cardRender(data) {
-  getQuerryTemplate("Card", {
-    title: data.title,
-    label: data.label,
-    deadline: getDataFormat(data.deadline),
-    cardid: data.id,
-    columnid: data.idStatus,
-  }).then((resultHTML) => {
-    $("#" + data.idStatus + ".helping-container").prepend(resultHTML);
-  });
-}
+    return dateToFormat.getFullYear() + "-" + month + "-" + day;
+  }
 
-$(document).ready(function () {
-  $.ajax({
-    type: "GET",
-    url: `${endpoint}${statusEndpoint}`,
-    dataType: "json",
-    headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
-    },
-    success: function (response) {
-      console.log(response);
-      Object.keys(response).forEach((item) => {
-        columnRender(response[item]);
-      });
+  function setStatId(id) {
+    $("#idcolCardCreate").val(id);
+  }
 
-      addCards();
+  function getDataFormat(date) {
+    return new Date(date).toLocaleString("en", {
+      month: "short",
+      day: "numeric",
+    });
+  }
 
-      dragulaReload();
-    },
-    error: function (jqXHR, textStatus, errorThrown) {
-      console.error(
-        `Ошибка при получении данных о карточках: ${textStatus} - ${errorThrown}`
-      );
-    },
-  });
-
-  //
-  $("#buttonColumnCreate").on("click", function () {
+  function addCards() {
     $.ajax({
-      type: "POST",
-      url: endpoint + statusEndpoint,
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      data: JSON.stringify({
-        name: document.getElementById("titleColumnCreate").value.toString(),
-      }),
-      success: function (data, status) {
-        columnRender(data);
+      type: "GET",
+      url: `${endpoint}${cardsEndpoint}`,
+      dataType: "json",
+      success: function (response) {
+        response.forEach((item) => {
+          cardRender(item);
+        });
 
         dragulaReload();
       },
-      error: function (jqXHR, textStatus) {
-        console.warn(textStatus + "|" + jqXHR.responseText);
+      error: function (jqXHR, textStatus, errorThrown) {
+        console.error(`Error: ${textStatus} - ${errorThrown}`);
       },
-      dataType: "json",
     });
-  });
+  }
 
-  $("#buttonCardCreate").on("click", function () {
-    if ($("#titleCardCreate").val().length == 0) {
-      console.warn("There is an error in data input!");
-    }
-
-    var data = {
-      title: $("#titleCardCreate").val(),
-      label: $("#textCardCreate").val(),
-      startdate: dateFormater(new Date()),
-      deadline: $("#dateCardCreate").val(),
-      idStatus: $("#idcolCardCreate").val(),
-    };
-
-    Object.keys(data).forEach(function (k) {
-      if (data[k] == undefined) data[k] = null;
+  function dragulaReload() {
+    var drake = dragula($(".helping-container").toArray(), {
+      invalid: function (el, handle) {
+        return el.classList.contains("card-plus-but");
+      },
     });
 
-    console.log(JSON.stringify(data));
+    drake.on("drop", function (el, target, source, sibling) {
+      // el - перемещаемый элемент (div с классом main-card)
+      // target - элемент, в который перемещен объект (div с классом helping-container)
+      // source - исходный элемент, из которого перемещен объект (div с классом helping-container)
+      // sibling - соседний элемент, перед которым был перемещен объект (div с классом main-card)
+        
+      var cardid = $(el).data("card-id");
+      var columnid = $(target).attr("id");
+      var cardTitle = $(el).find('.card-main-text').text();
 
+
+      console.log(cardid+" "+columnid)
+      console.log($(target))
+      $.ajax({
+        type: "PUT",
+        url: endpoint + cardsEndpoint,
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        data: JSON.stringify(  {
+          id: cardid,
+          title: cardTitle,
+          idStatus: columnid,
+        }),
+        success: function (data, status) {
+          console.log(data);
+        },
+        error: function (jqXHR, textStatus) {
+          console.warn(textStatus + "|" + jqXHR.responseText);
+        },
+        dataType: "json",
+      });
+    });
+  }
+
+  function columnSettingsRender(id) {
+    var target = "#" + id + ".main-card-men";
+    console.log(target)
+    getQuerryTemplate("Popup", { id: id }).then((resultHTML) => {
+
+
+      $(target).on("click", function () {
+        $("#" + id + ".popup-window").show();
+      });
+    });
+  }
+
+  function columnRender(data) {
+    getQuerryTemplate("Column", { name: data.name, id: data.id }).then(
+      (resultHTML) => {
+        $("article.main-cards-container").append(resultHTML);
+      }
+    );
+
+    columnSettingsRender(data.id);
+  }
+
+  function cardRender(data) {
+    getQuerryTemplate("Card", {
+      title: data.title,
+      label: data.label,
+      deadline: getDataFormat(data.deadline),
+      cardid: data.id,
+      columnid: data.idStatus,
+    }).then((resultHTML) => {
+      $("#" + data.idStatus + ".helping-container").prepend(resultHTML);
+    });
+  }
+
+  $(document).ready(function () {
     $.ajax({
-      type: "POST",
-      url: endpoint + cardsEndpoint,
-      data: JSON.stringify(data),
+      type: "GET",
+      url: `${endpoint}${statusEndpoint}`,
+      dataType: "json",
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
       },
-      success: function (data, status) {
-        console.log(data);
-        console.log("#" + data.idStatus + ".helping-container");
-        cardRender(data);
+      success: function (response) {
+        console.log(response);
+        Object.keys(response).forEach((item) => {
+          columnRender(response[item]);
+        });
+
+        addCards();
 
         dragulaReload();
       },
-      error: function (jqXHR, textStatus) {
-        console.warn(textStatus + "|" + jqXHR.responseText);
+      error: function (jqXHR, textStatus, errorThrown) {
+        console.error(
+          `Ошибка при получении данных о карточках: ${textStatus} - ${errorThrown}`
+        );
       },
-      dataType: "json",
+    });
+
+    //
+    $("#buttonColumnCreate").on("click", function () {
+      $.ajax({
+        type: "POST",
+        url: endpoint + statusEndpoint,
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        data: JSON.stringify({
+          name: document.getElementById("titleColumnCreate").value.toString(),
+        }),
+        success: function (data, status) {
+          columnRender(data);
+
+          dragulaReload();
+        },
+        error: function (jqXHR, textStatus) {
+          console.warn(textStatus + "|" + jqXHR.responseText);
+        },
+        dataType: "json",
+      });
+    });
+
+    $("#buttonCardCreate").on("click", function () {
+      if ($("#titleCardCreate").val().length == 0) {
+        console.warn("There is an error in data input!");
+      }
+
+      var data = {
+        title: $("#titleCardCreate").val(),
+        label: $("#textCardCreate").val(),
+        startdate: dateFormater(new Date()),
+        deadline: $("#dateCardCreate").val(),
+        idStatus: $("#idcolCardCreate").val(),
+      };
+
+      Object.keys(data).forEach(function (k) {
+        if (data[k] == undefined) data[k] = null;
+      });
+
+      console.log(JSON.stringify(data));
+
+      $.ajax({
+        type: "POST",
+        url: endpoint + cardsEndpoint,
+        data: JSON.stringify(data),
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        success: function (data, status) {
+          console.log(data);
+          console.log("#" + data.idStatus + ".helping-container");
+          cardRender(data);
+
+          dragulaReload();
+        },
+        error: function (jqXHR, textStatus) {
+          console.warn(textStatus + "|" + jqXHR.responseText);
+        },
+        dataType: "json",
+      });
+    });
+
+    $(document).mouseup(function (e) {
+      var divs = $(".popup-window");
+      if (divs == null) {
+        return;
+      }
+
+      divs.hide();
     });
   });
-
-  $(document).mouseup(function (e) {
-    var divs = $(".popup-window");
-    if (divs == null) {
-      return;
-    }
-
-    divs.hide();
-  });
-});
