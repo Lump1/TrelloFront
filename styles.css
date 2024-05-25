@@ -609,6 +609,7 @@ header {
 }
 
 .sidenav-cards-container {
+  min-height: 145px;
   display: inline-flex;
   flex-wrap: wrap;
 }
