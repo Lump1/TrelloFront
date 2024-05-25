@@ -1,226 +1,245 @@
-  var endpoint = "https://localhost:7193/";
-  var cardsEndpoint = "api/cards/";
-  var statusEndpoint = "api/statuses/";
+var endpoint = "https://localhost:7193/";
+var cardsEndpoint = "api/cards/";
+var statusEndpoint = "api/statuses/";
 
-  function dateFormater(dateToFormat) {
+function dateFormater(dateToFormat) {
     var day, month;
     day = dateToFormat.getDate();
     month = dateToFormat.getMonth();
 
     if (day < 10) {
-      day = "0" + day;
+        day = "0" + day;
     }
 
     if (month < 10) {
-      month = `0${month}`;
+        month = `0${month}`;
     }
 
     return dateToFormat.getFullYear() + "-" + month + "-" + day;
-  }
+}
 
-  function setStatId(id) {
+function setStatId(id) {
     $("#idcolCardCreate").val(id);
-  }
+}
 
-  function getDataFormat(date) {
+function getDataFormat(date) {
     return new Date(date).toLocaleString("en", {
-      month: "short",
-      day: "numeric",
+        month: "short",
+        day: "numeric",
     });
-  }
+}
 
-  function addCards() {
+function addCards() {
     $.ajax({
-      type: "GET",
-      url: `${endpoint}${cardsEndpoint}`,
-      dataType: "json",
-      success: function (response) {
-        response.forEach((item) => {
-          cardRender(item);
-        });
+        type: "GET",
+        url: `${endpoint}${cardsEndpoint}`,
+        dataType: "json",
+        success: function (response) {
+            response.forEach((item) => {
+                cardRender(item);
+            });
 
-        dragulaReload();
-      },
-      error: function (jqXHR, textStatus, errorThrown) {
-        console.error(`Error: ${textStatus} - ${errorThrown}`);
-      },
+            dragulaReload();
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            console.error(`Error: ${textStatus} - ${errorThrown}`);
+        },
     });
-  }
+}
 
-  function dragulaReload() {
+function dragulaReload() {
     var drake = dragula($(".helping-container").toArray(), {
-      invalid: function (el, handle) {
-        return el.classList.contains("card-plus-but");
-      },
+        invalid: function (el, handle) {
+            return el.classList.contains("card-plus-but");
+        },
     });
 
     drake.on("drop", function (el, target, source, sibling) {
-      // el - перемещаемый элемент (div с классом main-card)
-      // target - элемент, в который перемещен объект (div с классом helping-container)
-      // source - исходный элемент, из которого перемещен объект (div с классом helping-container)
-      // sibling - соседний элемент, перед которым был перемещен объект (div с классом main-card)
-        
-      var cardid = $(el).data("card-id");
-      var columnid = $(target).attr("id");
-      var cardTitle = $(el).find('.card-main-text').text();
+        var cardid = $(el).data("card-id");
+        var columnid = $(target).attr("id");
+        var cardTitle = $(el).find('.card-main-text').text();
 
-
-      console.log(cardid+" "+columnid)
-      console.log($(target))
-      $.ajax({
-        type: "PUT",
-        url: endpoint + cardsEndpoint,
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
-        data: JSON.stringify(  {
-          id: cardid,
-          title: cardTitle,
-          idStatus: columnid,
-        }),
-        success: function (data, status) {
-          console.log(data);
-        },
-        error: function (jqXHR, textStatus) {
-          console.warn(textStatus + "|" + jqXHR.responseText);
-        },
-        dataType: "json",
-      });
+        console.log(cardid + " " + columnid);
+        console.log($(target));
+        $.ajax({
+            type: "PUT",
+            url: endpoint + cardsEndpoint,
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+            },
+            data: JSON.stringify({
+                id: cardid,
+                title: cardTitle,
+                idStatus: columnid,
+            }),
+            success: function (data, status) {
+                console.log(data);
+            },
+            error: function (jqXHR, textStatus) {
+                console.warn(textStatus + "|" + jqXHR.responseText);
+            },
+            dataType: "json",
+        });
     });
-  }
+}
 
-  function columnSettingsRender(id) {
+function columnSettingsRender(id) {
     var target = "#" + id + ".main-card-men";
-    console.log(target)
+    console.log(target);
     getQuerryTemplate("Popup", { id: id }).then((resultHTML) => {
-
-
-      $(target).on("click", function () {
-        $("#" + id + ".popup-window").show();
-      });
+        $(target).on("click", function () {
+            $("#" + id + ".popup-window").show();
+        });
     });
-  }
+}
 
-  function columnRender(data) {
+function columnRender(data) {
     getQuerryTemplate("Column", { name: data.name, id: data.id }).then(
-      (resultHTML) => {
-        $("article.main-cards-container").append(resultHTML);
-      }
+        (resultHTML) => {
+            $("article.main-cards-container").append(resultHTML);
+        }
     );
 
     columnSettingsRender(data.id);
-  }
+}
 
-  function cardRender(data) {
+function cardRender(data) {
     getQuerryTemplate("Card", {
-      title: data.title,
-      label: data.label,
-      deadline: getDataFormat(data.deadline),
-      cardid: data.id,
-      columnid: data.idStatus,
+        title: data.title,
+        label: data.label,
+        deadline: getDataFormat(data.deadline),
+        cardid: data.id,
+        columnid: data.idStatus,
     }).then((resultHTML) => {
-      $("#" + data.idStatus + ".helping-container").prepend(resultHTML);
+        $("#" + data.idStatus + ".helping-container").prepend(resultHTML);
     });
-  }
+}
 
-  $(document).ready(function () {
+$(document).ready(function () {
     $.ajax({
-      type: "GET",
-      url: `${endpoint}${statusEndpoint}`,
-      dataType: "json",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      success: function (response) {
-        console.log(response);
-        Object.keys(response).forEach((item) => {
-          columnRender(response[item]);
-        });
+        type: "GET",
+        url: `${endpoint}${statusEndpoint}`,
+        dataType: "json",
+        headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+        },
+        success: function (response) {
+            console.log(response);
+            Object.keys(response).forEach((item) => {
+                columnRender(response[item]);
+            });
 
-        addCards();
-
-        dragulaReload();
-      },
-      error: function (jqXHR, textStatus, errorThrown) {
-        console.error(
-          `Ошибка при получении данных о карточках: ${textStatus} - ${errorThrown}`
-        );
-      },
+            addCards();
+            dragulaReload();
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            console.error(
+                `Ошибка при получении данных о карточках: ${textStatus} - ${errorThrown}`
+            );
+        },
     });
 
-    //
     $("#buttonColumnCreate").on("click", function () {
-      $.ajax({
-        type: "POST",
-        url: endpoint + statusEndpoint,
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
-        data: JSON.stringify({
-          name: document.getElementById("titleColumnCreate").value.toString(),
-        }),
-        success: function (data, status) {
-          columnRender(data);
-
-          dragulaReload();
-        },
-        error: function (jqXHR, textStatus) {
-          console.warn(textStatus + "|" + jqXHR.responseText);
-        },
-        dataType: "json",
-      });
+        $.ajax({
+            type: "POST",
+            url: endpoint + statusEndpoint,
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+            },
+            data: JSON.stringify({
+                name: document.getElementById("titleColumnCreate").value.toString(),
+            }),
+            success: function (data, status) {
+                columnRender(data);
+                dragulaReload();
+            },
+            error: function (jqXHR, textStatus) {
+                console.warn(textStatus + "|" + jqXHR.responseText);
+            },
+            dataType: "json",
+        });
     });
 
     $("#buttonCardCreate").on("click", function () {
-      if ($("#titleCardCreate").val().length == 0) {
-        console.warn("There is an error in data input!");
-      }
+        if ($("#titleCardCreate").val().length == 0) {
+            console.warn("There is an error in data input!");
+            return;
+        }
 
-      var data = {
-        title: $("#titleCardCreate").val(),
-        label: $("#textCardCreate").val(),
-        startdate: dateFormater(new Date()),
-        deadline: $("#dateCardCreate").val(),
-        idStatus: $("#idcolCardCreate").val(),
-      };
+        var data = {
+            title: $("#titleCardCreate").val(),
+            label: $("#textCardCreate").val(),
+            startdate: dateFormater(new Date()),
+            deadline: $("#dateCardCreate").val(),
+            idStatus: $("#idcolCardCreate").val(),
+            idTag: $("#tagSelect").val(), // Новое поле для тега, закомментировано
+        };
 
-      Object.keys(data).forEach(function (k) {
-        if (data[k] == undefined) data[k] = null;
-      });
+        Object.keys(data).forEach(function (k) {
+            if (data[k] == undefined) data[k] = null;
+        });
 
-      console.log(JSON.stringify(data));
+        console.log(JSON.stringify(data));
 
-      $.ajax({
-        type: "POST",
-        url: endpoint + cardsEndpoint,
-        data: JSON.stringify(data),
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
-        success: function (data, status) {
-          console.log(data);
-          console.log("#" + data.idStatus + ".helping-container");
-          cardRender(data);
-
-          dragulaReload();
-        },
-        error: function (jqXHR, textStatus) {
-          console.warn(textStatus + "|" + jqXHR.responseText);
-        },
-        dataType: "json",
-      });
+        $.ajax({
+            type: "POST",
+            url: endpoint + cardsEndpoint,
+            data: JSON.stringify(data),
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+            },
+            success: function (data, status) {
+                console.log(data);
+                console.log("#" + data.idStatus + ".helping-container");
+                cardRender(data);
+                dragulaReload();
+            },
+            error: function (jqXHR, textStatus) {
+                console.warn(textStatus + "|" + jqXHR.responseText);
+            },
+            dataType: "json",
+        });
     });
 
     $(document).mouseup(function (e) {
-      var divs = $(".popup-window");
-      if (divs == null) {
-        return;
-      }
+        var divs = $(".popup-window");
+        if (divs == null) {
+            return;
+        }
 
-      divs.hide();
+        divs.hide();
     });
-  });
+
+    
+     function loadTags(boardId) {
+         $.ajax({
+             type: "GET",
+             url: `${endpoint}api/boards/${boardId}/tags`,
+             dataType: "json",
+             success: function (response) {
+                 var tagSelect = $('#tagSelect');
+                 tagSelect.empty();
+                 response.forEach(function (tag) {
+                     tagSelect.append(new Option(tag.name, tag.id));
+                 });
+             },
+             error: function (jqXHR, textStatus, errorThrown) {
+                 console.error(`Error: ${textStatus} - ${errorThrown}`);
+             },
+         });
+     }
+
+    
+     $(document).on('click', 'a[href="#create"]', function() {
+         var boardId = 2;
+         if (boardId) {
+             loadTags(boardId);
+             console.log("aaaaaaaaaaaa " + boardId)
+
+        }
+    });
+});
