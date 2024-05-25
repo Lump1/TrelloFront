@@ -225,18 +225,18 @@ $(document).ready(function () {
         divs.hide();
         });
 
-  $(document).mouseup(function (e) {
-    if(isPopupOpened && 
-      (!$(e.target).hasClass("popup-window") &&
-      $(e.target).closest(".popup-window").length == 0)) 
-    {
-      console.log("Text;")
-      isPopupOpened = false;
-      $(".popup-window").toArray().forEach(element => {
-        $(element).hide();
-      })
-    }
-  });
+        $(document).mouseup(function (e) {
+            if(isPopupOpened && 
+              (!$(e.target).hasClass("popup-window") &&
+              $(e.target).closest(".popup-window").length == 0)) 
+            {
+              console.log("Text;")
+              isPopupOpened = false;
+              $(".popup-window").toArray().forEach(element => {
+                $(element).hide();
+              })
+            }
+          });
 
     
      function loadTags(boardId) {
