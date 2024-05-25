@@ -223,8 +223,7 @@ $(document).ready(function () {
         }
 
         divs.hide();
-    });
-  });
+        });
 
   $(document).mouseup(function (e) {
     if(isPopupOpened && 
