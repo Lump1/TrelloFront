@@ -1222,8 +1222,9 @@ input[type="text"]:focus {
   width: 220px;
   display: flex;
   flex-wrap: wrap;
-  border: solid #c5c6c7 1px;
+  /* border: solid #c5c6c7 1px; */
   border-radius: 10px;
+  box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.233);
 }
 
 .popup-window-header {
