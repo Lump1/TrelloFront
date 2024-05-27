@@ -6,6 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
   <script src="jquery/node_modules/js-cookie/dist/js.cookie.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <script src ="columnPattern.js"></script>
@@ -57,9 +58,11 @@
         <li>Templates 3</li>
       </ul>
     </div>
-    <div class="create-container">
-      <button class="btn btn-outline-light" type="button" id="create-button">Create</button>
-    </div>
+    <a href="#create-board" rel="modal:open">
+      <div class="create-container">
+        <button class="btn btn-outline-light" type="button" id="create-button">Create</button>
+      </div>
+    </a>
     </div>
 
     <div class="search-bar-container">
@@ -219,6 +222,86 @@
     </div>
   </main>
 
+  <div class="d-none">
+    <div id="create-board" class="modal">
+      <div class="modal-inside-container-board rounded-2">
+          <div class="main-container-modal">
+            <div class="modal-fight">
+              <div class="modal-input-team">
+                <select class="team-input-select form-select">
+                  <option>Select a team</option>
+                </select>
+                <a class="modal-button-team">
+                  <button  type="button" class="settings-button-base modal-button-team-settings">
+                      <img src="assets/plus.png" class="img-color-inv img-team-plus-button" />
+                  </button>
+                </a>             
+              </div>
+              <div class="under-buttons-container">
+                <a href="#create-team" rel="modal:open" class="btn btn-outline-light create-team-button">
+                  Crate team
+                </a>
+                <button class="btn btn-outline-light create-team-button">Team management</button>
+              </div>
+              
+
+              <div class="team-list-container">
+                <div class="team-list">
+                  <div class="team-list-item">
+                    <div class="team-list-item-content">
+                      <p class="team-list-text">Team 1</p>
+                      <div class="cross-team-list">                     
+                        <img class="cross-ico-team-list" src="assets/group-icon-2.png" />
+                        <img class="cross-ico-team-list" src="assets/x-mark.png" />
+                      </div>
+                    </div>
+
+                    <div class="team-list-item-content">
+                      <p class="team-list-text">Team 2</p>
+                      <div class="cross-team-list">                     
+                        <img class="cross-ico-team-list" src="assets/group-icon-2.png" />
+                        <img class="cross-ico-team-list" src="assets/x-mark.png" />
+                      </div>
+                    </div>
+
+                    <div class="team-list-item-content">
+                      <p class="team-list-text">Team 3</p>
+                      <div class="cross-team-list">                     
+                        <img class="cross-ico-team-list" src="assets/group-icon-2.png" />
+                        <img class="cross-ico-team-list" src="assets/x-mark.png" />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="modal-fight">
+              <div class="template-parent-container">
+                <div class="template-container template-custom">
+                  Default template
+                </div>
+                <div class="template-container template-custom">
+                  Todo template
+                </div>
+                <div class="template-container template-custom">
+                  Rating template
+                </div>
+                <div class="template-container template-picker">
+                  Custom template
+                </div>
+              </div>
+              <div class="btn btn-outline-light without-template-button">Start without template</div>
+            </div>  
+          </div>
+      </div>
+    </div> 
+
+    <div id="create-team" class="modal">
+      <div class="modal-inside-container rounded-2">
+
+      </div>
+    </div>
+  </div>
 </body>
 
 </html>
