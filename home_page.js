@@ -2,6 +2,8 @@
 var endpoint = "https://localhost:7193/";
 var boardsEndpoint = "api/boards/";
 var usersBoardEndpoint = "api/users/boards/";
+var usersEndpoint = "api/users/"
+var teamuserEndpoint = "api/team-user/";
 
 
 function boardCardRender(board, target="AllBoards"){
@@ -63,6 +65,74 @@ function clickReload() {
   });
 }
 
+function createTeamAjax() {
+  var usersArray = [];
+  usersArray.push(Cookies.get("userGUID"));
+
+  return new Promise((resolve, reject) => {
+    $.ajax({
+      type: "POST",
+      url: `${endpoint}${teamendpoint}`,
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      data: {name: boardname, teamUsers: usersArray},
+
+      success: function(data) {
+        var teamid = data.id
+        resolve(teamid);
+      }
+    })
+  });
+}
+
+function addUserAjax(teamid, userid) {
+  $.ajax({
+    type: "POST",
+    url: `${endpoint}${teamuserEndpoint}`,
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
+    data: {idTeam: teamid, idUser: userid},
+
+    success: function(data) {
+      console.log(data);
+    }
+  })
+}
+
+function createBoard(teamid) {
+  $.ajax({
+    type: "POST",
+    url: `${endpoint}${boardendpoint}`,
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
+    data: {name: boardname, idTeam: teamid}
+  })
+}
+
+function getUser(username) {
+  return new Promise((resolve, reject) => {
+    $.ajax({
+      type: "GET",
+      url: `${endpoint}${usersEndpoint}`,
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      data: {username: username},
+
+      success: function(data) {
+        resolve(data.id);
+      }
+    })
+  });
+}
+
 $(document).ready(function(){
   $.ajax({
     type: "GET",
@@ -100,7 +170,9 @@ $(document).ready(function(){
     },
   });
 
-
+  $("#search_user_button").on("mouseup", function() {
+    $("#search_user_input")
+  });
 
   $(document).on("click", function(e) {
     var t = $('#sidenav-button-temlates-menu-js');
