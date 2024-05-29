@@ -66,8 +66,10 @@ function clickReload() {
 }
 
 function createTeamAjax() {
-  var usersArray = [];
-  usersArray.push(Cookies.get("userGUID"));
+  var usersArray = $(".team-list-item-content").toArray().map(item => {
+    return item.id;
+  });
+  usersArray.push(JSON.parse(Cookies.get("userGUID")).id);
 
   return new Promise((resolve, reject) => {
     $.ajax({
@@ -111,7 +113,10 @@ function createBoard(teamid) {
       Accept: "application/json",
       "Content-Type": "application/json",
     },
-    data: {name: boardname, idTeam: teamid}
+    data: {name: boardname, idTeam: teamid},
+    success: function(board) {
+      boardCardRender(board);
+    }
   })
 }
 
@@ -127,7 +132,8 @@ function getUser(username) {
       data: {username: username},
 
       success: function(data) {
-        resolve(data.id);
+        var user = data;
+        resolve(user);
       }
     })
   });
@@ -171,8 +177,18 @@ $(document).ready(function(){
   });
 
   $("#search_user_button").on("mouseup", function() {
-    $("#search_user_input")
+    getUser($("#search_user_input").val()).then((user) => {
+      getQuerryTemplate("Teamusercard", {id: user.id, username: user.username}).then((resultHTML) =>{
+        $(".team-list-item").append(resultHTML);
+      })   
+    })
   });
+
+  $("#boardCreationWithoutTemplate").on("mouseup", function() {
+    createTeamAjax().then((teamid) => {
+      createBoard(teamid);
+    })
+  })
 
   $(document).on("click", function(e) {
     var t = $('#sidenav-button-temlates-menu-js');
