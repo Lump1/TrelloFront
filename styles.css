@@ -864,6 +864,7 @@ p {
     /* border-radius: 2%; */
 
     background: #383838;
+    cursor: pointer;
 }
 
 .helping-container {
@@ -1202,13 +1203,13 @@ p {
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
-    margin-top: 30%;
+    margin-top: 10%;
     margin-left: 17%;
 }
 
 .button-confirm-modal{
     width: 150px;
-    padd-bottom: 20px;
+    padding-bottom: 20px;
 }
 
 
@@ -1358,3 +1359,16 @@ input[type="text"], textarea {
     margin-bottom: 20%;
 
 }
+
+/*===================================================================== PRE PAGE WINDOW */
+
+.pre-page{
+    background-color: #000000;
+    color: #E8E105;
+}
+
+.pre-page-left-img-conteiner{
+    
+    background-color: #0481ff;
+}
+

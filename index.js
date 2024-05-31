@@ -13,7 +13,7 @@ function dateFormater(dateToFormat) {
     if (day < 10) {
         day = '0' + day;
     }
-    
+
     if (month < 10) {
         month = `0${month}`;
     }
@@ -32,15 +32,15 @@ function getDataFormat(date) {
     });
 }
 
-function addCards(){
+function addCards() {
     $.ajax({
         type: "GET",
         url: `${endpoint}${cardsEndpoint}`,
         dataType: "json",
         success: function (response) {
             response.forEach(item => {
-                getQuerryTemplate("Card", {title: item.title, label: item.label, deadline: getDataFormat(item.deadline)}).then(resultHTML => {
-                    $("#"+item.idStatus+".helping-container").prepend(resultHTML);
+                getQuerryTemplate("Card", { title: item.title, label: item.label, deadline: getDataFormat(item.deadline) }).then(resultHTML => {
+                    $("#" + item.idStatus + ".helping-container").prepend(resultHTML);
                 });
             });
 
@@ -82,7 +82,7 @@ $(document).ready(function () {
         success: function (response) {
             console.log(response);
             Object.keys(response).forEach(item => {
-                getQuerryTemplate("Column", {name: response[item].name, id: response[item].id}).then(resultHTML => {
+                getQuerryTemplate("Column", { name: response[item].name, id: response[item].id }).then(resultHTML => {
                     $("article.main-cards-container").append(resultHTML);
                 });
             })
@@ -100,43 +100,44 @@ $(document).ready(function () {
 
 
     // 
-    $("#buttonColumnCreate").on("click", function() {
+    $("#buttonColumnCreate").on("click", function () {
         $.ajax({
             type: "POST",
             url: endpoint + statusEndpoint,
-            headers: { 
+            headers: {
                 'Accept': 'application/json',
-                'Content-Type': 'application/json' 
+                'Content-Type': 'application/json'
             },
-            data: JSON.stringify({name: document.getElementById('titleColumnCreate').value.toString()}),
-            success: (function(data, status) {
-                getQuerryTemplate("Column", {name: data.name, id: data.id}).then(resultHTML => {
+            data: JSON.stringify({ name: document.getElementById('titleColumnCreate').value.toString() }),
+            success: (function (data, status) {
+                getQuerryTemplate("Column", { name: data.name, id: data.id }).then(resultHTML => {
                     $("article.main-cards-container").append(resultHTML);
                 });
 
                 dragulaReload();
             }),
-            error: (function(jqXHR, textStatus) {
+            error: (function (jqXHR, textStatus) {
                 console.warn(textStatus + "|" + jqXHR.responseText);
             }),
             dataType: "json",
         });
     });
-    
-    $("#buttonCardCreate").on("click", function() {
-        if($("#titleCardCreate").val().length == 0) {
+
+    $("#buttonCardCreate").on("click", function () {
+        if ($("#titleCardCreate").val().length == 0) {
             console.warn("There is an error in data input!");
         }
 
-        var data = {title: $("#titleCardCreate").val()
-                    , label: $("#textCardCreate").val()
-                    , startdate: dateFormater(new Date())
-                    , deadline: $("#dateCardCreate").val()
-                    , IdStatus: $("#idcolCardCreate").val()
-                };
-        
-        Object.keys(data).forEach(function(k){
-            if(data[k] == undefined) data[k] = null;
+        var data = {
+            title: $("#titleCardCreate").val()
+            , label: $("#textCardCreate").val()
+            , startdate: dateFormater(new Date())
+            , deadline: $("#dateCardCreate").val()
+            , IdStatus: $("#idcolCardCreate").val()
+        };
+
+        Object.keys(data).forEach(function (k) {
+            if (data[k] == undefined) data[k] = null;
         });
 
         console.log(JSON.stringify(data));
@@ -145,27 +146,27 @@ $(document).ready(function () {
             type: "POST",
             url: endpoint + cardsEndpoint,
             data: JSON.stringify(data),
-            headers: { 
+            headers: {
                 'Accept': 'application/json',
-                'Content-Type': 'application/json' 
+                'Content-Type': 'application/json'
             },
-            success: (function(data, status) {
+            success: (function (data, status) {
                 console.log(data);
                 console.log("#" + data.idStatus + ".helping-container");
-                getQuerryTemplate("Card", {title: data.title, label: data.label, deadline: getDataFormat(data.deadline)}).then(resultHTML => {
+                getQuerryTemplate("Card", { title: data.title, label: data.label, deadline: getDataFormat(data.deadline) }).then(resultHTML => {
                     $("#" + data.idStatus + ".helping-container").prepend(resultHTML);
                 });
 
                 dragulaReload();
             }),
-            error: (function(jqXHR, textStatus) {
+            error: (function (jqXHR, textStatus) {
                 console.warn(textStatus + "|" + jqXHR.responseText);
             }),
             dataType: "json",
         });
     });
 
-
+    
 
 
 
