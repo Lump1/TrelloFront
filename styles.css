@@ -864,6 +864,7 @@ p {
   margin-right: 15px;
   margin-top: 15px;
   color: rgb(163, 163, 163);
+  cursor: pointer;
 }
 
 .card-text {
@@ -887,11 +888,19 @@ p {
   width: 90%;
   padding-bottom: 20px;
   margin-top: 10px;
+  cursor: pointer;
+  transition: box-shadow 0.3s ease; /* Плавный переход для тени */
 }
+
+.main-card:hover {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2), /* Тень снизу */
+              0 6px 20px rgba(0, 0, 0, 0.19); /* Дополнительная большая тень */
+}
+
 
 .card-tag {
   color: white !important;
-  background: rgb(25, 25, 31);
+  background: rgb(33, 33, 34);
   padding: 3px;
   width: fit-content;
 }
@@ -1163,7 +1172,7 @@ p {
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
-  margin-top: 30%;
+  margin-top: 8%;
   margin-left: 17%;
 }
 
@@ -1337,4 +1346,10 @@ input[type="text"]:focus {
   color: #ffffff;
   text-align: left;
   margin-bottom: 10%;
+}
+.menu-item:hover,
+.pop-over-list-MaCards:hover,
+.close-list:hover,.pop-over-acms-left:hover,.pop-over-acms-right:hover,.pop-over-sort:hover{
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2), 0 6px 20px rgba(0, 0, 0, 0.19);
+  transition: box-shadow 0.3s ease;
 }

@@ -87,22 +87,22 @@ function dragulaReload() {
 }
 
 function columnSettingsRender(id) {
-  var target = "#" + id + ".main-card-men";
-  console.log(target);
-  getQuerryTemplate("Popup", { id: id }).then((resultHTML) => {
-    $("#content").append(resultHTML);
+    var target = "#" + id + ".main-card-men";
+    console.log(target);
+    getQuerryTemplate("Popup", { id: id }).then((resultHTML) => {
+        $("#content").append(resultHTML);
 
-    $("#" + id + ".popup-window").hide();
+        $("#" + id + ".popup-window").hide();
 
-    $(target).on("click", function (e) {
-      isPopupOpened = true;
-  
-      $("#" + id + ".popup-window").show();
-      $("#" + id + ".popup-window").css("left", e.pageX).css("top", e.pageY);
+        $(target).on("click", function (e) {
+            isPopupOpened = true;
+
+            $("#" + id + ".popup-window").show();
+            $("#" + id + ".popup-window").css("left", e.pageX).css("top", e.pageY);
+        });
+    }).catch(function (error) {
+        console.log(error);
     });
-  }).catch(function(erorr) {
-    console.log(erorr);
-  });
 }
 
 function columnRender(data) {
@@ -122,8 +122,23 @@ function cardRender(data) {
         deadline: getDataFormat(data.deadline),
         cardid: data.id,
         columnid: data.idStatus,
+       
     }).then((resultHTML) => {
-        $("#" + data.idStatus + ".helping-container").prepend(resultHTML);
+        // Загружаем теги, соответствующие карте
+        $.ajax({
+            type: "GET",
+            url: `${endpoint}api/cards/${data.id}/tags`,
+            dataType: "json",
+            success: function (response) {
+                var tags = response.map(tag => tag.name).join(', '); // Преобразуем массив названий тегов в строку
+                // Заменяем PLACEHOLDERtag на полученные теги в HTML-шаблоне карточки
+                resultHTML = resultHTML.replace("PLACEHOLDERtag", tags);
+                $("#" + data.idStatus + ".helping-container").prepend(resultHTML);
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                console.error(`Error: ${textStatus} - ${errorThrown}`);
+            },
+        });
     });
 }
 
@@ -186,8 +201,9 @@ $(document).ready(function () {
             startdate: dateFormater(new Date()),
             deadline: $("#dateCardCreate").val(),
             idStatus: $("#idcolCardCreate").val(),
-            idTag: $("#tagSelect").val(), // Новое поле для тега, закомментировано
         };
+
+        var tagId = $("#tagSelect").val();
 
         Object.keys(data).forEach(function (k) {
             if (data[k] == undefined) data[k] = null;
@@ -203,11 +219,14 @@ $(document).ready(function () {
                 Accept: "application/json",
                 "Content-Type": "application/json",
             },
-            success: function (data, status) {
-                console.log(data);
-                console.log("#" + data.idStatus + ".helping-container");
-                cardRender(data);
+            success: function (cardData, status) {
+                console.log(cardData);
+                cardRender(cardData);
                 dragulaReload();
+
+                if (tagId) {
+                    addTagToCard(cardData.id, tagId); // Добавляем тег к карте
+                }
             },
             error: function (jqXHR, textStatus) {
                 console.warn(textStatus + "|" + jqXHR.responseText);
@@ -215,6 +234,7 @@ $(document).ready(function () {
             dataType: "json",
         });
     });
+    
 
     $(document).mouseup(function (e) {
         var divs = $(".popup-window");
@@ -223,47 +243,66 @@ $(document).ready(function () {
         }
 
         divs.hide();
+    });
+
+    function loadTags(boardId) {
+        $.ajax({
+            type: "GET",
+            url: `${endpoint}api/boards/${boardId}/tags`,
+            dataType: "json",
+            success: function (response) {
+                var tagSelect = $('#tagSelect');
+                tagSelect.empty();
+                response.forEach(function (tag) {
+                    tagSelect.append(new Option(tag.name, tag.id));
+                });
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                console.error(`Error: ${textStatus} - ${errorThrown}`);
+            },
         });
+    }
 
-        $(document).mouseup(function (e) {
-            if(isPopupOpened && 
-              (!$(e.target).hasClass("popup-window") &&
-              $(e.target).closest(".popup-window").length == 0)) 
-            {
-              console.log("Text;")
-              isPopupOpened = false;
-              $(".popup-window").toArray().forEach(element => {
+    $(document).mouseup(function (e) {
+        if (isPopupOpened &&
+            (!$(e.target).hasClass("popup-window") &&
+                $(e.target).closest(".popup-window").length == 0)) {
+            console.log("Text;");
+            isPopupOpened = false;
+            $(".popup-window").toArray().forEach(element => {
                 $(element).hide();
-              })
-            }
-          });
-
-    
-     function loadTags(boardId) {
-         $.ajax({
-             type: "GET",
-             url: `${endpoint}api/boards/${boardId}/tags`,
-             dataType: "json",
-             success: function (response) {
-                 var tagSelect = $('#tagSelect');
-                 tagSelect.empty();
-                 response.forEach(function (tag) {
-                     tagSelect.append(new Option(tag.name, tag.id));
-                 });
-             },
-             error: function (jqXHR, textStatus, errorThrown) {
-                 console.error(`Error: ${textStatus} - ${errorThrown}`);
-             },
-         });
-     }
-
-    
-     $(document).on('click', 'a[href="#create"]', function() {
-         var boardId = 2;
-         if (boardId) {
-             loadTags(boardId);
-             console.log("aaaaaaaaaaaa " + boardId)
-
+            })
         }
     });
+
+    
+
+    $(document).on('click', 'a[href="#create"]', function () {
+        var boardId = 2;
+        if (boardId) {
+            loadTags(boardId);
+            console.log("Selected board ID: " + boardId);
+        }
+    });
+
+    function addTagToCard(cardId, tagId) {
+        $.ajax({
+            type: "POST",
+            url: `${endpoint}api/card-tags`,
+            data: JSON.stringify({ IdCard: cardId, IdTags: tagId }),
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+            },
+            success: function (response) {
+                console.log("Tag added to card:", response);
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                console.error(`Error: ${textStatus} - ${errorThrown}`);
+            },
+            dataType: "json",
+        });
+    }
+
+
 });
