@@ -1,81 +1,103 @@
 <!DOCTYPE html>
 <html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+    <title>Document</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
-  <title>Document</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
-    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <link rel="stylesheet" href="styles.css">
-</head>
+  <body>
+    <div class="popup-window">
+      <div class="popup-window-header">
+        <span class="pop-up-window-header-Awal-settings"
+          >Actions with a column</span
+        >
+        <!--Awal - расшифровка A - Actions, w - with, a, l - list -->
 
-<body>
-  <div class="popup-window">
+      </div>
 
-    <div class="popup-window-header">
-      <span class="pop-up-window-header-Awal-settings">Actions with a list</span>
-      <!--Awal - расшифровка A - Actions, w - with, a, l - list -->
-      <button class="btn btn-outline-secondary popup-window-header-img-close-button-cross">x</button>
-    </div>
-
-    <!-- <div>
+      <!-- <div>
       <div> -->
 
-        <div class="pop-over-acms">
-          <!--ACMS - Расшифровка, A - Add a card, C - Copyring a list, M - Move list, S - Subscribe-->
-          <button class="btn btn-outline-secondary pop-over-acms-settings">Add a card</button>
-          <button class="btn btn-outline-secondary pop-over-acms-settings">Copying a list</button>
-          <button class="btn btn-outline-secondary pop-over-acms-settings">Move list</button>
-          <button class="btn btn-outline-secondary highlight-icon pop-over-acms-settings">Subscribe</button>
+      <div class="pop-over-acms">
+        <!--ACMS - Расшифровка, A - Add a card, C - Copyring a list, M - Move list, S - Subscribe-->
+        <div class="pop-over-acms-left">
+          <button class="btn btn-outline-secondary pop-over-acms-settings">
+            Add card
+          </button>
+          <button class="btn btn-outline-secondary pop-over-acms-settings">
+            Copy list
+          </button>
         </div>
-
-        <hr class="popup-window-hr-setting">
-
-        <div class="pop-over-sort">
-          <button class="btn btn-outline-secondary sort-cards">Sort by...</button>
+        <div class="pop-over-acms-right"> 
+          <button class="btn btn-outline-secondary pop-over-acms-settings">
+            Move list
+          </button>
+          <button
+            class="btn btn-outline-secondary highlight-icon pop-over-acms-settings"
+          >
+            Subscribe
+          </button>
         </div>
+      </div>
 
-        <hr class="popup-window-hr-setting">
+      <hr class="popup-window-hr-setting" />
 
-        <div class="pop-over-list">
-          <div class="section-title">
-            <div class="section-title-automation">
-              <span class="section-title-automation-setting">Automation</span>
-            </div>
-            <nav class="menu-items">
-              <div>
-                <button class="btn btn-outline-secondary menu-item">
-                  <span class="menu-item-text">When a card is added to a column...</span>
-                </button>
-                <button class="btn btn-outline-secondary menu-item">
-                  <span class="menu-item-text">Every day, sort by...</span>
-                </button>
-                <button class="btn btn-outline-secondary menu-item">
-                  <span class="menu-item-text">Every Monday, sort by...</span>
-                </button>
-              </div>
-            </nav>
+      <div class="pop-over-sort">
+        <button class="btn btn-outline-secondary sort-cards">Sort by...</button>
+      </div>
+
+      <!-- <hr class="popup-window-hr-setting" />
+
+      <div class="pop-over-list">
+        <div class="section-title">
+          <div class="section-title-automation">
+            <span class="section-title-automation-setting">Automation</span>
           </div>
+          <nav class="menu-items">
+            <div>
+              <button class="btn btn-outline-secondary menu-item">
+                <span class="menu-item-text"
+                  >When a card is added to a column...</span
+                >
+              </button>
+              <button class="btn btn-outline-secondary menu-item">
+                <span class="menu-item-text">Every day, sort by...</span>
+              </button>
+              <button class="btn btn-outline-secondary menu-item">
+                <span class="menu-item-text">Every Monday, sort by...</span>
+              </button>
+            </div>
+          </nav>
         </div>
+      </div> -->
 
-        <hr class="popup-window-hr-setting">
+      <hr class="popup-window-hr-setting" />
 
-        <div class="pop-over-list">
-          <button class="btn btn-outline-secondary pop-over-list-MaCards">Move all cards in this list</button>
-          <button class="btn btn-outline-secondary pop-over-list-MaCards">Archive all cards in this list</button>
-        </div>
+      <div class="pop-over-list">
+        <button class="btn btn-outline-secondary pop-over-list-MaCards">
+          Move all cards in this list
+        </button>
+        <button class="btn btn-outline-secondary pop-over-list-MaCards">
+          Archive all cards in this list
+        </button>
+      </div>
 
-        <hr class="popup-window-hr-setting">
+      <hr class="popup-window-hr-setting" />
 
-        <div class="pop-over-list">
-          <button class="btn btn-outline-secondary close-list">Archive list</button>
-        </div>
-
-      <!-- </div>
-    </div> -->
-  </div>
-</body>
-
+      <div class="pop-over-list">
+        <button class="btn btn-outline-secondary close-list">
+          Archive list
+        </button>
+      </div>
+    </div>
+  </body>
 </html>
