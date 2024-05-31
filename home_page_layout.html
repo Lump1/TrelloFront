@@ -6,6 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
   <script src="jquery/node_modules/js-cookie/dist/js.cookie.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <script src ="columnPattern.js"></script>
@@ -57,9 +58,11 @@
         <li>Templates 3</li>
       </ul>
     </div>
-    <div class="create-container">
-      <button class="btn btn-outline-light" type="button" id="create-button">Create</button>
-    </div>
+    <a href="#create-board" rel="modal:open">
+      <div class="create-container">
+        <button class="btn btn-outline-light" type="button" id="create-button">Create</button>
+      </div>
+    </a>
     </div>
 
     <div class="search-bar-container">
@@ -219,6 +222,87 @@
     </div>
   </main>
 
+  <div class="d-none">
+    <div id="create-board" class="modal">
+      <div class="modal-inside-container-board rounded-2">
+          <div class="main-container-modal">
+            <div class="modal-fight">
+              <div class="modal-input-team">
+                <input placeholder="Search user" id="search_user_input" class="team-input-select form-select" />
+                <!-- <a class="modal-button-team"> -->
+                  <button  type="button" class="settings-button-base modal-button-team-settings-mid">
+                    <img src="assets/search-interface-symbol.png" class="img-color-inv img-team-search-button" />
+                </button>
+                  <button id="search_user_button" type="button" class="settings-button-base modal-button-team-settings">
+                      <img src="assets/plus.png" class="img-color-inv img-team-plus-button" />
+                  </button>
+                <!-- </a>              -->
+              </div>
+              <!-- <div class="under-buttons-container">
+                <a href="#create-team" rel="modal:open" class="btn btn-outline-light create-team-button">
+                  Serch a user
+                </a>
+                <button class="btn btn-outline-light create-team-button">Friend list</button>
+              </div> -->
+              
+
+              <div class="team-list-container">
+                <div class="team-list">
+                  <div class="team-list-item">
+                    <div class="team-list-item-content">
+                      <p class="team-list-text">User 1</p>
+                      <div class="cross-team-list">                     
+                        <!-- <img class="cross-ico-team-list" src="assets/group-icon-2.png" /> -->
+                        <img class="cross-ico-team-list" src="assets/x-mark.png" />
+                      </div>
+                    </div>
+
+                    <div class="team-list-item-content">
+                      <p class="team-list-text">User 2</p>
+                      <div class="cross-team-list">                     
+                        <!-- <img class="cross-ico-team-list" src="assets/group-icon-2.png" /> -->
+                        <img class="cross-ico-team-list" src="assets/x-mark.png" />
+                      </div>
+                    </div>
+
+                    <div class="team-list-item-content">
+                      <p class="team-list-text">User 3</p>
+                      <div class="cross-team-list">                     
+                        <!-- <img class="cross-ico-team-list" src="assets/group-icon-2.png" /> -->
+                        <img class="cross-ico-team-list" src="assets/x-mark.png" />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="modal-fight">
+              <div class="template-parent-container">
+                <div class="template-container template-custom">
+                  Default template
+                </div>
+                <div class="template-container template-custom">
+                  Todo template
+                </div>
+                <div class="template-container template-custom">
+                  Rating template
+                </div>
+                <div class="template-container template-picker">
+                  Custom template
+                </div>
+              </div>
+              <div class="btn btn-outline-light without-template-button" id="boardCreationWithoutTemplate">Start without template</div>
+            </div>  
+          </div>
+      </div>
+    </div> 
+
+    <div id="create-team" class="modal">
+      <div class="modal-inside-container rounded-2">
+
+      </div>
+    </div>
+  </div>
 </body>
 
 </html>

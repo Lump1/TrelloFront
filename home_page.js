@@ -2,48 +2,9 @@
 var endpoint = "https://localhost:7193/";
 var boardsEndpoint = "api/boards/";
 var usersBoardEndpoint = "api/users/boards/";
+var usersEndpoint = "api/users/"
+var teamuserEndpoint = "api/team-user/";
 
-// document.addEventListener("click", function(e) {
-//   let t = document.getElementById('sidenav-button-temlates-menu-js');
-//   if (e.target.id != 'sidenav-button-temlates-js' && e.target.id != 'sidenav-button-temlates-menu-js') {
-//     t.style.display = 'none';
-//   } else if (e.target.id == 'sidenav-button-temlates-js') {
-//     t.style.display = (t.style.display != 'block') ? 'block' : 'none';
-//   }
-// });
-// document.addEventListener("click", function(e) {
-//   let w = document.getElementById('sidenav-button-bIerps-js');
-//   if (e.target.id != 'sidenav-button-Ws-js' && e.target.id != 'sidenav-button-bIerps-js') {
-//     w.style.display = 'none';
-//   } else if (e.target.id == 'sidenav-button-Ws-js') {
-//     w.style.display = (w.style.display != 'block') ? 'block' : 'none';
-//   }
-// });
-
-// $(document).ready(function(){
-//   $("#sidenav-button-temlates-js").click(function(){
-//     $("#sidenav-button-temlates-menu-js").slideDown("slow");
-//   });
-
-//   $("#sidenav-button-Ws-js").click(function(){
-//     $("#sidenav-button-bIerps-js").slideDown("slow");
-//   });
-
-
-//   $(".sidenav-cards-top").click(function(){
-//     console.log('test')
-//      window.location.href ='http://127.0.0.1:5500/index.html'
-//   });
-
-//   $(".sidenav-cards-bottom").click(function(){
-//     console.log('test')
-//      window.location.href ='http://127.0.0.1:5500/index.html'
-//   });
-
-//   $(".sidenav-button-home-page").click(function(){
-//     window.location.href='http://127.0.0.1:5500/index.html' //пока что для проверки
-//   });
-// });
 
 function boardCardRender(board, target="AllBoards"){
   getQuerryTemplate("Board", { name: board.name, id: board.id}).then(
@@ -104,6 +65,80 @@ function clickReload() {
   });
 }
 
+function createTeamAjax() {
+  var usersArray = $(".team-list-item-content").toArray().map(item => {
+    return item.id;
+  });
+  usersArray.push(JSON.parse(Cookies.get("userGUID")).id);
+
+  return new Promise((resolve, reject) => {
+    $.ajax({
+      type: "POST",
+      url: `${endpoint}${teamendpoint}`,
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      data: {name: boardname, teamUsers: usersArray},
+
+      success: function(data) {
+        var teamid = data.id
+        resolve(teamid);
+      }
+    })
+  });
+}
+
+function addUserAjax(teamid, userid) {
+  $.ajax({
+    type: "POST",
+    url: `${endpoint}${teamuserEndpoint}`,
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
+    data: {idTeam: teamid, idUser: userid},
+
+    success: function(data) {
+      console.log(data);
+    }
+  })
+}
+
+function createBoard(teamid) {
+  $.ajax({
+    type: "POST",
+    url: `${endpoint}${boardendpoint}`,
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
+    data: {name: boardname, idTeam: teamid},
+    success: function(board) {
+      boardCardRender(board);
+    }
+  })
+}
+
+function getUser(username) {
+  return new Promise((resolve, reject) => {
+    $.ajax({
+      type: "GET",
+      url: `${endpoint}${usersEndpoint}`,
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      data: {username: username},
+
+      success: function(data) {
+        var user = data;
+        resolve(user);
+      }
+    })
+  });
+}
+
 $(document).ready(function(){
   $.ajax({
     type: "GET",
@@ -140,6 +175,20 @@ $(document).ready(function(){
       );
     },
   });
+
+  $("#search_user_button").on("mouseup", function() {
+    getUser($("#search_user_input").val()).then((user) => {
+      getQuerryTemplate("Teamusercard", {id: user.id, username: user.username}).then((resultHTML) =>{
+        $(".team-list-item").append(resultHTML);
+      })   
+    })
+  });
+
+  $("#boardCreationWithoutTemplate").on("mouseup", function() {
+    createTeamAjax().then((teamid) => {
+      createBoard(teamid);
+    })
+  })
 
   $(document).on("click", function(e) {
     var t = $('#sidenav-button-temlates-menu-js');
