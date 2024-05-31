@@ -236,6 +236,7 @@ $(document).ready(function () {
     });
     
 
+
     $(document).mouseup(function (e) {
         var divs = $(".popup-window");
         if (divs == null) {

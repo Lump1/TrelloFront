@@ -840,8 +840,8 @@ p {
   padding-bottom: 10px;
   /* align-items: center; */
   /* border-radius: 2%; */
-
-  background: #383838;
+    background: #383838;
+    cursor: pointer;
 }
 
 .helping-container {
@@ -1179,17 +1179,17 @@ p {
 }
 
 .button-confirm-container-modal {
-  position: absolute;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  margin-top: 8%;
-  margin-left: 17%;
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    margin-top: 10%;
+    margin-left: 17%;
 }
 
-.button-confirm-modal {
-  width: 150px;
-  padd-bottom: 20px;
+.button-confirm-modal{
+    width: 150px;
+    padding-bottom: 20px;
 }
 
 .input-modal {
