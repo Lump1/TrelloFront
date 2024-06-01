@@ -143,6 +143,14 @@ function cardRender(data) {
 }
 
 $(document).ready(function () {
+    columnRender({name: "Upcomming", id: 1});
+    columnRender({name: "In Progress", id: 2});
+    columnRender({name: "Done", id: 3});
+
+    cardRender({title: "Card title 1", label: "", deadline: "03-03-2024", cardid: 1, columnid: 1})
+    cardRender({title: "Card title 2", label: "", deadline: "03-03-2024", cardid: 2, columnid: 2})
+    cardRender({title: "Card title 3", label: "", deadline: "03-03-2024", cardid: 3, columnid: 1})
+
     $.ajax({
         type: "GET",
         url: `${endpoint}${statusEndpoint}`,
@@ -235,7 +243,20 @@ $(document).ready(function () {
         });
     });
     
+    $(".Tabel-container").on("click", function() {
+        var sidePanelObj = $(".side-panel-card");
 
+        if(sidePanelObj.css("right")[0] == "-") {
+            sidePanelObj.animate({
+                "right": "10px"
+            }, 1500)
+        }
+        else {
+            sidePanelObj.animate({
+                "right": "-65%"
+            }, 1500)
+        }
+    })
 
     $(document).mouseup(function (e) {
         var divs = $(".popup-window");
@@ -274,6 +295,13 @@ $(document).ready(function () {
                 $(element).hide();
             })
         }
+
+        if($(".side-panel-card").css("right")[0] != "-" 
+            && $(e.target).closest(".side-panel-card").length == 0) {
+            $(".side-panel-card").animate({
+                "right": "-65%"
+            }, 1500)
+        }
     });
 
     
@@ -305,5 +333,5 @@ $(document).ready(function () {
         });
     }
 
-
+    dragulaReload();
 });
