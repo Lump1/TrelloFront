@@ -13,9 +13,9 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/1.8.5/jquery.modal.min.js"></script>
     <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" /> -->
     <script src="index.js"></script>
-    <script src ="columnPattern.js"></script>
+    <script src="columnPattern.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
-    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="stylesheet" href="styles.css">
 
 </head>
@@ -144,7 +144,7 @@
                     <img src="assets/group-icon-2.png" class="img-color-inv img-settings-button" />
                 </button>
                 <a href="#create-column" rel="modal:open">
-                    <button  type="button" class="settings-button">
+                    <button type="button" class="settings-button">
                         <img src="assets/plus.png" class="img-color-inv img-settings-button" />
                     </button>
                 </a>
@@ -167,12 +167,115 @@
 
         </article>
 
-        
+
     </main>
 
     <div class="side-panel-card">
-            
+
+        <div class="side-panel-card-header">
+            <div>
+                <h3 class="side-panel-card-header-config">Main Page <button
+                        class="btn btn-outline-secondary side-panel-card-button-close">X</button></h3>
+                <p class="side-panel-card-status">in column <a href="#">Upcoming</a></p>
+            </div>
+        </div>
+
+        <div class="side-panel-card-main">
+
+            <div class="side-panel-card-left">
+
+                <div class="side-panel-card-notSub">
+                    <h5 class="side-panel-card-main-h5-config">Notifications</h5>
+                    <button type="button"
+                        class="btn btn-outline-secondary side-panel-card-button-subscribe">Subscribe</button>
+                </div>
+
+                <div class="side-panel-card-description">
+                    <h5 class="side-panel-card-main-h5-config">Description</h5>
+                    <input type="text" placeholder="Add a more detailed description...">
+                    <button type="button" class="btn btn-outline-secondary">+</button>
+                </div>
+
+                <div class="side-panel-card-attachments">
+                    <h5 class="side-panel-card-main-h5-h6-config">Attachment</h5>
+
+                    <div class="side-panel-card-attachments-img">
+                        <img class="side-panel-card-attachments-img-config" src="/mnt/data/image.png" alt="image.png"
+                            style="color: #ffffff;">
+                        <h6 class="side-panel-card-main-h5-h6-config">image.png</h6>
+                        <p style="color: #ffffff;">Added <time datetime="2023-04-21T00:09">Apr 21 at 00:09</time></p>
+                        <a href="#">Comment</a>|<a href="#">Download</a>|<a href="#">Delete</a>|<a href="#">Edit</a>|<a
+                            href="#">Do cover</a>
+                    </div>
+
+                </div>
+
+                <div class="side-panel-card-tasks">
+                    <h5 class="side-panel-card-main-h5-h6-config">Tasks</h5>
+                    <div class="progress-container">
+                        <div class="progress-label">75%</div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 75%;"></div>
+                        </div>
+                    </div>
+                    <ul>
+                        <li><input type="checkbox"> First task</li>
+                        <li><input type="checkbox"> Second task</li>
+                        <li><input type="checkbox"> Third task</li>
+                    </ul>
+                    <button type="button" class="btn btn-outline-secondary">Add Element</button>
+                </div>
+
+                <div class="side-panel-card-actions">
+                    <h5 class="side-panel-card-main-h5-h6-config">Actions</h5>
+                    <button type="button" class="btn btn-outline-secondary">Show Details</button>
+                </div>
+
+                <div class="side-panel-card-comments">
+                    <input type="text" placeholder="Write a comment...">
+                </div>
+
+            </div>
+
+            <div class="side-panel-card-right">
+                <h5 class="side-panel-card-main-h5-h6-config">Add to card</h5>
+
+                <div class="side-panel-card-riht-oneBlock">
+                    <button type="button" class="btn btn-outline-secondary side-panel-card-riht-oneBlock-config">Participants</button>
+                    <button type="button" class="btn btn-outline-secondary side-panel-card-riht-oneBlock-config">Labels</button>
+                    <button type="button" class="btn btn-outline-secondary side-panel-card-riht-oneBlock-config">Checklist</button>
+                    <button type="button" class="btn btn-outline-secondary side-panel-card-riht-oneBlock-config">Dates</button>
+                    <button type="button" class="btn btn-outline-secondary side-panel-card-riht-oneBlock-config">Attachment</button>
+                    <button type="button" class="btn btn-outline-secondary side-panel-card-riht-oneBlock-config">Cover</button>
+                    <button type="button" class="btn btn-outline-secondary side-panel-card-riht-oneBlock-config">User Fields</button>
+                </div>
+
+                <div class="side-panel-card-riht-twoBlock">
+                    <h5 class="side-panel-card-main-h5-h6-config">Improvements</h5>
+                    <button type="button" class="btn btn-outline-secondary side-panel-card-riht-twoBlock-config">Add Improvement</button>
+                </div>
+
+                <div class="side-panel-card-riht-threeBlock">
+                    <h5 class="side-panel-card-main-h5-h6-config">Automation</h5>
+                    <button type="button" class="btn btn-outline-secondary side-panel-card-riht-threeBlock-config">Add Button</button>
+                </div>
+
+                <div class="side-panel-card-riht-lastBlock">
+                    <h5 class="side-panel-card-main-h5-h6-config">Actions</h5>
+                    <button type="button" class="btn btn-outline-secondary side-panel-card-riht-lastBlock-config">Move</button>
+                    <button type="button" class="btn btn-outline-secondary side-panel-card-riht-lastBlock-config">Copy</button>
+                    <button type="button" class="btn btn-outline-secondary side-panel-card-riht-lastBlock-config">Create Template</button>
+                    <button type="button" class="btn btn-outline-secondary side-panel-card-riht-lastBlock-config">Archive</button>
+                    <button type="button" class="btn btn-outline-secondary side-panel-card-riht-lastBlock-config">Share</button>
+                </div>
+
+            </div>
+
+        </div>
     </div>
+
+
+
 
     <div class="d-none">
         <div id="create" class="modal">
@@ -182,41 +285,45 @@
                         <img class="img-modal-item" src="assets/column-ico-4.svg">
                     </div>
                     <div class="main-content-modal">
-                            <p class="modal-title">Create card</p>
-                            <form class="create-column-form" method="POST" id="createOperation">
-                                <input id="titleCardCreate" placeholder="Title" type="text" class="input-modal form-control" />
-                                <input id="dateCardCreate" type="date" />
-                                <input id="idcolCardCreate" type="number" readonly class="input-modal form-control"/>
-                                <select id="tagSelect" class="input-modal form-control">
-                                    <!-- Здесь будут добавлены опции тегов -->
-                                </select>
-                                <div class="button-confirm-container-modal">
-                                    <button class="button-confirm-modal btn btn-outline-light" type="button" id="buttonCardCreate">Send</button>
-                                </div>
-                            </form>
-                    </div>
-                </div>
-            </div>
-  
-          <div id="create-column" class="modal">
-            <div class="modal-inside-container rounded-2">
-                <div class="main-container-modal">
-                    <div class="img-container-modal">
-                        <img class="img-modal-item" src="assets/column-ico-4.svg">
-                    </div>
-                    <div class="main-content-modal">
-                            <p class="modal-title">Create column</p>
-                                <form class="create-column-form" method="POST" id="createColumnOperation">
-                                    <input type="text" class="input-modal form-control" id="titleColumnCreate" placeholder="Title">
+                        <p class="modal-title">Create card</p>
+                        <form class="create-column-form" method="POST" id="createOperation">
+                            <input id="titleCardCreate" placeholder="Title" type="text"
+                                class="input-modal form-control" />
+                            <input id="dateCardCreate" type="date" />
+                            <input id="idcolCardCreate" type="number" readonly class="input-modal form-control" />
+                            <select id="tagSelect" class="input-modal form-control">
+                                <!-- Здесь будут добавлены опции тегов -->
+                            </select>
                             <div class="button-confirm-container-modal">
-                                <button class="button-confirm-modal btn btn-outline-light" type="button" id="buttonColumnCreate">Send</button>
+                                <button class="button-confirm-modal btn btn-outline-light" type="button"
+                                    id="buttonCardCreate">Send</button>
                             </div>
                         </form>
                     </div>
                 </div>
             </div>
+
+            <div id="create-column" class="modal">
+                <div class="modal-inside-container rounded-2">
+                    <div class="main-container-modal">
+                        <div class="img-container-modal">
+                            <img class="img-modal-item" src="assets/column-ico-4.svg">
+                        </div>
+                        <div class="main-content-modal">
+                            <p class="modal-title">Create column</p>
+                            <form class="create-column-form" method="POST" id="createColumnOperation">
+                                <input type="text" class="input-modal form-control" id="titleColumnCreate"
+                                    placeholder="Title">
+                                <div class="button-confirm-container-modal">
+                                    <button class="button-confirm-modal btn btn-outline-light" type="button"
+                                        id="buttonColumnCreate">Send</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-    </div>
 </body>
 
 </html>
