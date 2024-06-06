@@ -9,7 +9,7 @@ body {
   position: absolute; /* Абсолютное позиционирование относительно ближайшего родителя с относительным позиционированием */
   width: 100vw; /* Ширина контейнера равна ширине окна браузера */
   height: 100vh; /* Высота контейнера равна высоте окна браузера */
-  background: rgb(63, 113, 96);
+  background: rgb(27, 27, 27);
   background: linear-gradient(
     122deg,
     rgba(63, 113, 96, 1) 0%,
@@ -22,13 +22,9 @@ body {
 /* Контейнер для изображения */
 .pre_page_window_img_container {
   position: absolute; /* Абсолютное позиционирование */
-  width: 1000px; /* Ширина контейнера 500 пикселей */
-  height: 88%; /* Высота контейнера 500 пикселей */
   overflow: hidden; /* Скрываем содержимое, выходящее за пределы контейнера */
-  border-radius: 0 0% 100% 0 / 0 0% 100% 0;
-  left: 0; /* Располагаем контейнер слева */
-  top: 0; /* Располагаем контейнер сверху */
- 
+  
+  background-color: rgba(33, 68, 52, 0.479);
 }
 
 /* Стиль для изображения внутри контейнера */
@@ -36,8 +32,25 @@ body {
   width: 100%; /* Ширина изображения заполняет весь контейнер */
   height: 100%; /* Высота изображения заполняет весь контейнер */
   object-fit: cover; /* Масштабируем изображение с сохранением пропорций, чтобы оно заполнило контейнер */
- 
+  
+}
 
+#first.pre_page_window_img_container {
+  width: 1000px;
+  height: 88%; 
+  left: 0;
+  top: 0; 
+
+  border-radius: 0 0% 100% 0 / 0 0% 100% 0;
+}
+
+#seccond.pre_page_window_img_container {
+  width: 600px;
+  height: 600px; 
+  right: 0;
+  bottom: 0; 
+
+  border-radius: 100% 0% 0% 0% / 100% 0% 0% 0%;
 }
 
 /* Элемент волны */
@@ -52,13 +65,13 @@ body {
 
 /* Контейнер для кнопок */
 .pre_page_window_container_button {
-  
   position: absolute; /* Абсолютное позиционирование */
+  display: flex;
   top: 200px; /* Располагаем контейнер на 200 пикселей ниже верхнего края контейнера */
   right: 200px; /* Располагаем контейнер на 200 пикселей левее правого края контейнера */
   width: 500px; /* Ширина контейнера 500 пикселей */
   height: 550px; /* Высота контейнера 450 пикселей */
-  background: rgba(0, 0, 0, .5);
+  background: rgba(0, 0, 0, .7);
   box-sizing: border-box;
   box-shadow: 0 15px 25px rgba(0, 0, 0, .6);
   border-radius: 10px;
@@ -66,15 +79,7 @@ body {
 
 /* Стиль для кнопки входа */
 .pre_page_window_button_login {
-  
-  overflow: hidden;
-  position: absolute; /* Абсолютное позиционирование */
-  top: 120px; /* Располагаем элемент на 20 пикселей ниже верхнего края контейнера */
-  left: 10px; /* Располагаем элемент на 10 пикселей правее левого края контейнера */
-  width: 470px; /* Ширина элемента 470 пикселей */
-  height: 80px; /* Высота элемента 80 пикселей */
   transition: .5s;
- 
 }
 
 .pre_page_window_button_login:hover {
@@ -182,11 +187,6 @@ body {
 
 /* Стиль для кнопки документации */
 .pre_page_window_button_documentation {
-  position: absolute; /* Абсолютное позиционирование */
-  top: 280px; /* Располагаем элемент на 180 пикселей ниже верхнего края контейнера */
-  left: 10px; /* Располагаем элемент на 10 пикселей правее левого края контейнера */
-  width: 470px; /* Ширина элемента 470 пикселей */
-  height: 80px; /* Высота элемента 80 пикселей */
   
 }
 
@@ -194,30 +194,27 @@ body {
   background: #2d5e4d;
   color: #fff;
   border-radius: 5px;
-  box-shadow: 0 0 5px #2d5e4d,
-    /* Тень кнопки */
-    0 0 15px #2d5e4d,
-    0 0 25px #2d5e4d,
-    0 0 50px #2d5e4d;
 }
 
 /* Стиль для кнопки FAQ */
 .pre_page_window_button_faq {
-  position: absolute; /* Абсолютное позиционирование */
-  left: 10px; /* Располагаем элемент на 10 пикселей правее левого края контейнера */
-  top: 440px; /* Располагаем элемент на 340 пикселей ниже верхнего края контейнера */
-  width: 470px; /* Ширина элемента 470 пикселей */
-  height: 80px; /* Высота элемента 80 пикселей */
+
 
 }
 
+
+.pre_page_window_button {
+  width: 90%;
+  height: 80px;
+  margin: 30px;
+}
 
 /* Общий стиль для кнопок */
 .ldf_setting {
   border: none;
   height: 100%; /* Высота кнопки равна высоте контейнера */
   width: 100%; /* Ширина кнопки равна ширине контейнера */
-  color:#289bb8; /* Белый цвет текста */
+  color:#cccccc; /* Белый цвет текста */
   font-size: 50px; /* Размер шрифта 50 пикселей */
   padding: 0%; /* Убираем отступы */
 }
@@ -225,3 +222,12 @@ body {
   background-color: #2d5e4d;
 }
  
+.pre_page_window_button-container {
+  margin: auto;
+  width: fit-content;
+  height: fit-content;
+}
+
+.box-line {
+  background-color: #fff;
+}
