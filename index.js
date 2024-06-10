@@ -42,11 +42,29 @@ function addCards() {
             });
 
             dragulaReload();
+            clickReload();
         },
         error: function (jqXHR, textStatus, errorThrown) {
             console.error(`Error: ${textStatus} - ${errorThrown}`);
         },
     });
+}
+
+function clickReload() {
+    $(".main-card").on("mouseup", function() {
+        var sidePanelObj = $(".side-panel-card");
+
+        if(sidePanelObj.css("right")[0] == "-") {
+            sidePanelObj.animate({
+                "right": "10px"
+            }, 850)
+        }
+        else {
+            sidePanelObj.animate({
+                "right": "-65%"
+            }, 850)
+        }
+    })
 }
 
 function dragulaReload() {
@@ -134,6 +152,8 @@ function cardRender(data) {
                 // Заменяем PLACEHOLDERtag на полученные теги в HTML-шаблоне карточки
                 resultHTML = resultHTML.replace("PLACEHOLDERtag", tags);
                 $("#" + data.idStatus + ".helping-container").prepend(resultHTML);
+
+                clickReload();
             },
             error: function (jqXHR, textStatus, errorThrown) {
                 console.error(`Error: ${textStatus} - ${errorThrown}`);
@@ -142,14 +162,15 @@ function cardRender(data) {
     });
 }
 
-$(document).ready(function () {
-    columnRender({name: "Upcomming", id: 1});
-    columnRender({name: "In Progress", id: 2});
-    columnRender({name: "Done", id: 3});
 
-    cardRender({title: "Card title 1", label: "", deadline: "03-03-2024", cardid: 1, columnid: 1})
-    cardRender({title: "Card title 2", label: "", deadline: "03-03-2024", cardid: 2, columnid: 2})
-    cardRender({title: "Card title 3", label: "", deadline: "03-03-2024", cardid: 3, columnid: 1})
+$(document).ready(function () {
+    // columnRender({name: "Upcomming", id: 1});
+    // columnRender({name: "In Progress", id: 2});
+    // columnRender({name: "Done", id: 3});
+
+    // cardRender({title: "Card title 1", label: "", deadline: "03-03-2024", cardid: 1, columnid: 1})
+    // cardRender({title: "Card title 2", label: "", deadline: "03-03-2024", cardid: 2, columnid: 2})
+    // cardRender({title: "Card title 3", label: "", deadline: "03-03-2024", cardid: 3, columnid: 1})
 
     $.ajax({
         type: "GET",
