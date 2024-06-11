@@ -355,4 +355,26 @@ $(document).ready(function () {
     }
 
     dragulaReload();
+
+
+    $(".account-button").on("mouseup", function(e) {
+        if($(".user-settings-container").css("display") == "none") {
+          $(".user-settings-container").show();
+        }
+      })
+
+      $(document).on("click", function(e) {
+        if($(".user-settings-container").css("display") != "none" && 
+        (!$(e.target).hasClass(".user-settings-container") &&
+        $(e.target).closest(".account-button").length == 0)) {
+          $(".user-settings-container").hide();
+        }
+      })
+
+      $(".logout-butt").on("mouseup", function() {
+        if(Cookies.get("userguid") != null) {
+          Cookies.removeCookie("userguid");
+          window.location.href='http://127.0.0.1:5500/reglog.html';
+        }
+      })
 });
