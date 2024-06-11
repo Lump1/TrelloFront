@@ -1,6 +1,7 @@
 var endpoint = "https://localhost:7193/";
 var cardsEndpoint = "api/cards/";
 var statusEndpoint = "api/statuses/";
+var boardsEndpoint = "api/boards/";
 
 var isPopupOpened = false;
 
@@ -20,6 +21,15 @@ function dateFormater(dateToFormat) {
     return dateToFormat.getFullYear() + "-" + month + "-" + day;
 }
 
+function getUrlParameter(name) {
+    name = name.replace(/[\[\]]/g, '\\$&');
+    var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)');
+    var results = regex.exec(window.location.href);
+    if (!results) return null;
+    if (!results[2]) return '';
+    return decodeURIComponent(results[2].replace(/\+/g, ' '));
+}
+
 function setStatId(id) {
     $("#idcolCardCreate").val(id);
 }
@@ -31,23 +41,23 @@ function getDataFormat(date) {
     });
 }
 
-function addCards() {
-    $.ajax({
-        type: "GET",
-        url: `${endpoint}${cardsEndpoint}`,
-        dataType: "json",
-        success: function (response) {
-            response.forEach((item) => {
-                cardRender(item);
-            });
+// function addCards() {
+//     $.ajax({
+//         type: "GET",
+//         url: `${endpoint}${cardsEndpoint}`,
+//         dataType: "json",
+//         success: function (response) {
+//             response.forEach((item) => {
+//                 cardRender(item);
+//             });
 
-            dragulaReload();
-        },
-        error: function (jqXHR, textStatus, errorThrown) {
-            console.error(`Error: ${textStatus} - ${errorThrown}`);
-        },
-    });
-}
+//             dragulaReload();
+//         },
+//         error: function (jqXHR, textStatus, errorThrown) {
+//             console.error(`Error: ${textStatus} - ${errorThrown}`);
+//         },
+//     });
+// }
 
 function dragulaReload() {
     var drake = dragula($(".helping-container").toArray(), {
@@ -143,17 +153,17 @@ function cardRender(data) {
 }
 
 $(document).ready(function () {
-    columnRender({name: "Upcomming", id: 1});
-    columnRender({name: "In Progress", id: 2});
-    columnRender({name: "Done", id: 3});
+    // columnRender({name: "Upcomming", id: 1});
+    // columnRender({name: "In Progress", id: 2});
+    // columnRender({name: "Done", id: 3});
 
-    cardRender({title: "Card title 1", label: "", deadline: "03-03-2024", cardid: 1, columnid: 1})
-    cardRender({title: "Card title 2", label: "", deadline: "03-03-2024", cardid: 2, columnid: 2})
-    cardRender({title: "Card title 3", label: "", deadline: "03-03-2024", cardid: 3, columnid: 1})
+    // cardRender({title: "Card title 1", label: "", deadline: "03-03-2024", cardid: 1, columnid: 1})
+    // cardRender({title: "Card title 2", label: "", deadline: "03-03-2024", cardid: 2, columnid: 2})
+    // cardRender({title: "Card title 3", label: "", deadline: "03-03-2024", cardid: 3, columnid: 1})
 
     $.ajax({
         type: "GET",
-        url: `${endpoint}${statusEndpoint}`,
+        url: `${endpoint}${boardsEndpoint}${getUrlParameter("boardid")}`,
         dataType: "json",
         headers: {
             Accept: "application/json",
@@ -161,11 +171,17 @@ $(document).ready(function () {
         },
         success: function (response) {
             console.log(response);
-            Object.keys(response).forEach((item) => {
-                columnRender(response[item]);
+
+            Object.keys(response.statusColumns).forEach((item) => {
+                columnRender(response.statusColumns[item]);
             });
 
-            addCards();
+            Object.keys(response.cards).forEach((item) => {
+                cardRender(response.cards[item]);
+            });
+
+            loadTags(response.tags)
+
             dragulaReload();
         },
         error: function (jqXHR, textStatus, errorThrown) {
@@ -174,6 +190,30 @@ $(document).ready(function () {
             );
         },
     });
+
+    // $.ajax({
+    //     type: "GET",
+    //     url: `${endpoint}${statusEndpoint}`,
+    //     dataType: "json",
+    //     headers: {
+    //         Accept: "application/json",
+    //         "Content-Type": "application/json",
+    //     },
+    //     success: function (response) {
+    //         console.log(response);
+    //         Object.keys(response).forEach((item) => {
+    //             columnRender(response[item]);
+    //         });
+
+    //         addCards();
+    //         dragulaReload();
+    //     },
+    //     error: function (jqXHR, textStatus, errorThrown) {
+    //         console.error(
+    //             `Ошибка при получении данных о карточках: ${textStatus} - ${errorThrown}`
+    //         );
+    //     },
+    // });
 
     $("#buttonColumnCreate").on("click", function () {
         $.ajax({
@@ -184,9 +224,10 @@ $(document).ready(function () {
                 "Content-Type": "application/json",
             },
             data: JSON.stringify({
-                name: document.getElementById("titleColumnCreate").value.toString(),
+                name: document.getElementById("titleColumnCreate").value.toString(), idBoard: getUrlParameter("boardid")
             }),
             success: function (data, status) {
+                console.log(data);
                 columnRender(data);
                 dragulaReload();
             },
@@ -209,6 +250,7 @@ $(document).ready(function () {
             startdate: dateFormater(new Date()),
             deadline: $("#dateCardCreate").val(),
             idStatus: $("#idcolCardCreate").val(),
+            idBoard: getUrlParameter("boardid")
         };
 
         var tagId = $("#tagSelect").val();
@@ -267,22 +309,24 @@ $(document).ready(function () {
         divs.hide();
     });
 
-    function loadTags(boardId) {
-        $.ajax({
-            type: "GET",
-            url: `${endpoint}api/boards/${boardId}/tags`,
-            dataType: "json",
-            success: function (response) {
-                var tagSelect = $('#tagSelect');
-                tagSelect.empty();
-                response.forEach(function (tag) {
-                    tagSelect.append(new Option(tag.name, tag.id));
-                });
-            },
-            error: function (jqXHR, textStatus, errorThrown) {
-                console.error(`Error: ${textStatus} - ${errorThrown}`);
-            },
-        });
+    function loadTags(tags) {
+        tags.forEach(tag => tagSelect.append(new Option(tag.name, tag.id)))
+
+        // $.ajax({
+        //     type: "GET",
+        //     url: `${endpoint}api/boards/${boardId}/tags`,
+        //     dataType: "json",
+        //     success: function (response) {
+        //         var tagSelect = $('#tagSelect');
+        //         tagSelect.empty();
+        //         response.forEach(function (tag) {
+        //             tagSelect.append(new Option(tag.name, tag.id));
+        //         });
+        //     },
+        //     error: function (jqXHR, textStatus, errorThrown) {
+        //         console.error(`Error: ${textStatus} - ${errorThrown}`);
+        //     },
+        // });
     }
 
     $(document).mouseup(function (e) {
@@ -306,13 +350,13 @@ $(document).ready(function () {
 
     
 
-    $(document).on('click', 'a[href="#create"]', function () {
-        var boardId = 2;
-        if (boardId) {
-            loadTags(boardId);
-            console.log("Selected board ID: " + boardId);
-        }
-    });
+    // $(document).on('click', 'a[href="#create"]', function () {
+    //     var boardId = getUrlParameter("boardid");
+    //     if (boardId) {
+    //         loadTags(boardId);
+    //         console.log("Selected board ID: " + boardId);
+    //     }
+    // });
 
     function addTagToCard(cardId, tagId) {
         $.ajax({

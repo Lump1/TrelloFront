@@ -70,8 +70,8 @@ function stickerRender(boardid){
 }
 
 function clickReload() {
-  $(".sidenav-cards").click(function(){
-    var recentArray = JSON.parse(Cookies.get("recent"));
+  $(".sidenav-card").on("click", function(){
+    var recentArray = Cookies.get("recent") != undefined ? JSON.parse(Cookies.get("recent")) : null;
     var identifier = $(this).attr("id");
 
     if(recentArray != null) {
