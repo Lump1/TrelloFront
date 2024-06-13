@@ -1,6 +1,7 @@
 var endpoint = "https://localhost:7193/";
 var cardsEndpoint = "api/cards/";
 var statusEndpoint = "api/statuses/";
+var tasksEndpoint ="api/tasks/";
 
 var isPopupOpened = false;
 
@@ -391,10 +392,84 @@ $(document).ready(function () {
     ///начало работы с тасками ////////////////////////////////////////////////////////////////////////////////////////////////
 
 
+    function getTasks(cardId) {
+        $.ajax({
+            type: "GET",
+            url: `${endpoint}${tasksEndpoint}?cardId=${cardId}`,
+            success: function (response) {
+                console.log(response);
+                renderTasks(response.tasks);
+                updateProgress(response.tasks);
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                console.error(`Error: ${textStatus} - ${errorThrown}`);
+            }
+        });
+    }
 
-
-
-
+    function createTask(cardId, taskData) {
+        $.ajax({
+            type: "POST",
+            url: `${endpoint}${tasksEndpoint}`,
+            data: JSON.stringify({ cardId, ...taskData }),
+            contentType: "application/json",
+            success: function (response) {
+                console.log(response);
+                addTaskToDOM(response.task);
+                updateProgress(response.tasks);
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                console.error(`Error: ${textStatus} - ${errorThrown}`);
+            }
+        });
+    }
+    
+    function deleteTask(tasksId) {
+        $.ajax({
+            type: "DELETE",
+            url: `${endpoint}${tasksEndpoint}/${tasksId}`, 
+            success: function (response) {
+                console.log(response);
+                closeModal(); 
+                
+                $("input#task" + tasksId).remove();
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                console.error(`Error: ${textStatus} - ${errorThrown}`);
+            }
+        });
+    }
+    
+    function toggleTaskCompletion(taskId, isCompleted) {
+        $.ajax({
+            type: "PATCH",
+            url: `${endpoint}${tasksEndpoint}/${taskId}`,
+            data: JSON.stringify({ isCompleted: !isCompleted }),
+            contentType: "application/json",
+            success: function (response) {
+                console.log(response);
+                updateTaskInDOM(response.task);
+                updateProgress(response.tasks);
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                console.error(`Error: ${textStatus} - ${errorThrown}`);
+            }
+        });
+    }
+    
+    function updateProgress(tasks) {
+        const totalTasks = tasks.length;
+        const completedTasks = tasks.filter(task => task.isCompleted).length;
+        const progressPercentage = (totalTasks === 0) ? 0 : (completedTasks / totalTasks) * 100;
+        
+        $('side-card-progress-bar-fill').stop().animate({
+            width: `${progressPercentage}%`
+        }, {
+            duration: 500,
+            easing: 'swing' 
+        });
+    }
+    
 
 
 
