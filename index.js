@@ -267,6 +267,28 @@ $(document).ready(function () {
         divs.hide();
     });
 
+    $('#My-boards-button').on('click', function(event) {
+        var $menu = $('.My-boards-container-dropdown-menu');
+        if ($menu.hasClass('show')) {
+            $menu.removeClass('show');
+        } else {
+            $menu.addClass('show');
+        }
+        event.stopPropagation();
+    });
+
+    $(document).on('click', function(event) {
+        if (!$(event.target).closest('.My-boards-container').length) {
+            $('.My-boards-container-dropdown-menu').removeClass('show');
+        }
+    });
+
+    $('.My-boards-container-dropdown-menu li').on('click', function() {
+        $('.My-boards-container-dropdown-menu').removeClass('show');
+    });
+
+
+
     function loadTags(boardId) {
         $.ajax({
             type: "GET",
