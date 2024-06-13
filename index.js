@@ -143,13 +143,13 @@ function cardRender(data) {
 }
 
 $(document).ready(function () {
-    columnRender({name: "Upcomming", id: 1});
+   /*  columnRender({name: "Upcomming", id: 1});
     columnRender({name: "In Progress", id: 2});
     columnRender({name: "Done", id: 3});
 
     cardRender({title: "Card title 1", label: "", deadline: "03-03-2024", cardid: 1, columnid: 1})
     cardRender({title: "Card title 2", label: "", deadline: "03-03-2024", cardid: 2, columnid: 2})
-    cardRender({title: "Card title 3", label: "", deadline: "03-03-2024", cardid: 3, columnid: 1})
+    cardRender({title: "Card title 3", label: "", deadline: "03-03-2024", cardid: 3, columnid: 1}) */
 
     $.ajax({
         type: "GET",
@@ -233,7 +233,7 @@ $(document).ready(function () {
                 dragulaReload();
 
                 if (tagId) {
-                    addTagToCard(cardData.id, tagId); // Добавляем тег к карте
+                    addTagToCard(cardData.id, tagId); 
                 }
             },
             error: function (jqXHR, textStatus) {
@@ -243,9 +243,21 @@ $(document).ready(function () {
         });
     });
     
-    $(".main-card").on("mouseup", function() {
-        var sidePanelObj = $(".side-panel-card");
+    $(document).on("click", ".main-card", function() {
+        var cardId = $(this).data("card-id"); 
+        var id_status = $(this).data("column-id");
+        console.log("card-id"+cardId); 
+        updateCardTitle(cardId);
+        updateCardLabel(cardId);
+          
+       
+        updateColumnTitle(id_status);
 
+        console.log("column-id"+id_status);
+
+
+        var sidePanelObj = $(".side-panel-card");
+       
         if(sidePanelObj.css("right")[0] == "-") {
             sidePanelObj.animate({
                 "right": "10px"
@@ -256,7 +268,159 @@ $(document).ready(function () {
                 "right": "-65%"
             }, 1500)
         }
+
+        $("textarea[placeholder='Add more detailed description...']").off('change').on('change', function() {
+            var newLabel = $(this).val();
+            saveCardLabel(cardId, newLabel);
+        });
+        
+
+        $(document).on("click", ".delete-card-button", function() {
+            deleteCard(cardId);
+        });
+    
+        function deleteCard(cardId) {
+            $.ajax({
+                type: "DELETE",
+                url: `${endpoint}${cardsEndpoint}${cardId}`,
+                success: function (response) {
+                    console.log(response);
+                    closeModal(); 
+                    $(`[data-card-id='${cardId}']`).remove(); 
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    console.error(`Error: ${textStatus} - ${errorThrown}`);
+                }
+            });
+        }
+        
     })
+
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    function updateCardTitle(cardId) {
+        $.ajax({
+            type: "GET",
+            url: `${endpoint}${cardsEndpoint}${cardId}`,
+            dataType: "json",
+            success: function (response) {
+                
+                var cardTitle = response.title;
+                
+             
+                $(".side-card-side-card-text").text(cardTitle);
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                console.error(`Error: ${textStatus} - ${errorThrown}`);
+            }
+        });
+    }
+    function updateColumnTitle(id_status) {
+ 
+        $.ajax({
+            type: "GET",
+          url: `${endpoint}${statusEndpoint}${id_status}`, 
+            dataType: "json",
+            success: function (response) {
+          
+                var columnTitle = response.name;
+                
+              
+                $(".side-card-side-card-column-text").text(columnTitle);
+    
+                
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                console.error(`Error: ${textStatus} - ${errorThrown}`);
+            }
+        });
+    }
+
+    function updateCardLabel(cardId) {
+        $.ajax({
+            type: "GET",
+            url: `${endpoint}${cardsEndpoint}${cardId}`,
+            dataType: "json",
+            success: function (response) {
+                var cardLabel = response.label;
+                $("textarea[placeholder='Add more detailed description...']").val(cardLabel);
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                console.error(`Error: ${textStatus} - ${errorThrown}`);
+            }
+        });
+    }
+
+    function saveCardLabel(cardId, newLabel) {
+        $.ajax({
+            type: "GET",
+            url: `${endpoint}${cardsEndpoint}${cardId}`,
+            dataType: "json",
+            success: function (cardData) {
+                
+                cardData.label = newLabel;
+
+        
+                $.ajax({
+                    type: "PUT",
+                    url: `${endpoint}${cardsEndpoint}`,
+                    contentType: "application/json",
+                    data: JSON.stringify(cardData),
+                    success: function (response) {
+                        console.log(`Card ${cardId} label updated successfully`);
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        console.error(`Error: ${textStatus} - ${errorThrown}`);
+                    }
+                });
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                console.error(`Error: ${textStatus} - ${errorThrown}`);
+            }
+        });
+    }
+
+    
+
+
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    
+
+
+    
+    ///начало работы с тасками ////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    ///конец работы с тасками ////////////////////////////////////////////////////////////////////////////////////////////////
+
+
 
     $(document).mouseup(function (e) {
         var divs = $(".popup-window");
@@ -329,7 +493,7 @@ $(document).ready(function () {
     
 
     $(document).on('click', 'a[href="#create"]', function () {
-        var boardId = 2;
+        var boardId = 1;
         if (boardId) {
             loadTags(boardId);
             console.log("Selected board ID: " + boardId);
