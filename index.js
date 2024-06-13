@@ -243,7 +243,7 @@ $(document).ready(function () {
         });
     });
     
-    $(".main-card").on("click", function() {
+    $(".main-card").on("mouseup", function() {
         var sidePanelObj = $(".side-panel-card");
 
         if(sidePanelObj.css("right")[0] == "-") {

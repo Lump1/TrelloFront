@@ -1,0 +1,182 @@
+
+  
+  .side-card-container {
+    width: 80%;
+    max-width: 1000px;
+    display: flex;
+    background-color: #333;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.side-card-left-side {
+  width: 60%;
+  height: 100%;
+  padding: 20px;
+  background-color: #333;
+  border-right: 1px solid #444;
+}
+
+.side-card-right-side {
+  width: 40%;
+  height: 100%;
+  padding: 20px;
+  background-color: #2b2b2b;
+}
+
+.side-card-text h1 {
+  font-size: 20px;
+  margin-bottom: 20px;
+}
+
+.side-card-section {
+  margin-bottom: 20px;
+}
+
+.side-card-section-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.side-card-section-icon {
+  margin-right: 10px;
+  font-size: 18px;
+}
+
+.side-card-section-title {
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.side-card-section-content {
+  margin-top: 10px;
+}
+
+.side-card-section-content textarea, .side-card-section-content input[type="text"] {
+  width: 98%;
+  padding: 10px;
+  border: 1px solid #444;
+  resize: vertical;
+  background-color: #333;
+  color: white;
+  font-size: 14px;
+  border-radius: 4px;
+}
+
+.side-card-section-content input[type="checkbox"] {
+  margin-right: 10px;
+}
+
+.side-card-section-content label {
+  display: inline-block;
+  margin-right: 20px;
+  font-size: 14px;
+}
+
+.side-card-section-content button {
+  padding: 8px 15px;
+  border: none;
+  background-color: #367c38;
+  color: white;
+  cursor: pointer;
+  border-radius: 5px;
+  font-size: 14px;
+  margin-top: 10px;
+}
+
+.side-card-section-content button:hover {
+  background-color: #45a049;
+}
+
+.side-card-right-side .side-card-section-content {
+  padding: 10px;
+  border: 1px solid #444;
+  border-radius: 5px;
+  background-color: #333;
+  margin-bottom: 10px;
+}
+
+.side-card-right-side .side-card-section-content button {
+  margin-bottom: 10px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.side-card-right-side .side-card-section-content .side-card-icon {
+  margin-right: 5px;
+  font-size: 18px;
+}
+
+.side-card-right-side .side-card-section-content .side-card-label {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.side-card-right-side .side-card-section-content .side-card-label .side-card-icon {
+  margin-right: 5px;
+  font-size: 18px;
+}
+
+.side-card-right-side .side-card-section-content .side-card-label .side-card-text {
+  font-weight: bold;
+  font-size: 14px;
+}
+
+.side-card-right-side .side-card-section-content .side-card-button-group {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  margin: 0 auto;
+  gap: 20px;
+}
+
+.side-card-comment-section {
+  display: flex;
+  align-items: center;
+  border-top: 1px solid #444;
+  padding-top: 10px;
+}
+
+.side-card-comment-section textarea {
+  flex-grow: 1;
+  margin-right: 10px;
+}
+
+.side-card-comment-section button {
+  padding: 8px 15px;
+}
+
+.side-card-progress-bar {
+  width: 100%;
+  background-color: #444;
+  border-radius: 5px;
+  overflow: hidden;
+  margin-bottom: 10px;
+  height: 10px; /* Уменьшаем высоту */
+}
+
+.side-card-progress-bar-fill {
+  height: 100%;
+  background-color: #4CAF50;
+  text-align: right; /* Выравниваем текст по правому краю */
+  line-height: 10px; /* Высота строки равна высоте progress bar */
+  color: white;
+  border-radius: 5px;
+  padding-right: 5px; /* Добавляем немного отступа справа */
+}
+
+.side-card-clickable {
+  text-decoration: underline;
+  color: #4CAF50;
+  cursor: pointer;
+}
+
+.side-card-image-container img {
+  width: 100px;
+  height: 60px;
+}
+  
