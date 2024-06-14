@@ -1,6 +1,7 @@
 var endpoint = "https://localhost:7193/";
 var cardsEndpoint = "api/cards/";
 var statusEndpoint = "api/statuses/";
+var tasksEndpoint ="api/tasks/";
 
 var isPopupOpened = false;
 
@@ -247,8 +248,7 @@ $(document).ready(function () {
         var cardId = $(this).data("card-id"); 
         var id_status = $(this).data("column-id");
         console.log("card-id"+cardId); 
-        updateCardTitle(cardId);
-        updateCardLabel(cardId);
+        updateCardSettingsMenu(cardId);
           
        
         updateColumnTitle(id_status);
@@ -258,7 +258,7 @@ $(document).ready(function () {
 
         var sidePanelObj = $(".side-panel-card");
        
-        if(sidePanelObj.css("right")[0] == "-") {
+        if(sidePanelObj.css("right")[0] == "-" || sidePanelObj.css("right")[0] == "0") {
             sidePanelObj.animate({
                 "right": "10px"
             }, 1500)
@@ -297,17 +297,25 @@ $(document).ready(function () {
     })
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    function updateCardTitle(cardId) {
+    function updateCardSettingsMenu(cardId) {
         $.ajax({
             type: "GET",
             url: `${endpoint}${cardsEndpoint}${cardId}`,
             dataType: "json",
             success: function (response) {
-                
-                var cardTitle = response.title;
-                
-             
-                $(".side-card-side-card-text").text(cardTitle);
+                console.log(response);
+                $("textarea[placeholder='Add more detailed description...']").val(response.label);
+                $(".side-card-side-card-text").text(response.title);
+
+                if(response.taskDTOs != undefined) {
+                    getQuerryTemplate("Tasksdiv", {}).then(resultHTML => {
+                        $(".side-card-left-side").append(resultHTML)
+
+                        renderTasks(response.taskDTOs);
+                        updateProgress(response.taskDTOs);  
+                    })
+                    
+                }
             },
             error: function (jqXHR, textStatus, errorThrown) {
                 console.error(`Error: ${textStatus} - ${errorThrown}`);
@@ -335,20 +343,20 @@ $(document).ready(function () {
         });
     }
 
-    function updateCardLabel(cardId) {
-        $.ajax({
-            type: "GET",
-            url: `${endpoint}${cardsEndpoint}${cardId}`,
-            dataType: "json",
-            success: function (response) {
-                var cardLabel = response.label;
-                $("textarea[placeholder='Add more detailed description...']").val(cardLabel);
-            },
-            error: function (jqXHR, textStatus, errorThrown) {
-                console.error(`Error: ${textStatus} - ${errorThrown}`);
-            }
-        });
-    }
+    // function updateCardLabel(cardId) {
+    //     $.ajax({
+    //         type: "GET",
+    //         url: `${endpoint}${cardsEndpoint}${cardId}`,
+    //         dataType: "json",
+    //         success: function (response) {
+    //             var cardLabel = response.label;
+    //             $("textarea[placeholder='Add more detailed description...']").val(cardLabel);
+    //         },
+    //         error: function (jqXHR, textStatus, errorThrown) {
+    //             console.error(`Error: ${textStatus} - ${errorThrown}`);
+    //         }
+    //     });
+    // }
 
     function saveCardLabel(cardId, newLabel) {
         $.ajax({
@@ -391,13 +399,96 @@ $(document).ready(function () {
     ///начало работы с тасками ////////////////////////////////////////////////////////////////////////////////////////////////
 
 
+    // function getTasks(cardId) {
+    //     $.ajax({
+    //         type: "GET",
+    //         url: `${endpoint}${tasksEndpoint}?cardId=${cardId}`,
+    //         success: function (response) {
+    //             console.log(response);
+                
+    //         },
+    //         error: function (jqXHR, textStatus, errorThrown) {
+    //             console.error(`Error: ${textStatus} - ${errorThrown}`);
+    //         }
+    //     });
+    // }
+
+    function createTask(taskData) {
+        $.ajax({
+            type: "POST",
+            url: `${endpoint}${tasksEndpoint}`,
+            data: JSON.stringify(taskData),
+            contentType: "application/json",
+            success: function (response) {
+                renderTask(response);
+                // updateProgress(response.tasks);
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                console.error(`Error: ${textStatus} - ${errorThrown}`);
+            }
+        });
+    }
+    
+    function deleteTask(tasksId) {
+        $.ajax({
+            type: "DELETE",
+            url: `${endpoint}${tasksEndpoint}/${tasksId}`, 
+            success: function (response) {
+                console.log(response);
+                closeModal(); 
+                
+                $("input#task" + tasksId).remove();
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                console.error(`Error: ${textStatus} - ${errorThrown}`);
+            }
+        });
+    }
+    
+    function toggleTaskCompletion(taskId, isCompleted) {
+        $.ajax({
+            type: "PATCH",
+            url: `${endpoint}${tasksEndpoint}/${taskId}`,
+            data: JSON.stringify({ isCompleted: !isCompleted }),
+            contentType: "application/json",
+            success: function (response) {
+                console.log(response);
+                updateTaskInDOM(response.task);
+                updateProgress(response.tasks);
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                console.error(`Error: ${textStatus} - ${errorThrown}`);
+            }
+        });
+    }
+    
+    function updateProgress(tasks) {
+        const totalTasks = tasks.length;
+        const completedTasks = tasks.filter(task => task.isCompleted).length;
+        const progressPercentage = (totalTasks === 0) ? 0 : (completedTasks / totalTasks) * 100;
+        
+        $('side-card-progress-bar-fill').stop().animate({
+            width: `${progressPercentage}%`
+        }, {
+            duration: 500,
+            easing: 'swing' 
+        });
+    }
+    
 
 
+    function renderTasks(tasks) {
+        tasks.forEach(task => {
+            renderTask(task);
+        })
+    }
 
-
-
-
-
+    function renderTask(task) {
+        getQuerryTemplate("Taskobj", task).then(resultHTML => {
+            console.log(resultHTML);
+            $("#tasks-div").prepend(resultHTML);
+        })
+    }
 
 
 
@@ -430,6 +521,28 @@ $(document).ready(function () {
 
         divs.hide();
     });
+
+    $('#My-boards-button').on('click', function(event) {
+        var $menu = $('.My-boards-container-dropdown-menu');
+        if ($menu.hasClass('show')) {
+            $menu.removeClass('show');
+        } else {
+            $menu.addClass('show');
+        }
+        event.stopPropagation();
+    });
+
+    $(document).on('click', function(event) {
+        if (!$(event.target).closest('.My-boards-container').length) {
+            $('.My-boards-container-dropdown-menu').removeClass('show');
+        }
+    });
+
+    $('.My-boards-container-dropdown-menu li').on('click', function() {
+        $('.My-boards-container-dropdown-menu').removeClass('show');
+    });
+
+
 
     function loadTags(boardId) {
         $.ajax({

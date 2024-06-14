@@ -156,3 +156,36 @@ startPointTeamusercard
   </div>
 </div>
 breakPointTeamusercard
+
+startPointTasksdiv
+<div class="side-card-section">
+  <div class="side-card-section-header">
+      <i class="side-card-section-icon">📝</i>
+      <h2 class="side-card-section-title">Tasks</h2>
+  </div>
+  <div class="side-card-progress-bar">
+      <div class="side-card-progress-bar-fill" style="width: 0%;"><span style="font-size: 12px;">0%</span>
+      </div>
+  </div>
+  <div class="side-card-section-content">
+      <div class="side-card-section-content-tasks-container" id="tasks-div" style="margin-bottom: 10px;">
+ 
+      </div>
+      <button>Add element</button>
+      <!-- <button>Delete</button> -->
+  </div>
+</div>
+breakPointTasksdiv
+
+startPointTaskobj
+  <div class="actualy-task-container">
+    <script>
+      if(PLACEHOLDERiscompleted) {
+        $("input#task-PLACEHOLDERid").prop('checked', true);
+      }
+    </script>
+    <input type="checkbox" id="task-PLACEHOLDERid">
+    <label for="task-PLACEHOLDERid">PLACEHOLDERtitle</label>
+    <img class="cross-ico-task" id="PLACEHOLDERid" src="assets/x-mark.png" />
+  </div>
+breakPointTaskobj
