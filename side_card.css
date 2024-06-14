@@ -70,7 +70,7 @@
 
 .side-card-section-content label {
   display: inline-block;
-  margin-right: 20px;
+  margin-right: 5px;
   font-size: 14px;
 }
 
@@ -179,4 +179,21 @@
   width: 100px;
   height: 60px;
 }
-  
+
+.side-card-section-content-tasks-container {
+  display: inline-flex;
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+.actualy-task-container {
+  width: fit-content;
+  margin-top: 5px;
+  background-color: #2b2b2b;
+  height: 30px;
+  justify-content: center;
+  margin-right: 5px;
+  padding-top: 3px;
+  padding-left: 10px;
+  border-radius: 20px;
+}
