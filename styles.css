@@ -382,14 +382,17 @@ aside {
 .Tabel-container button:hover,
 .Calendar-container button:hover,
 .sidenav-container button:hover {
-  background-color: #2d2d30; /* Цвет при наведении курсора */
+  background-color: #2d2d30;
+  /* Цвет при наведении курсора */
 }
 
 .Tabel-container .icon,
 .Calendar-container .icon,
 .sidenav-container .icon {
-  font-size: 20px; /* Размер иконки */
-  margin-right: 10px; /* Отступ между иконкой и текстом */
+  font-size: 20px;
+  /* Размер иконки */
+  margin-right: 10px;
+  /* Отступ между иконкой и текстом */
   margin-bottom: 5px;
 }
 
@@ -422,6 +425,45 @@ aside {
 .icon-plus {
   margin-left: auto;
 }
+
+
+.My-boards-container-dropdown-menu {
+  display: block;
+  position: absolute;
+  background-color: #36363a;
+  min-width: 205px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+  margin-top: 10px;
+  padding: 0;
+  list-style: none;
+  border: 1px solid #36363a;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.5s ease, opacity 0.5s ease;
+  opacity: 0;
+}
+
+.My-boards-container-dropdown-menu.show {
+  max-height: 500px; /* Достаточно большая высота, чтобы вмещать все элементы */
+  opacity: 1;
+}
+
+.My-boards-container-dropdown-menu li {
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+.My-boards-container-dropdown-menu li a {
+  color: white;
+  text-decoration: none;
+}
+
+.My-boards-container-dropdown-menu li:hover {
+  background-color: #2d2d30;
+}
+
 
 /*--------------------------------------------------------------------------------------*/
 
@@ -593,6 +635,7 @@ header {
   margin-top: 15px;
   margin-bottom: 10px;
 }
+
 .sidenav-fight {
   margin-bottom: 10px;
   height: fit-content;
@@ -752,13 +795,11 @@ main {
   width: 100%;
   height: 100%;
   background: rgb(63, 113, 96);
-  background: linear-gradient(
-    122deg,
-    rgba(63, 113, 96, 1) 0%,
-    rgba(58, 144, 113, 1) 30%,
-    rgba(63, 122, 83, 1) 61%,
-    rgba(73, 107, 75, 1) 100%
-  );
+  background: linear-gradient(122deg,
+      rgba(63, 113, 96, 1) 0%,
+      rgba(58, 144, 113, 1) 30%,
+      rgba(63, 122, 83, 1) 61%,
+      rgba(73, 107, 75, 1) 100%);
 }
 
 /* Settings */
@@ -840,7 +881,7 @@ p {
   padding-bottom: 10px;
   /* align-items: center; */
   /* border-radius: 2%; */
-    background: #383838;
+  background: #383838;
 }
 
 .helping-container {
@@ -899,12 +940,15 @@ p {
   padding-bottom: 20px;
   margin-top: 10px;
   cursor: grab;
-  transition: box-shadow 0.3s ease; /* Плавный переход для тени */
+  transition: box-shadow 0.3s ease;
+  /* Плавный переход для тени */
 }
 
 .main-card:hover {
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2), /* Тень снизу */
-              0 6px 20px rgba(0, 0, 0, 0.19); /* Дополнительная большая тень */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2),
+    /* Тень снизу */
+    0 6px 20px rgba(0, 0, 0, 0.19);
+  /* Дополнительная большая тень */
 }
 
 
@@ -1180,13 +1224,13 @@ p {
 }
 
 .button-confirm-container-modal {
-    height: 90%;
+  height: 90%;
 }
 
-.button-confirm-modal{
-    width: 150px;
-    position: absolute;
-    bottom: 10px;
+.button-confirm-modal {
+  width: 150px;
+  position: absolute;
+  bottom: 10px;
 }
 
 .input-modal {
@@ -1282,6 +1326,7 @@ input[type="text"]:focus {
   height: 50px;
   border-radius: 0px 5px 5px 0px;
 }
+
 .modal-button-team-settings-mid {
   width: 50px;
   height: 50px;
@@ -1289,7 +1334,7 @@ input[type="text"]:focus {
   border-radius: 0px 0px 0px 0px;
 }
 
-.img-team-plus-button, 
+.img-team-plus-button,
 .img-team-search-button {
   width: 15px;
   height: 15px;
@@ -1317,7 +1362,7 @@ input[type="text"]:focus {
 .team-list {
   margin: auto;
   background-color: rgb(55, 54, 56);
-  border-radius: 5% 5% 5% 5% / 5% 5% 5% 5%; 
+  border-radius: 5% 5% 5% 5% / 5% 5% 5% 5%;
   border: solid 1px #4d4d52;
   width: 100%;
   height: 90%;
@@ -1342,9 +1387,7 @@ input[type="text"]:focus {
   display: inline-flex;
 }
 
-.team-list-text {
-
-}
+.team-list-text {}
 
 .cross-team-list {
   margin-left: auto;
@@ -1362,11 +1405,18 @@ input[type="text"]:focus {
   margin-left: 10px;
 }
 
+.cross-ico-task {
+  filter: invert(0.5);
+  width: 20px;
+  height: 20px;
+  margin-right: 5px;
+}
+
 
 .template-parent-container {
   width: 100%;
   height: 80%;
-  
+
   display: inline-flex;
   flex-wrap: wrap;
 
@@ -1381,7 +1431,7 @@ input[type="text"]:focus {
 
   display: inline-flex;
   flex-wrap: wrap;
-  
+
   border-radius: 10%;
   cursor: pointer;
 }
@@ -1399,6 +1449,7 @@ input[type="text"]:focus {
   margin-top: 33px;
   width: 100%;
 }
+
 /* Ends here */
 
 /*======================================== POPUP-WINDOW */
@@ -1454,6 +1505,7 @@ input[type="text"]:focus {
   display: flex;
   flex-direction: column;
 }
+
 .pop-over-acms-right {
   margin-left: auto;
   display: flex;
@@ -1525,9 +1577,13 @@ input[type="text"]:focus {
   text-align: left;
   margin-bottom: 10%;
 }
+
 .menu-item:hover,
 .pop-over-list-MaCards:hover,
-.close-list:hover,.pop-over-acms-left:hover,.pop-over-acms-right:hover,.pop-over-sort:hover{
+.close-list:hover,
+.pop-over-acms-left:hover,
+.pop-over-acms-right:hover,
+.pop-over-sort:hover {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2), 0 6px 20px rgba(0, 0, 0, 0.19);
   transition: box-shadow 0.3s ease;
 }
