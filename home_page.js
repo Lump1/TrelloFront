@@ -236,19 +236,17 @@ $(document).ready(function(){
     success: function (response) {
       console.log(response);
 
-      var recentArray = Cookies.get("recent") != undefined ? JSON.parse(Cookies.get("recent")) : [];
-      var favArray = Cookies.get("favorite") != undefined ? JSON.parse(Cookies.get("favorite")) : [];
-
-      console.log(recentArray);
+      var recentArray = Cookies.get("recent") != null ? JSON.parse(Cookies.get("recent")) : [];
+      var favArray = Cookies.get("favorite") != null ? JSON.parse(Cookies.get("favorite")) : [];
 
       Object.keys(response).forEach((item) => {
         boardCardRender(response[item]);
-        
-        if(recentArray.includes(response[item].id.toString())){
+
+        if(recentArray != null && recentArray.includes(response[item].id)){
           boardCardRender(response[item], "Recent");
         }
 
-        if(favArray.includes(response[item].id.toString())){
+        if(favArray != null && favArray.includes(response[item].id)){
           boardCardRender(response[item], "Favorite");
         }
 
