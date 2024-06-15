@@ -281,6 +281,19 @@ $(document).ready(function(){
     })
   })
 
+  $(".account-button").on("mouseup", function(e) {
+    if($(".user-settings-container").css("display") == "none") {
+      $(".user-settings-container").show();
+    }
+  })
+
+  $(".logout-butt").on("mouseup", function() {
+    if(Cookies.get("userguid") != null) {
+      Cookies.removeCookie("userguid");
+      window.location.href='http://127.0.0.1:5500/reglog.html';
+    }
+  })
+
   $(document).on("click", function(e) {
     var t = $('#sidenav-button-temlates-menu-js');
     if (e.target.id === 'sidenav-button-temlates-js' || e.target.id === 'sidenav-button-temlates-menu-js') {
@@ -299,6 +312,15 @@ $(document).ready(function(){
       w.slideUp("slow");
     }
   });
+
+  $(document).on("click", function(e) {
+    if($(".user-settings-container").css("display") != "none" && 
+    (!$(e.target).hasClass(".user-settings-container") &&
+    $(e.target).closest(".account-button").length == 0)) {
+      $(".user-settings-container").hide();
+    }
+  })
+
   $(".sidenav-button-home-page").click(function(){
     window.location.href='http://127.0.0.1:5500/index.html' //пока что для проверки
   });

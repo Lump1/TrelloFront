@@ -117,9 +117,7 @@ function toggleTaskCompletion(taskid) {
             }
         });
 
-    
-
-
+   
 }
 
 function updateProgress(tasks) {
@@ -150,6 +148,23 @@ function checkboxesReload(tasks) {
             })
         })
         
+    })
+}
+
+function clickReload() {
+    $(".main-card").on("mouseup", function() {
+        var sidePanelObj = $(".side-panel-card");
+
+        if(sidePanelObj.css("right")[0] == "-") {
+            sidePanelObj.animate({
+                "right": "10px"
+            }, 850)
+        }
+        else {
+            sidePanelObj.animate({
+                "right": "-65%"
+            }, 850)
+        }
     })
 }
 
@@ -238,6 +253,8 @@ function cardRender(data) {
                 // Заменяем PLACEHOLDERtag на полученные теги в HTML-шаблоне карточки
                 resultHTML = resultHTML.replace("PLACEHOLDERtag", tags);
                 $("#" + data.idStatus + ".helping-container").prepend(resultHTML);
+
+                clickReload();
             },
             error: function (jqXHR, textStatus, errorThrown) {
                 console.error(`Error: ${textStatus} - ${errorThrown}`);
@@ -247,6 +264,7 @@ function cardRender(data) {
         dragulaReload();
     });
 }
+
 
 $(document).ready(function () {
     $.ajax({
@@ -680,4 +698,25 @@ $(document).ready(function () {
             dataType: "json",
         });
     }
+
+    $(".account-button").on("mouseup", function(e) {
+        if($(".user-settings-container").css("display") == "none") {
+          $(".user-settings-container").show();
+        }
+      })
+
+      $(document).on("click", function(e) {
+        if($(".user-settings-container").css("display") != "none" && 
+        (!$(e.target).hasClass(".user-settings-container") &&
+        $(e.target).closest(".account-button").length == 0)) {
+          $(".user-settings-container").hide();
+        }
+      })
+
+      $(".logout-butt").on("mouseup", function() {
+        if(Cookies.get("userguid") != null) {
+          Cookies.removeCookie("userguid");
+          window.location.href='http://127.0.0.1:5500/reglog.html';
+        }
+      })
 });
