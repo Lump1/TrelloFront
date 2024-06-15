@@ -243,6 +243,8 @@ function cardRender(data) {
                 console.error(`Error: ${textStatus} - ${errorThrown}`);
             },
         });
+
+        dragulaReload();
     });
 }
 
@@ -462,7 +464,7 @@ $(document).ready(function () {
                 var columnTitle = response.name;
                 
               
-                $(".side-card-side-card-column-text").text(columnTitle);
+                $(".side-card-side-card-column-text").text("In the column " + columnTitle);
     
                 
             },
@@ -639,8 +641,6 @@ $(document).ready(function () {
         $('.My-boards-container-dropdown-menu').removeClass('show');
     });
 
-    }
-
     $(document).mouseup(function (e) {
         if (isPopupOpened &&
             (!$(e.target).hasClass("popup-window") &&
@@ -680,6 +680,4 @@ $(document).ready(function () {
             dataType: "json",
         });
     }
-
-    dragulaReload();
 });
