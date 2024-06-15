@@ -1,6 +1,7 @@
 var endpoint = "https://localhost:7193/";
 var cardsEndpoint = "api/cards/";
 var statusEndpoint = "api/statuses/";
+var tasksEndpoint ="api/tasks/";
 
 var isPopupOpened = false;
 
@@ -47,6 +48,99 @@ function addCards() {
             console.error(`Error: ${textStatus} - ${errorThrown}`);
         },
     });
+}
+
+function getTask(taskId) {
+    return new Promise((resolve, reject) => {
+        $.ajax({
+            type: "GET",
+            url: `${endpoint}${tasksEndpoint}${taskId}`,
+            success: function (response) {
+                var responseTask = response;
+                resolve(responseTask);
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                // reject(`Error: ${textStatus} - ${errorThrown}`);
+            }
+        });
+    })
+
+}
+
+function getTasks(cardId) {
+    return new Promise((resolve, reject) => {
+        $.ajax({
+            type: "GET",
+            url: `${endpoint}${cardsEndpoint}${cardId}/tasks`,
+            success: function (response) {
+                var responseTasks = response;
+                resolve(responseTasks);
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                // reject(`Error: ${textStatus} - ${errorThrown}`);
+            }
+        });
+    })
+
+}
+
+function toggleTaskCompletion(taskid) {
+
+        $.ajax({
+            type: "GET",
+            url: `${endpoint}${tasksEndpoint}${taskid}/change-complete-status`,
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+            },
+            contentType: "json",
+            success: function (response) {
+                console.log(response);
+                getTask(taskid).then(task => {
+                    getTasks(task.idCard).then(responseTasks => {
+                        updateProgress(responseTasks);
+                    })
+                })
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                console.error(`Error: ${textStatus} - ${errorThrown}`);
+            }
+        });
+
+    
+
+
+}
+
+function updateProgress(tasks) {
+        const totalTasks = tasks.length;
+        const completedTasks = tasks.filter(task => task.iscompleted).length;
+        const progressPercentage = Math.floor((totalTasks === 0) ? 0 : (completedTasks / totalTasks) * 100);
+        
+        $('.side-card-progress-bar-fill').stop().animate({
+            width: `${progressPercentage}%`
+        }, {
+            duration: 500,
+            easing: 'swing' 
+        });
+        $('.side-card-progress-bar-fill').html(progressPercentage + "%");
+}
+
+function checkboxesReload(tasks) {
+    $("input:checkbox").change(function(e) {
+        e.stopImmediatePropagation()
+        console.log(e.target);
+        var identifier = $(e.target).attr("id").slice(0, 4) == "task" ? $(e.target).attr("id").slice(5) : undefined;
+        if(identifier == undefined) return;
+
+        toggleTaskCompletion(identifier);
+        getTask(identifier).then(task => {
+            getTasks(task.idCard).then(responseTasks => {
+                updateProgress(responseTasks);
+            })
+        })
+        
+    })
 }
 
 function dragulaReload() {
@@ -247,8 +341,7 @@ $(document).ready(function () {
         var cardId = $(this).data("card-id"); 
         var id_status = $(this).data("column-id");
         console.log("card-id"+cardId); 
-        updateCardTitle(cardId);
-        updateCardLabel(cardId);
+        updateCardSettingsMenu(cardId);
           
        
         updateColumnTitle(id_status);
@@ -258,13 +351,13 @@ $(document).ready(function () {
 
         var sidePanelObj = $(".side-panel-card");
        
-        if(sidePanelObj.css("right")[0] == "-") {
-            sidePanelObj.animate({
+        if(sidePanelObj.css("right")[0] == "-" || sidePanelObj.css("right")[0] == "0") {
+            sidePanelObj.stop().animate({
                 "right": "10px"
             }, 1500)
         }
         else {
-            sidePanelObj.animate({
+            sidePanelObj.stop().animate({
                 "right": "-65%"
             }, 1500)
         }
@@ -297,17 +390,27 @@ $(document).ready(function () {
     })
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    function updateCardTitle(cardId) {
+    function updateCardSettingsMenu(cardId) {
         $.ajax({
             type: "GET",
             url: `${endpoint}${cardsEndpoint}${cardId}`,
             dataType: "json",
             success: function (response) {
-                
-                var cardTitle = response.title;
-                
-             
-                $(".side-card-side-card-text").text(cardTitle);
+                console.log(response);
+                $("textarea[placeholder='Add more detailed description...']").val(response.label);
+                $(".side-card-side-card-text").text(response.title);
+
+                if(response.taskDTOs != undefined) {
+                    getQuerryTemplate("Tasksdiv", {}).then(resultHTML => {
+                        
+                        $("#task-cont-div").html(resultHTML);
+                        renderTasks(response.taskDTOs);
+                        updateProgress(response.taskDTOs);  
+
+                        
+                    })
+                    
+                }
             },
             error: function (jqXHR, textStatus, errorThrown) {
                 console.error(`Error: ${textStatus} - ${errorThrown}`);
@@ -335,20 +438,20 @@ $(document).ready(function () {
         });
     }
 
-    function updateCardLabel(cardId) {
-        $.ajax({
-            type: "GET",
-            url: `${endpoint}${cardsEndpoint}${cardId}`,
-            dataType: "json",
-            success: function (response) {
-                var cardLabel = response.label;
-                $("textarea[placeholder='Add more detailed description...']").val(cardLabel);
-            },
-            error: function (jqXHR, textStatus, errorThrown) {
-                console.error(`Error: ${textStatus} - ${errorThrown}`);
-            }
-        });
-    }
+    // function updateCardLabel(cardId) {
+    //     $.ajax({
+    //         type: "GET",
+    //         url: `${endpoint}${cardsEndpoint}${cardId}`,
+    //         dataType: "json",
+    //         success: function (response) {
+    //             var cardLabel = response.label;
+    //             $("textarea[placeholder='Add more detailed description...']").val(cardLabel);
+    //         },
+    //         error: function (jqXHR, textStatus, errorThrown) {
+    //             console.error(`Error: ${textStatus} - ${errorThrown}`);
+    //         }
+    //     });
+    // }
 
     function saveCardLabel(cardId, newLabel) {
         $.ajax({
@@ -395,9 +498,56 @@ $(document).ready(function () {
 
 
 
+    function createTask(taskData) {
+        $.ajax({
+            type: "POST",
+            url: `${endpoint}${tasksEndpoint}`,
+            data: JSON.stringify(taskData),
+            contentType: "application/json",
+            success: function (response) {
+                renderTask(response);
+                // updateProgress(response.tasks);
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                console.error(`Error: ${textStatus} - ${errorThrown}`);
+            }
+        });
+    }
+    
+    function deleteTask(tasksId) {
+        $.ajax({
+            type: "DELETE",
+            url: `${endpoint}${tasksEndpoint}/${tasksId}`, 
+            success: function (response) {
+                console.log(response);
+                closeModal(); 
+                
+                $("input#task" + tasksId).remove();
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                console.error(`Error: ${textStatus} - ${errorThrown}`);
+            }
+        });
+    }
+    
+
+    
+
+    
 
 
+    function renderTasks(tasks) {
+        tasks.forEach(task => {
+            renderTask(task);
+        })
+    }
 
+    function renderTask(task) {
+        getQuerryTemplate("Taskobj", task).then(resultHTML => {
+            $("#tasks-div").prepend(resultHTML);
+            checkboxesReload();
+        })
+    }
 
 
 
