@@ -50,6 +50,99 @@ function addCards() {
     });
 }
 
+function getTask(taskId) {
+    return new Promise((resolve, reject) => {
+        $.ajax({
+            type: "GET",
+            url: `${endpoint}${tasksEndpoint}${taskId}`,
+            success: function (response) {
+                var responseTask = response;
+                resolve(responseTask);
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                // reject(`Error: ${textStatus} - ${errorThrown}`);
+            }
+        });
+    })
+
+}
+
+function getTasks(cardId) {
+    return new Promise((resolve, reject) => {
+        $.ajax({
+            type: "GET",
+            url: `${endpoint}${cardsEndpoint}${cardId}/tasks`,
+            success: function (response) {
+                var responseTasks = response;
+                resolve(responseTasks);
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                // reject(`Error: ${textStatus} - ${errorThrown}`);
+            }
+        });
+    })
+
+}
+
+function toggleTaskCompletion(taskid) {
+
+        $.ajax({
+            type: "GET",
+            url: `${endpoint}${tasksEndpoint}${taskid}/change-complete-status`,
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+            },
+            contentType: "json",
+            success: function (response) {
+                console.log(response);
+                getTask(taskid).then(task => {
+                    getTasks(task.idCard).then(responseTasks => {
+                        updateProgress(responseTasks);
+                    })
+                })
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                console.error(`Error: ${textStatus} - ${errorThrown}`);
+            }
+        });
+
+    
+
+
+}
+
+function updateProgress(tasks) {
+        const totalTasks = tasks.length;
+        const completedTasks = tasks.filter(task => task.iscompleted).length;
+        const progressPercentage = Math.floor((totalTasks === 0) ? 0 : (completedTasks / totalTasks) * 100);
+        
+        $('.side-card-progress-bar-fill').stop().animate({
+            width: `${progressPercentage}%`
+        }, {
+            duration: 500,
+            easing: 'swing' 
+        });
+        $('.side-card-progress-bar-fill').html(progressPercentage + "%");
+}
+
+function checkboxesReload(tasks) {
+    $("input:checkbox").change(function(e) {
+        e.stopImmediatePropagation()
+        console.log(e.target);
+        var identifier = $(e.target).attr("id").slice(0, 4) == "task" ? $(e.target).attr("id").slice(5) : undefined;
+        if(identifier == undefined) return;
+
+        toggleTaskCompletion(identifier);
+        getTask(identifier).then(task => {
+            getTasks(task.idCard).then(responseTasks => {
+                updateProgress(responseTasks);
+            })
+        })
+        
+    })
+}
+
 function dragulaReload() {
     var drake = dragula($(".helping-container").toArray(), {
         invalid: function (el, handle) {
@@ -259,12 +352,12 @@ $(document).ready(function () {
         var sidePanelObj = $(".side-panel-card");
        
         if(sidePanelObj.css("right")[0] == "-" || sidePanelObj.css("right")[0] == "0") {
-            sidePanelObj.animate({
+            sidePanelObj.stop().animate({
                 "right": "10px"
             }, 1500)
         }
         else {
-            sidePanelObj.animate({
+            sidePanelObj.stop().animate({
                 "right": "-65%"
             }, 1500)
         }
@@ -309,10 +402,12 @@ $(document).ready(function () {
 
                 if(response.taskDTOs != undefined) {
                     getQuerryTemplate("Tasksdiv", {}).then(resultHTML => {
-                        $(".side-card-left-side").append(resultHTML)
-
+                        
+                        $("#task-cont-div").html(resultHTML);
                         renderTasks(response.taskDTOs);
                         updateProgress(response.taskDTOs);  
+
+                        
                     })
                     
                 }
@@ -399,19 +494,9 @@ $(document).ready(function () {
     ///начало работы с тасками ////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-    // function getTasks(cardId) {
-    //     $.ajax({
-    //         type: "GET",
-    //         url: `${endpoint}${tasksEndpoint}?cardId=${cardId}`,
-    //         success: function (response) {
-    //             console.log(response);
-                
-    //         },
-    //         error: function (jqXHR, textStatus, errorThrown) {
-    //             console.error(`Error: ${textStatus} - ${errorThrown}`);
-    //         }
-    //     });
-    // }
+
+
+
 
     function createTask(taskData) {
         $.ajax({
@@ -445,35 +530,9 @@ $(document).ready(function () {
         });
     }
     
-    function toggleTaskCompletion(taskId, isCompleted) {
-        $.ajax({
-            type: "PATCH",
-            url: `${endpoint}${tasksEndpoint}/${taskId}`,
-            data: JSON.stringify({ isCompleted: !isCompleted }),
-            contentType: "application/json",
-            success: function (response) {
-                console.log(response);
-                updateTaskInDOM(response.task);
-                updateProgress(response.tasks);
-            },
-            error: function (jqXHR, textStatus, errorThrown) {
-                console.error(`Error: ${textStatus} - ${errorThrown}`);
-            }
-        });
-    }
+
     
-    function updateProgress(tasks) {
-        const totalTasks = tasks.length;
-        const completedTasks = tasks.filter(task => task.isCompleted).length;
-        const progressPercentage = (totalTasks === 0) ? 0 : (completedTasks / totalTasks) * 100;
-        
-        $('side-card-progress-bar-fill').stop().animate({
-            width: `${progressPercentage}%`
-        }, {
-            duration: 500,
-            easing: 'swing' 
-        });
-    }
+
     
 
 
@@ -485,8 +544,8 @@ $(document).ready(function () {
 
     function renderTask(task) {
         getQuerryTemplate("Taskobj", task).then(resultHTML => {
-            console.log(resultHTML);
             $("#tasks-div").prepend(resultHTML);
+            checkboxesReload();
         })
     }
 

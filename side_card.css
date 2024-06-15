@@ -156,7 +156,8 @@
   border-radius: 5px;
   overflow: hidden;
   margin-bottom: 10px;
-  height: 10px; /* Уменьшаем высоту */
+  text-align: center;
+  height: 16px; /* Уменьшаем высоту */
 }
 
 .side-card-progress-bar-fill {
@@ -165,6 +166,7 @@
   text-align: right; /* Выравниваем текст по правому краю */
   line-height: 10px; /* Высота строки равна высоте progress bar */
   color: white;
+  padding-top: 4px;
   border-radius: 5px;
   padding-right: 5px; /* Добавляем немного отступа справа */
 }
