@@ -70,8 +70,8 @@ function stickerRender(boardid){
 }
 
 function clickReload() {
-  $(".sidenav-cards").click(function(){
-    var recentArray = JSON.parse(Cookies.get("recent"));
+  $(".sidenav-card").on("click", function(){
+    var recentArray = Cookies.get("recent") != undefined ? JSON.parse(Cookies.get("recent")) : null;
     var identifier = $(this).attr("id");
 
     if(recentArray != null) {
@@ -236,17 +236,19 @@ $(document).ready(function(){
     success: function (response) {
       console.log(response);
 
-      var recentArray = Cookies.get("recent") != null ? JSON.parse(Cookies.get("recent")) : [];
-      var favArray = Cookies.get("favorite") != null ? JSON.parse(Cookies.get("favorite")) : [];
+      var recentArray = Cookies.get("recent") != undefined ? JSON.parse(Cookies.get("recent")) : [];
+      var favArray = Cookies.get("favorite") != undefined ? JSON.parse(Cookies.get("favorite")) : [];
+
+      console.log(recentArray);
 
       Object.keys(response).forEach((item) => {
         boardCardRender(response[item]);
-
-        if(recentArray != null && recentArray.includes(response[item].id)){
+        
+        if(recentArray.includes(response[item].id.toString())){
           boardCardRender(response[item], "Recent");
         }
 
-        if(favArray != null && favArray.includes(response[item].id)){
+        if(favArray.includes(response[item].id.toString())){
           boardCardRender(response[item], "Favorite");
         }
 
