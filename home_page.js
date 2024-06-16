@@ -64,8 +64,7 @@ function stickerRender(boardid){
   else {
     sticker = String.fromCodePoint(char);
   }
-  console.log($("#" + boardid + ".sidenav-sticker"));
-
+  $("#" + boardid + ".sidenav-sticker").html(" ");
   $("#" + boardid + ".sidenav-sticker").append('<span class="sidenav-sticker-span">' + sticker + '</span>');
 }
 
@@ -287,12 +286,13 @@ $(document).ready(function(){
     }
   })
 
-  $(".logout-butt").on("mouseup", function() {
-    if(Cookies.get("userguid") != null) {
-      Cookies.removeCookie("userguid");
-      window.location.href='http://127.0.0.1:5500/reglog.html';
+  $(".logout-butt").on("click", function () {
+    console.log(Cookies.get("userGUID"));
+    if (Cookies.get("userGUID") != null) {
+        Cookies.remove("userGUID");
+        window.location.href = 'http://127.0.0.1:5500/reglog.html';
     }
-  })
+})
 
   $(document).on("click", function(e) {
     var t = $('#sidenav-button-temlates-menu-js');
