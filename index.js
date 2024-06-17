@@ -270,6 +270,10 @@ function cardRender(data) {
 
 
 $(document).ready(function () {
+
+
+    new changingInput();
+
     $.ajax({
         type: "GET",
         url: `${endpoint}${boardsEndpoint}${getUrlParameter("boardid")}`,
