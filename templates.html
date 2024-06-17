@@ -36,7 +36,11 @@ breakPointColumn startPointCard
     <p class="card-tag card-sm-text">PLACEHOLDERtag</p>
   </div>
   <div class="card-main">
-    <p class="card-main-text card-text">PLACEHOLDERtitle</p>
+    <p class="card-main-text card-text" 
+        data-ci-id="PLACEHOLDERid"  
+        data-req-var-name="name"
+        data-ci-url="https://localhost:7193/api/statuses">
+    >PLACEHOLDERtitle</p>
   </div>
   <div class="card-footer-man">
     <div class="d-inline-flex">
@@ -138,7 +142,11 @@ breakPointPopup
 startPointBoard
 
 <div class="sidenav-card" id="PLACEHOLDERid">
-  <div class="sidenav-cards-setting">
+  <div class="sidenav-cards-setting"
+      data-ci-id="PLACEHOLDERid"  
+      data-req-var-name="name"
+      data-ci-url="https://localhost:7193/api/boards"
+  >
     PLACEHOLDERname
   </div>
   <div class="sidenav-sticker" id="PLACEHOLDERid">
@@ -185,16 +193,21 @@ startPointTaskobj
       }
     </script>
     <input type="checkbox" id="task-PLACEHOLDERid">
-    <label for="task-PLACEHOLDERid">PLACEHOLDERtitle</label>
+    <label for="task-PLACEHOLDERid"
+          data-ci-id="PLACEHOLDERid"  
+          data-req-var-name="title"
+          data-ci-url="https://localhost:7193/api/tasks"
+    >
+    PLACEHOLDERtitle</label>
     <img class="cross-ico-task" id="PLACEHOLDERid" src="assets/x-mark.png" />
   </div>
 breakPointTaskobj
 
 startPointTitle
   <h2 id="project-title" 
-      data-ci-id="1"  
+      data-ci-id="PLACEHOLDERid"  
       data-req-var-name="name"
-      data-ci-url="https://localhost:7193/api/bords/PLACEHOLDERid">
-          Project Management
+      data-ci-url="https://localhost:7193/api/boards">
+          PLACEHOLDERname
   </h2>
 breakPointTitle

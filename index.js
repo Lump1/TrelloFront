@@ -270,10 +270,6 @@ function cardRender(data) {
 
 
 $(document).ready(function () {
-
-
-    new changingInput();
-
     $.ajax({
         type: "GET",
         url: `${endpoint}${boardsEndpoint}${getUrlParameter("boardid")}`,
@@ -292,6 +288,11 @@ $(document).ready(function () {
             Object.keys(response.cards).forEach((item) => {
                 cardRender(response.cards[item]);
             });
+
+            getQuerryTemplate("Title", response).then((resultHTML) => {
+                $(".aside-h-container").append($(resultHTML));
+                new changingInput();
+            })
 
             loadTags(response.tags)
 

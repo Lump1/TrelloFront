@@ -44,14 +44,19 @@ class changingInput {
 
     #initialization() {
         const self = this;
-
+        console.log(self);
         $(`[data-ci-id]`).on("click", function() {
+            
             var selectedElement = $(this);
             self.#changeToInput(selectedElement);
 
             var selectedInput = $(`.ci-input-form#${selectedElement.data("ci-id")}`);
             selectedInput.focus();
             selectedInput.blur(function() {
+                var data = {id: selectedInput.attr("id")}
+                data[selectedInput.data("req-var-name")] = selectedInput.val();
+                console.log(data);
+                Ajax.request(selectedInput.data("ci-url"), "PUT", data);
                 self.#changeFromInput($(this));
             });
         });
@@ -67,8 +72,11 @@ class changingInput {
             var selectedInput = $(`.ci-input-form#${selectedElement.data("ci-id")}`);
             selectedInput.focus();
             selectedInput.blur(function() {
-                Ajax.request(self.data("ci-url"), "PUT", {})
-                self.#changeFromInput($(this)); 
+                var data = {id: selectedInput.attr("id")}
+                data[selectedInput.data("req-var-name")] = selectedInput.val();
+                console.log(data);
+                Ajax.request(selectedInput.data("ci-url"), "PUT", data);
+                self.#changeFromInput($(this));
             });
         })
     }
@@ -87,15 +95,24 @@ class changingInput {
 
 class Ajax {
     static request(url, method, data) {
-        $.ajax({
-            method: method,
-            url: url,
-            data: data,
-            headers: {
-                Accept: "application/json",
-                "Content-Type": "application/json",
-            },
-            dataType: "json",
+        return new Promise((resolve, reject) => {
+            $.ajax({
+                method: method,
+                url: url,
+                data: JSON.stringify(data),
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json",
+                },
+                dataType: "json",
+                success: function (response) {
+                    resolve(response);
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    reject(`${textStatus} - ${errorThrown}`);
+                },
+            })
         })
+
     }
 }
