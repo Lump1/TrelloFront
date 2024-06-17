@@ -236,6 +236,8 @@ function cardRender(data) {
     });
 }
 
+
+
 $(document).ready(function () {
    /*  columnRender({name: "Upcomming", id: 1});
     columnRender({name: "In Progress", id: 2});
@@ -244,6 +246,8 @@ $(document).ready(function () {
     cardRender({title: "Card title 1", label: "", deadline: "03-03-2024", cardid: 1, columnid: 1})
     cardRender({title: "Card title 2", label: "", deadline: "03-03-2024", cardid: 2, columnid: 2})
     cardRender({title: "Card title 3", label: "", deadline: "03-03-2024", cardid: 3, columnid: 1}) */
+
+    new changingInput();
 
     $.ajax({
         type: "GET",
