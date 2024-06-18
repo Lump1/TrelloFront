@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Profile Settings</title>
+  <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+  <script src="jquery/node_modules/js-cookie/dist/js.cookie.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
+  <script src="profile-settings.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+  <link rel="stylesheet" href="profile_settings.css">
+</head>
+
+<body>
+  <div class="profile-settings-container">
+    <main class="profile-settings-main-content">
+      <div style="height: 100%; width: 350px;">
+
+        <aside class="profile-settings-container-sidebar">
+          <div class="profile-header">
+            <img src="profile-pic.png" alt="Profile Picture" class="profile-picture">
+            <h1 class="username">username</h1>
+            <h2 class="user-handle">(username)</h2>
+            <a href="#" class="switch-context">Switch settings context</a>
+          </div>
+
+          <nav class="profile-sidebar-menu">
+            <ul>
+              <li><a href="#public-profile">Public profile</a></li>
+              <li><a href="#account">Account</a></li>
+              <li><a href="#appaerance">Appearance</a></li>
+              <li><a href="#accessibility">Accessibility</a></li>
+              <li><a href="#notifications">Notifications</a></li>
+            </ul>
+
+            <hr>
+          </nav>
+        </aside>
+
+      </div>
+
+      <div style="width: 100%;">
+
+        <div class="profile-main-container">
+          <h1 id="public-profile">Public profile</h1>
+          <button href="#" class="btn btn-outline-secondary profile-link" id="go-back-js">Go back</button>
+        </div>
+
+        <form class="profile-form">
+          <label for="name">Name</label>
+          <input type="text" id="name"
+            placeholder="Your name may appear around Chelo where you contribute or are mentioned. You can remove it at any time.">
+
+          <label for="public-email">Public email</label>
+
+          <select id="public-email">
+            <option>Select a verified email to display</option>
+          </select>
+
+          <p class="email-info">You have set your email address to private. To toggle email privacy, go to
+            <a href="#">email settings</a>
+            and uncheck "Keep my email address private".
+          </p>
+
+          <label for="bio">Bio</label>
+          <textarea id="bio" placeholder="Tell us a little bit about yourself"></textarea>
+          <p class="bio-info">You can @mention other users and organizations to link to them.</p>
+
+          <label for="pronouns">Pronouns</label>
+          <select id="pronouns">
+            <option>Don't specify</option>
+          </select>
+
+          <div class="profile-picture-section">
+            <img src="profile-pic.png" alt="Profile Picture" class="profile-picture">
+            <button class="edit-picture">Edit</button>
+          </div>
+        </form>
+
+        <div class="profile-main-container">
+          <h1 id="account">Account</h1>
+        </div>
+
+        <section class="setting-section">
+          <h2>Change username</h2>
+          <p>Changing your username can have <a href="#">unintended side effects</a>.</p>
+          <button class="btn btn-outline-secondary">Change username</button>
+          <p>Looking to manage account security settings? You can find them in the <a href="#">Password and
+              authentication</a> page.</p>
+        </section>
+
+        <section class="setting-section">
+          <h2>Export account data</h2>
+          <p>Export all repositories and profile metadata for @name. Exports will be available for 7 days.</p>
+          <button class="btn btn-outline-secondary">Start export</button>
+        </section>
+
+        <section class="setting-section">
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <h2>Password settings</h2>
+            <button type="button" class="btn btn-outline-secondary change-password-setting">Change password</button>
+          </div>
+          <div id="password-fields">
+            <form>
+              <div class="mb-3">
+                <label for="old-password" class="form-label">Old password</label>
+                <input type="password" class="form-control" id="old-password">
+              </div>
+
+              <div class="mb-3">
+                <label for="new-password" class="form-label">New password</label>
+                <input type="password" class="form-control" id="new-password">
+              </div>
+
+              <div class="mb-3">
+                <label for="confirm-new-password" class="form-label">Confirm new password</label>
+                <input type="password" class="form-control" id="confirm-new-password">
+              </div>
+
+              <p>Make sure it's at least 15 characters OR at least 8 characters including a number and a lowercase letter.
+                <a href="#">Learn more</a>.</p>
+
+              <button type="submit" class="btn btn-outline-secondary">Update password</button>
+              <a href="#" class="btn btn-link">I forgot my password</a>
+            </form>
+          </div>
+        </section>
+
+        <section class="setting-section delete-account">
+          <h2>Delete account</h2>
+          <p>Once you delete your account, there is no going back. Please be certain.</p>
+          <button class="btn btn-danger">Delete your account</button>
+        </section>
+
+        <div class="profile-main-container">
+          <h1 id="appaerance">Appearance</h1>
+        </div>
+
+        <div class="profile-main-container">
+          <h1 id="accessibility">Accessibility</h1>
+        </div>
+
+        <select class="setting-section" id="accessibility">
+          <option>public</option>
+          <option>private</option>
+        </select>
+
+        <div class="profile-main-container">
+          <h1 id="notifications">Notifications</h1>
+        </div>
+
+      </div>
+      
+
+    </main>
+  </div>
+</body>
+
+</html>

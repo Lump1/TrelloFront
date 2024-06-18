@@ -1,0 +1,210 @@
+/* styles.css */
+body {
+  font-family: Arial, sans-serif;
+  background-color: #0d1117; 
+  color: #c9d1d9;
+  margin: 0;
+  display: flex;
+}
+
+.profile-settings-container {
+  display: flex;
+  width: 100%;
+  height: 100%;
+}
+
+.profile-settings-container-sidebar {
+  width: 250px;
+  height: 100vh;
+  background-color: #36363a;
+  padding: 20px;
+  box-sizing: border-box;
+  font-size: 20px;
+  position: fixed;
+}
+
+.profile-header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.profile-picture {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+}
+
+.username, .user-handle {
+  margin: 0;
+}
+
+.user-handle {
+  font-size: 14px;
+  color: #8b949e;
+}
+
+.switch-context {
+  color: #58a6ff;
+  text-decoration: none;
+  font-size: 12px;
+}
+
+.profile-sidebar-menu ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+
+.profile-sidebar-menu ul li {
+  margin-bottom: 10px;
+}
+
+.profile-sidebar-menu ul li:hover {
+  background-color: #2d2d30;
+}
+
+.profile-sidebar-menu ul li a {
+  color: #ffffff;
+  text-decoration: none;
+  font-size: 14px;
+}
+
+.profile-settings-main-content {
+  flex-grow: 1;
+  box-sizing: border-box;
+  display: flex;
+  flex-wrap: nowrap;
+  padding-right: 20px;
+}
+
+/* public profile */
+
+.profile-main-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #36363a;
+  padding-bottom: 10px;
+  padding-top: 20px;
+  margin-bottom: 20px;
+}
+
+.profile-link {
+  color: #58a6ff;
+  text-decoration: none;
+  font-size: 14px;
+}
+
+.profile-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.profile-form label {
+  margin-bottom: 5px;
+}
+
+.profile-form input, .profile-form select, .profile-form textarea {
+  background-color: #36363a;
+  border: 1px solid #36363a;
+  color: #ffffff;
+  padding: 10px;
+  margin-bottom: 20px;
+  border-radius: 5px;
+}
+
+.email-info, .bio-info {
+  font-size: 12px;
+  color: #b0b7bf;
+}
+
+.profile-picture-section {
+  display: flex;
+  align-items: center;
+}
+
+.profile-picture-section img {
+  width: 150px;
+  height: 150px;
+  border-radius: 20%;
+  margin-right: 20px;
+}
+
+.edit-picture {
+  background-color: #36363a;
+  color: #c9d1d9;
+  border: 1px solid #36363a;
+  border-radius: 5px;
+  padding: 10px;
+  cursor: pointer;
+  width: 100px;
+  
+}
+
+/* account */
+
+.setting-section {
+  margin-top: 20px;
+  padding: 20px;
+  background-color: #36363a;
+  border-radius: 10px;
+  color: #ffffff;
+}
+
+.setting-section h2 {
+  margin: 0 0 10px 0;
+  font-size: 20px;
+}
+
+.setting-section p {
+  margin: 10px 0;
+  font-size: 14px;
+  color: #8b949e;
+}
+
+.setting-section a {
+  color: #58a6ff;
+  text-decoration: none;
+}
+
+.successor-search {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.successor-search input {
+  flex-grow: 1;
+  padding: 10px;
+  border: 1px solid #36363a;
+  border-radius: 5px;
+  background-color: #36363a;
+  color: #c9d1d9;
+}
+
+.successor-status {
+  font-size: 14px;
+  color: #8b949e;
+  margin-top: 10px;
+}
+
+.delete-account {
+  border-top: 1px solid #36363a;
+  padding-top: 20px;
+}
+
+.btn-outline-secondary {
+  background-color: transparent;
+  color: #c9d1d9;
+  border: 1px solid #c9d1d9;
+}
+
+.btn-danger {
+  background-color: #d73a49;
+}
+
+.change-password-setting{
+  justify-content: space-between;
+  align-items: center;
+}
