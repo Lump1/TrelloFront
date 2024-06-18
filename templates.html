@@ -3,7 +3,13 @@ startPointColumn
 <div class="main-card-container rounded-2" id="PLACEHOLDERid">
   
   <div class="header-card-container">
-    <p class="main-card-p">PLACEHOLDERname</p>
+    <p  class="main-card-p" 
+        data-ci-id="PLACEHOLDERid"  
+        data-req-var-name="name"
+        data-ci-url="https://localhost:7193/api/statuses"
+    >
+        PLACEHOLDERname
+    </p>
     <p class="main-card-men" id="PLACEHOLDERid">•••</p>
   </div>
   <div class="helping-container" id="PLACEHOLDERid">
@@ -36,11 +42,7 @@ breakPointColumn startPointCard
     <p class="card-tag card-sm-text">PLACEHOLDERtag</p>
   </div>
   <div class="card-main">
-    <p class="card-main-text card-text" 
-        data-ci-id="PLACEHOLDERid"  
-        data-req-var-name="name"
-        data-ci-url="https://localhost:7193/api/statuses">
-    >PLACEHOLDERtitle</p>
+    <p class="card-main-text card-text">PLACEHOLDERtitle</p>
   </div>
   <div class="card-footer-man">
     <div class="d-inline-flex">
@@ -179,26 +181,26 @@ startPointTasksdiv
       <div class="side-card-section-content-tasks-container" id="tasks-div" style="margin-bottom: 10px;">
  
       </div>
-      <button>Add element</button>
+      <button id="AddTask" data-cardid="PLACEHOLDERcardid">Add element</button>
       <!-- <button>Delete</button> -->
   </div>
 </div>
 breakPointTasksdiv
 
 startPointTaskobj
-  <div class="actualy-task-container">
+  <div class="actualy-task-container" id="PLACEHOLDERid">
     <script>
       if(PLACEHOLDERiscompleted) {
         $("input#task-PLACEHOLDERid").prop('checked', true);
       }
     </script>
     <input type="checkbox" id="task-PLACEHOLDERid">
-    <label for="task-PLACEHOLDERid"
+    <p    class="task-text"
           data-ci-id="PLACEHOLDERid"  
           data-req-var-name="title"
           data-ci-url="https://localhost:7193/api/tasks"
     >
-    PLACEHOLDERtitle</label>
+    PLACEHOLDERtitle</p>
     <img class="cross-ico-task" id="PLACEHOLDERid" src="assets/x-mark.png" />
   </div>
 breakPointTaskobj

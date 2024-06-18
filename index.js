@@ -4,6 +4,8 @@ var statusEndpoint = "api/statuses/";
 var boardsEndpoint = "api/boards/";
 var tasksEndpoint = "api/tasks/";
 
+var ciObject;
+
 var isPopupOpened = false;
 
 function dateFormater(dateToFormat) {
@@ -120,10 +122,11 @@ function toggleTaskCompletion(taskid) {
 
 }
 
-function updateProgress(tasks) {
-    const totalTasks = tasks.length;
+function updateProgress(tasks, isDeleting = false) {
+    const totalTasks = isDeleting == true ? tasks.length - 1 : tasks.length;
     const completedTasks = tasks.filter(task => task.iscompleted).length;
     const progressPercentage = Math.floor((totalTasks === 0) ? 0 : (completedTasks / totalTasks) * 100);
+    
 
     $('.side-card-progress-bar-fill').stop().animate({
         width: `${progressPercentage}%`
@@ -291,7 +294,8 @@ $(document).ready(function () {
 
             getQuerryTemplate("Title", response).then((resultHTML) => {
                 $(".aside-h-container").append($(resultHTML));
-                new changingInput();
+                ciObject = new ChangingInput();
+                ciObject.reload();
             })
 
             loadTags(response.tags)
@@ -463,9 +467,10 @@ $(document).ready(function () {
                 $(".side-card-side-card-text").text(response.title);
 
                 if (response.taskDTOs != undefined) {
-                    getQuerryTemplate("Tasksdiv", {}).then(resultHTML => {
+                    getQuerryTemplate("Tasksdiv", {cardid: cardId}).then(resultHTML => {
 
                         $("#task-cont-div").html(resultHTML);
+                        
                         renderTasks(response.taskDTOs);
                         updateProgress(response.taskDTOs);
 
@@ -567,8 +572,9 @@ $(document).ready(function () {
             data: JSON.stringify(taskData),
             contentType: "application/json",
             success: function (response) {
+                console.log(response);
                 renderTask(response);
-                // updateProgress(response.tasks);
+                
             },
             error: function (jqXHR, textStatus, errorThrown) {
                 console.error(`Error: ${textStatus} - ${errorThrown}`);
@@ -577,14 +583,19 @@ $(document).ready(function () {
     }
 
     function deleteTask(tasksId) {
+        getTask(tasksId).then(task => {
+            getTasks(task.idCard).then(responseTasks => {
+                updateProgress(responseTasks, true);
+            })
+        })
+
         $.ajax({
             type: "DELETE",
-            url: `${endpoint}${tasksEndpoint}/${tasksId}`,
+            url: `${endpoint}${tasksEndpoint}${tasksId}`,
             success: function (response) {
                 console.log(response);
-                closeModal();
-
-                $("input#task" + tasksId).remove();
+                $("div.actualy-task-container#" + tasksId).remove();
+                
             },
             error: function (jqXHR, textStatus, errorThrown) {
                 console.error(`Error: ${textStatus} - ${errorThrown}`);
@@ -602,12 +613,22 @@ $(document).ready(function () {
         tasks.forEach(task => {
             renderTask(task);
         })
+
+        $("#AddTask").on("click", function() {
+            createTask({title: "click me", idCard: $(this).data("cardid")})
+        })
     }
 
     function renderTask(task) {
         getQuerryTemplate("Taskobj", task).then(resultHTML => {
-            $("#tasks-div").prepend(resultHTML);
+            var $result = $(resultHTML);
+
+            $("#tasks-div").append($result);
+            $result.find(".cross-ico-task").off("click").on("click", function() {
+                deleteTask($(this).attr("id"))
+            });
             checkboxesReload();
+            ciObject.reload();
         })
     }
 
@@ -631,8 +652,6 @@ $(document).ready(function () {
 
 
     ///конец работы с тасками ////////////////////////////////////////////////////////////////////////////////////////////////
-
-
 
     $(document).mouseup(function (e) {
         var divs = $(".popup-window");
