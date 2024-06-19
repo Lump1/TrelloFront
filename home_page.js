@@ -325,3 +325,11 @@ $(document).ready(function(){
     window.location.href='http://127.0.0.1:5500/index.html' //пока что для проверки
   });
 });
+
+// BUTTON SETTINGS ROOTING
+
+$(document).ready(function () {
+  $("#settings-button-js").click(function () {
+    window.location.href = 'http://127.0.0.1:5500/profile-settings/profile_settings.html?#public-profile'
+  });
+});
