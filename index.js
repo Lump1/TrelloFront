@@ -243,17 +243,17 @@ $(document).ready(function () {
         });
     });
     
-    $(document).on("click", ".main-card", function() {
-        var cardId = $(this).data("card-id"); 
-        var id_status = $(this).data("column-id");
-        console.log("card-id"+cardId); 
-        updateCardTitle(cardId);
-        updateCardLabel(cardId);
+    $(document).on("click", "#invite-button", function() {
+        // var cardId = $(this).data("card-id"); 
+        // var id_status = $(this).data("column-id");
+        // console.log("card-id"+cardId); 
+        // updateCardTitle(cardId);
+        // updateCardLabel(cardId);
           
        
-        updateColumnTitle(id_status);
+        // updateColumnTitle(id_status);
 
-        console.log("column-id"+id_status);
+        // console.log("column-id"+id_status);
 
 
         var sidePanelObj = $(".side-panel-card");
