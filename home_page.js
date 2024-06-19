@@ -64,14 +64,13 @@ function stickerRender(boardid){
   else {
     sticker = String.fromCodePoint(char);
   }
-  console.log($("#" + boardid + ".sidenav-sticker"));
-
+  $("#" + boardid + ".sidenav-sticker").html(" ");
   $("#" + boardid + ".sidenav-sticker").append('<span class="sidenav-sticker-span">' + sticker + '</span>');
 }
 
 function clickReload() {
-  $(".sidenav-cards").click(function(){
-    var recentArray = JSON.parse(Cookies.get("recent"));
+  $(".sidenav-card").on("click", function(){
+    var recentArray = Cookies.get("recent") != undefined ? JSON.parse(Cookies.get("recent")) : null;
     var identifier = $(this).attr("id");
 
     if(recentArray != null) {
@@ -236,17 +235,19 @@ $(document).ready(function(){
     success: function (response) {
       console.log(response);
 
-      var recentArray = Cookies.get("recent") != null ? JSON.parse(Cookies.get("recent")) : [];
-      var favArray = Cookies.get("favorite") != null ? JSON.parse(Cookies.get("favorite")) : [];
+      var recentArray = Cookies.get("recent") != undefined ? JSON.parse(Cookies.get("recent")) : [];
+      var favArray = Cookies.get("favorite") != undefined ? JSON.parse(Cookies.get("favorite")) : [];
+
+      console.log(recentArray);
 
       Object.keys(response).forEach((item) => {
         boardCardRender(response[item]);
-
-        if(recentArray != null && recentArray.includes(response[item].id)){
+        
+        if(recentArray.includes(response[item].id.toString())){
           boardCardRender(response[item], "Recent");
         }
 
-        if(favArray != null && favArray.includes(response[item].id)){
+        if(favArray.includes(response[item].id.toString())){
           boardCardRender(response[item], "Favorite");
         }
 
@@ -279,6 +280,20 @@ $(document).ready(function(){
     })
   })
 
+  $(".account-button").on("mouseup", function(e) {
+    if($(".user-settings-container").css("display") == "none") {
+      $(".user-settings-container").show();
+    }
+  })
+
+  $(".logout-butt").on("click", function () {
+    console.log(Cookies.get("userGUID"));
+    if (Cookies.get("userGUID") != null) {
+        Cookies.remove("userGUID");
+        window.location.href = 'http://127.0.0.1:5500/reglog.html';
+    }
+})
+
   $(document).on("click", function(e) {
     var t = $('#sidenav-button-temlates-menu-js');
     if (e.target.id === 'sidenav-button-temlates-js' || e.target.id === 'sidenav-button-temlates-menu-js') {
@@ -297,7 +312,24 @@ $(document).ready(function(){
       w.slideUp("slow");
     }
   });
+
+  $(document).on("click", function(e) {
+    if($(".user-settings-container").css("display") != "none" && 
+    (!$(e.target).hasClass(".user-settings-container") &&
+    $(e.target).closest(".account-button").length == 0)) {
+      $(".user-settings-container").hide();
+    }
+  })
+
   $(".sidenav-button-home-page").click(function(){
     window.location.href='http://127.0.0.1:5500/index.html' //пока что для проверки
+  });
+});
+
+// BUTTON SETTINGS ROOTING
+
+$(document).ready(function () {
+  $("#settings-button-js").click(function () {
+    window.location.href = 'http://127.0.0.1:5500/profile-settings/profile_settings.html?#public-profile'
   });
 });

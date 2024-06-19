@@ -3,7 +3,13 @@ startPointColumn
 <div class="main-card-container rounded-2" id="PLACEHOLDERid">
   
   <div class="header-card-container">
-    <p class="main-card-p">PLACEHOLDERname</p>
+    <p  class="main-card-p" 
+        data-ci-id="PLACEHOLDERid"  
+        data-req-var-name="name"
+        data-ci-url="https://localhost:7193/api/statuses"
+    >
+        PLACEHOLDERname
+    </p>
     <p class="main-card-men" id="PLACEHOLDERid">•••</p>
   </div>
   <div class="helping-container" id="PLACEHOLDERid">
@@ -138,7 +144,11 @@ breakPointPopup
 startPointBoard
 
 <div class="sidenav-card" id="PLACEHOLDERid">
-  <div class="sidenav-cards-setting">
+  <div class="sidenav-cards-setting"
+      data-ci-id="PLACEHOLDERid"  
+      data-req-var-name="name"
+      data-ci-url="https://localhost:7193/api/boards"
+  >
     PLACEHOLDERname
   </div>
   <div class="sidenav-sticker" id="PLACEHOLDERid">
@@ -156,3 +166,50 @@ startPointTeamusercard
   </div>
 </div>
 breakPointTeamusercard
+
+startPointTasksdiv
+<div class="side-card-section">
+  <div class="side-card-section-header">
+      <i class="side-card-section-icon">📝</i>
+      <h2 class="side-card-section-title">Tasks</h2>
+  </div>
+  <div class="side-card-progress-bar">
+      <div class="side-card-progress-bar-fill" style="width: 0%;"><span style="font-size: 12px;">0%</span>
+      </div>
+  </div>
+  <div class="side-card-section-content">
+      <div class="side-card-section-content-tasks-container" id="tasks-div" style="margin-bottom: 10px;">
+ 
+      </div>
+      <button id="AddTask" data-cardid="PLACEHOLDERcardid">Add element</button>
+      <!-- <button>Delete</button> -->
+  </div>
+</div>
+breakPointTasksdiv
+
+startPointTaskobj
+  <div class="actualy-task-container" id="PLACEHOLDERid">
+    <script>
+      if(PLACEHOLDERiscompleted) {
+        $("input#task-PLACEHOLDERid").prop('checked', true);
+      }
+    </script>
+    <input type="checkbox" id="task-PLACEHOLDERid">
+    <p    class="task-text"
+          data-ci-id="PLACEHOLDERid"  
+          data-req-var-name="title"
+          data-ci-url="https://localhost:7193/api/tasks"
+    >
+    PLACEHOLDERtitle</p>
+    <img class="cross-ico-task" id="PLACEHOLDERid" src="assets/x-mark.png" />
+  </div>
+breakPointTaskobj
+
+startPointTitle
+  <h2 id="project-title" 
+      data-ci-id="PLACEHOLDERid"  
+      data-req-var-name="name"
+      data-ci-url="https://localhost:7193/api/boards">
+          PLACEHOLDERname
+  </h2>
+breakPointTitle

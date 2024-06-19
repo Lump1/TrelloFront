@@ -11,13 +11,16 @@
     <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
     <script src="jquery/dragula/node_modules/dragula/dist/dragula.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
+    <script src="jquery/node_modules/js-cookie/dist/js.cookie.min.js"></script>
     <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" /> -->
     <script src="index.js"></script>
     <script src="columnPattern.js"></script>
+    <script src="ciLib.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="side_card.css">
+    <link rel="stylesheet" href="ciStyles.css">
 
 </head>
 
@@ -65,6 +68,15 @@
 
             </div>
         </div>
+        <div class="account-button">
+          <img src="assets/user-icon-1.png" class="" />
+    
+          <div class="user-settings-container" style="display: none;">
+            <div class="user-settings">
+              <button type="button" id="workspace-dropdown-toggle" class="user-settings-button logout-butt">Logout</button>
+            </div>
+          </div>
+        </div>
     </header>
 
 
@@ -72,11 +84,12 @@
     <main id="content">
         <aside>
             <article class="aside-h-container">
-                <h2 id="project-title">Project Management
-                    <!-- <div class="favorite-container">
-                    <button type="button" id="favorite-button">&#9734;</button>
-                     </div> -->
-                </h2>
+                <!-- <h2 id="project-title" 
+                    data-ci-id="1"  
+                    data-req-var-name="name"
+                    data-ci-url="https://localhost:7193/api/bords%CISLASH:selfdata[boardid]=boardid">
+                        Project Management
+                </h2> -->
             </article>
 
             <hr class="aside-line" />
@@ -131,7 +144,7 @@
             <hr class="aside-line" />
 
             <div class="settings-container">
-                <button type="button" class="settings-button">
+                <button type="button" class="settings-button" id="settings-button-js">
                     <img src="assets/settings-icon-1.png" class="img-color-inv img-settings-button" />
                 </button>
                 <button type="button" class="settings-button">
@@ -167,7 +180,7 @@
         </aside>
 
         <article class="main-cards-container">
-            
+
         </article>
 
 
@@ -177,166 +190,175 @@
         <div class="side-card-left-side">
             <h1 class="side-card-side-card-text">PLACEHOLDERtitl</h1>
             <p class="side-card-side-card-column-text">PLACEHOLDERcolumn</p>
-      
+
             <div class="side-card-section">
-              <div class="side-card-section-header">
-                <i class="side-card-section-icon">🔔</i>
-                <h2 class="side-card-section-title">Notifications</h2>
-              </div>
-              <div class="side-card-section-content">
-                <button>Subscribe</button>
-              </div>
-            </div>
-      
-            <div class="side-card-section">
-              <div class="side-card-section-header">
-                <i class="side-card-section-icon">📝</i>
-                <h2 class="side-card-section-title">Description</h2>
-              </div>
-              <div class="side-card-section-content">
-                <textarea placeholder="Add more detailed description..."></textarea>
-              </div>
-            </div>
-      
-            <div class="side-card-section">
-              <div class="side-card-section-header">
-                <i class="side-card-section-icon">📁</i>
-                <h2 class="side-card-section-title">Attachments</h2>
-              </div>
-              <div class="side-card-section-content">
-                <div class="side-card-image-container">
-                  <img src="image.png" alt="image.png">
-                  <p>image.png</p>
-                  <p>
-                    <span class="side-card-clickable">Сomment</span> · 
-                    <span class="side-card-clickable">Download</span> · 
-                    <span class="side-card-clickable">Delete</span> · 
-                    <span class="side-card-clickable">Change</span>
-                  </p>
-                  <button>Do cover</button>
+                <div class="side-card-section-header">
+                    <i class="side-card-section-icon">🔔</i>
+                    <h2 class="side-card-section-title">Notifications</h2>
                 </div>
-                <button>Add</button>
-              </div>
-            </div>
-      
-            <div class="side-card-section">
-              <div class="side-card-section-header">
-                <i class="side-card-section-icon">📝</i>
-                <h2 class="side-card-section-title">Tasks</h2>
-              </div>
-              <div class="side-card-progress-bar">
-                <div class="side-card-progress-bar-fill" style="width: 0%;"><span style="font-size: 12px;">0%</span></div>
-              </div>
-              <div class="side-card-section-content">
-                <div style="margin-bottom: 10px;">
-                  <input type="checkbox" id="task1">
-                  <label for="task1">First task</label>
-                  <input type="checkbox" id="task2">
-                  <label for="task2">Second task</label>
-                  <input type="checkbox" id="task3">
-                  <label for="task3">Third task</label>
+                <div class="side-card-section-content">
+                    <button>Subscribe</button>
                 </div>
-                <button>Add element</button>
-                <button>Delete</button>
-              </div>
             </div>
-      
+
             <div class="side-card-section">
-              <div class="side-card-section-header">
-                <i class="side-card-section-icon">💬</i>
-                <h2 class="side-card-section-title">Actions</h2>
-              </div>
-              <div class="side-card-section-content">
-                <textarea placeholder="Напишите комментарий..."></textarea>
-                <button>Show details</button>
-              </div>
+                <div class="side-card-section-header">
+                    <i class="side-card-section-icon">📝</i>
+                    <h2 class="side-card-section-title">Description</h2>
+                </div>
+                <div class="side-card-section-content">
+                    <textarea placeholder="Add more detailed description..."></textarea>
+                </div>
             </div>
-          </div>
-      
-          <div class="side-card-right-side">
+
             <div class="side-card-section">
-              <div class="side-card-section-content">
-                <p>Add to card</p>
-<button>
-  <i class="side-card-icon">👥</i>
-  <span class="side-card-text">Members</span>
-</button>
-<button>
-  <i class="side-card-icon">🏷️</i>
-  <span class="side-card-text">Labels</span>
-</button>
-<button>
-  <i class="side-card-icon">📝</i>
-  <span class="side-card-text">Checklist</span>
-</button>
-<button>
-  <i class="side-card-icon">📆</i>
-  <span class="side-card-text">Dates</span>
-</button>
-<button>
-  <i class="side-card-icon">📁</i>
-  <span class="side-card-text">Attachment</span>
-</button>
-<button>
-  <i class="side-card-icon">📚</i>
-  <span class="side-card-text">Cover</span>
-</button>
-<button>
-  <i class="side-card-icon">📊</i>
-  <span class="side-card-text">Custom Fields</span>
-</button>
-</div>
-</div>
-
-<div class="side-card-section">
-  <div class="side-card-section-content">
-    <div class="side-card-label">
-      <i class="side-card-icon">🔄</i>
-      <span class="side-card-text">Automation</span>
-    </div>
-    <button>Add Button</button>
-  </div>
-</div>
-
-<div class="side-card-section">
-  <div class="side-card-section-content">
-    <div class="side-card-label">
-      <i class="side-card-icon">💬</i>
-      <span class="side-card-text">Actions</span>
-    </div>
-    <div class="side-card-button-group">
-      <button>
-        <i class="side-card-icon">🔄</i>
-        <span class="side-card-text">Move</span>
-      </button>
-      <button>
-        <i class="side-card-icon">📋</i>
-        <span class="side-card-text">Copy</span>
-      </button>
-    </div>
-    <div class="side-card-button-group">
-      <button>
-        <i class="side-card-icon">📝</i>
-        <span class="side-card-text">Create Template</span>
-      </button>
-      <button>
-        <i class="side-card-icon">🗑️</i>
-        <span class="side-card-text">Archive</span>
-      </button>
-    </div>
-    <button>
-      <i class="side-card-icon">📢</i>
-      <span class="side-card-text">Share</span>
-                </button>
-                <button class="delete-card-button">
-                  <i class="icon">🗑️</i>
-                  <span class="text">Delete card</span>
-                </button>
-
-              
-              </div>
+                <div class="side-card-section-header">
+                    <i class="side-card-section-icon">📁</i>
+                    <h2 class="side-card-section-title">Attachments</h2>
+                </div>
+                <div class="side-card-section-content">
+                    <div class="side-card-image-container">
+                        <img src="image.png" alt="image.png">
+                        <p>image.png</p>
+                        <p>
+                            <span class="side-card-clickable">Сomment</span> ·
+                            <span class="side-card-clickable">Download</span> ·
+                            <span class="side-card-clickable">Delete</span> ·
+                            <span class="side-card-clickable">Change</span>
+                        </p>
+                        <button>Do cover</button>
+                    </div>
+                    <button>Add</button>
+                </div>
             </div>
-          </div>
+
+            <div id="task-cont-div">
+
+            </div>
+
+            <!-- <div class="side-card-section" id="tasks-div">
+                <div class="side-card-section-header">
+                    <i class="side-card-section-icon">📝</i>
+                    <h2 class="side-card-section-title">Tasks</h2>
+                </div>
+                <div class="side-card-progress-bar">
+                    <div class="side-card-progress-bar-fill" style="width: 0%;"><span style="font-size: 12px;">0%</span>
+                    </div>
+                </div>
+                <div class="side-card-section-content">
+                    <div class="side-card-section-content-tasks-container" style="margin-bottom: 10px;">
+                        <div class="actualy-task-container">
+                          <input type="checkbox" id="task1">
+                          <label for="task1">First task</label>
+                          <img class="cross-ico-task" src="assets/x-mark.png" />
+                        </div>
+                        <div class="actualy-task-container">
+                          <input type="checkbox" id="task1">
+                          <label for="task1">First task</label>
+                          <img class="cross-ico-task" src="assets/x-mark.png" />
+                        </div>
+                    </div>
+                    <button>Add element</button>
+                    <button>Delete</button>
+                </div>
+            </div> -->
+
+            <!-- <div class="side-card-section">
+                <div class="side-card-section-header">
+                    <i class="side-card-section-icon">💬</i>
+                    <h2 class="side-card-section-title">Actions</h2>
+                </div>
+                <div class="side-card-section-content">
+                    <textarea placeholder="Напишите комментарий..."></textarea>
+                    <button>Show details</button>
+                </div>
+            </div> -->
+        </div>
+
+        <div class="side-card-right-side">
+            <div class="side-card-section">
+                <div class="side-card-section-content">
+                    <p>Add to card</p>
+                    <button>
+                        <i class="side-card-icon">👥</i>
+                        <span class="side-card-text">Members</span>
+                    </button>
+                    <button>
+                        <i class="side-card-icon">🏷️</i>
+                        <span class="side-card-text">Labels</span>
+                    </button>
+                    <button>
+                        <i class="side-card-icon">📝</i>
+                        <span class="side-card-text">Checklist</span>
+                    </button>
+                    <button>
+                        <i class="side-card-icon">📆</i>
+                        <span class="side-card-text">Dates</span>
+                    </button>
+                    <button>
+                        <i class="side-card-icon">📁</i>
+                        <span class="side-card-text">Attachment</span>
+                    </button>
+                    <button>
+                        <i class="side-card-icon">📚</i>
+                        <span class="side-card-text">Cover</span>
+                    </button>
+                    <button>
+                        <i class="side-card-icon">📊</i>
+                        <span class="side-card-text">Custom Fields</span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="side-card-section">
+                <div class="side-card-section-content">
+                    <div class="side-card-label">
+                        <i class="side-card-icon">🔄</i>
+                        <span class="side-card-text">Automation</span>
+                    </div>
+                    <button>Add Button</button>
+                </div>
+            </div>
+
+            <div class="side-card-section">
+                <div class="side-card-section-content">
+                    <div class="side-card-label">
+                        <i class="side-card-icon">💬</i>
+                        <span class="side-card-text">Actions</span>
+                    </div>
+                    <div class="side-card-button-group">
+                        <button>
+                            <i class="side-card-icon">🔄</i>
+                            <span class="side-card-text">Move</span>
+                        </button>
+                        <button>
+                            <i class="side-card-icon">📋</i>
+                            <span class="side-card-text">Copy</span>
+                        </button>
+                    </div>
+                    <div class="side-card-button-group">
+                        <button>
+                            <i class="side-card-icon">📝</i>
+                            <span class="side-card-text">Create Template</span>
+                        </button>
+                        <button>
+                            <i class="side-card-icon">🗑️</i>
+                            <span class="side-card-text">Archive</span>
+                        </button>
+                    </div>
+                    <button>
+                        <i class="side-card-icon">📢</i>
+                        <span class="side-card-text">Share</span>
+                    </button>
+                    <button class="delete-card-button">
+                        <i class="icon">🗑️</i>
+                        <span class="text">Delete card</span>
+                    </button>
+
+
+                </div>
+            </div>
+        </div>
     </div>
 
     <div class="d-none">
