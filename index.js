@@ -3,6 +3,7 @@ var cardsEndpoint = "api/cards/";
 var statusEndpoint = "api/statuses/";
 var boardsEndpoint = "api/boards/";
 var tasksEndpoint = "api/tasks/";
+var usersBoardEndpoint = "api/users/boards/";
 
 var ciObject;
 
@@ -271,6 +272,37 @@ function cardRender(data) {
     });
 }
 
+function loadBoards() {
+    var boards = Cookies.get("recent") != undefined ? JSON.parse(Cookies.get("recent")) : [];
+    var usedIdentifiers = [];
+    for(let i = 0; i < 3; i++) {
+        let identifier;
+        if(boards[i] != undefined) {
+            identifier = boards[i];
+        }
+        else {
+            continue;
+        }
+
+        $.ajax({
+            type: "GET",
+            url: `${endpoint}${boardsEndpoint}${boards[i]}`,
+            dataType: "json",
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+            },
+            success: function (response) {
+                $(".My-boards-container-dropdown-menu").prepend(`<li><a type="button" href="#http://127.0.0.1:5500/index.html?boardid=${boards[i]}">${response.name}</a></li>`)
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                console.error(
+                    `${textStatus} - ${errorThrown}`
+                );
+            },
+        });
+    }
+}
 
 $(document).ready(function () {
     $.ajax({
@@ -297,8 +329,9 @@ $(document).ready(function () {
                 ciObject = new ChangingInput();
                 ciObject.reload();
             })
-
-            loadTags(response.tags)
+            
+            loadBoards();
+            loadTags(response.tags);
 
             dragulaReload();
         },

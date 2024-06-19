@@ -455,6 +455,11 @@ aside {
   text-decoration: none;
 }
 
+a {
+  color: white;
+  text-decoration: none;
+}
+
 .My-boards-container-dropdown-menu li:hover {
   background-color: #2d2d30;
 }
