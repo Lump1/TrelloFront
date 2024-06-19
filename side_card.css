@@ -82,7 +82,7 @@
 
 .side-card-section-content label {
   display: inline-block;
-  margin-right: 20px;
+  margin-right: 5px;
   font-size: 14px;
 }
 
@@ -168,7 +168,8 @@
   border-radius: 5px;
   overflow: hidden;
   margin-bottom: 10px;
-  height: 10px; /* Уменьшаем высоту */
+  text-align: center;
+  height: 16px; /* Уменьшаем высоту */
 }
 
 .side-card-progress-bar-fill {
@@ -177,6 +178,7 @@
   text-align: right; /* Выравниваем текст по правому краю */
   line-height: 10px; /* Высота строки равна высоте progress bar */
   color: white;
+  padding-top: 4px;
   border-radius: 5px;
   padding-right: 5px; /* Добавляем немного отступа справа */
 }
@@ -252,4 +254,28 @@
   color: #b9bbbe;
   margin-right: 10px;
   cursor: pointer;
+
+.side-card-section-content-tasks-container {
+  display: inline-flex;
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+.actualy-task-container {
+  display: inline-flex;
+  flex-wrap: nowrap;
+  width: fit-content;
+  margin-top: 5px;
+  background-color: #2b2b2b;
+  height: 30px;
+  justify-content: center;
+  margin-right: 5px;
+  padding-top: 3px;
+  padding-left: 10px;
+  border-radius: 20px;
+}
+
+.task-text {
+  margin-right: 10px;
+
 }
