@@ -1,10 +1,17 @@
 /* styles.css */
 body {
   font-family: Arial, sans-serif;
-  background-color: #0d1117; 
+  background-color: #1e1e20; 
   color: #c9d1d9;
   margin: 0;
   display: flex;
+}
+
+li {
+  background-color: #36363a;
+  border-radius: 30px;
+  padding-left: 15px;
+  padding-bottom: 10px;
 }
 
 .profile-settings-container {
@@ -14,28 +21,43 @@ body {
 }
 
 .profile-settings-container-sidebar {
-  width: 250px;
+  width: 100%;
   height: 100vh;
-  background-color: #36363a;
+  
   padding: 20px;
   box-sizing: border-box;
   font-size: 20px;
-  position: fixed;
+  position: sticky;
+  top: 0;
 }
 
 .profile-header {
-  text-align: center;
-  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 15px;
 }
 
-.profile-picture {
+.profile-picture-container {
   width: 50px;
   height: 50px;
   border-radius: 50%;
+  overflow: hidden;
+  background-color: white;
+}
+
+img.profile-picture {
+  width: 100%;
+  height: 100%;
 }
 
 .username, .user-handle {
   margin: 0;
+  font-size: 20px;
+}
+
+.email {
+  font-size: 14px;
 }
 
 .user-handle {

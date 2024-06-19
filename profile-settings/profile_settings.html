@@ -17,15 +17,18 @@
 <body>
   <div class="profile-settings-container">
     <main class="profile-settings-main-content">
-      <div style="height: 100%; width: 350px;">
+      <div style="height: 100%; width: 13%; margin-right: 25px; min-width: 170px; padding-left: 15px; background-color: #2b2b2ee3;">
 
-        <aside class="profile-settings-container-sidebar">
+        <div class="profile-settings-container-sidebar">
           <div class="profile-header">
-            <img src="profile-pic.png" alt="Profile Picture" class="profile-picture">
-            <h1 class="username">username</h1>
-            <h2 class="user-handle">(username)</h2>
-            <a href="#" class="switch-context">Switch settings context</a>
+            <div class="profile-picture-container">
+              <img src="/assets/avatar_face_girl_female_woman_profile_smiley_happy_people_icon_181662.png" alt="pfp" class="profile-picture">
+            </div>
+            
+            <h1 style="margin-top: 10px;" class="username">username</h1>
+            <h1 style="margin-top: 10px;" class="email">email@example.com</h1>
           </div>
+          <hr />
 
           <nav class="profile-sidebar-menu">
             <ul>
@@ -35,10 +38,8 @@
               <li><a href="#accessibility">Accessibility</a></li>
               <li><a href="#notifications">Notifications</a></li>
             </ul>
-
-            <hr>
           </nav>
-        </aside>
+        </div>
 
       </div>
 
@@ -50,34 +51,16 @@
         </div>
 
         <form class="profile-form">
-          <label for="name">Name</label>
-          <input type="text" id="name"
-            placeholder="Your name may appear around Chelo where you contribute or are mentioned. You can remove it at any time.">
 
           <label for="public-email">Public email</label>
 
-          <select id="public-email">
-            <option>Select a verified email to display</option>
-          </select>
+          <input type="text" id="name"
+            placeholder="Your email here">
 
-          <p class="email-info">You have set your email address to private. To toggle email privacy, go to
-            <a href="#">email settings</a>
-            and uncheck "Keep my email address private".
-          </p>
 
           <label for="bio">Bio</label>
           <textarea id="bio" placeholder="Tell us a little bit about yourself"></textarea>
-          <p class="bio-info">You can @mention other users and organizations to link to them.</p>
-
-          <label for="pronouns">Pronouns</label>
-          <select id="pronouns">
-            <option>Don't specify</option>
-          </select>
-
-          <div class="profile-picture-section">
-            <img src="profile-pic.png" alt="Profile Picture" class="profile-picture">
-            <button class="edit-picture">Edit</button>
-          </div>
+          <button class="edit-picture">Save</button>
         </form>
 
         <div class="profile-main-container">
