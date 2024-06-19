@@ -408,12 +408,9 @@ $(document).ready(function () {
         var id_status = $(this).data("column-id");
         console.log("card-id" + cardId);
         updateCardSettingsMenu(cardId);
-
-
         updateColumnTitle(id_status);
 
         console.log("column-id" + id_status);
-
 
         var sidePanelObj = $(".side-panel-card");
 
