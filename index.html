@@ -158,7 +158,7 @@
         <button type="button" class="settings-button">
           <img src="assets/group-icon-2.png" class="img-color-inv img-settings-button" />
         </button>
-        <a href="#create-column" rel="modal:open">
+        <a href="#create" rel="modal:open">
           <button type="button" class="settings-button">
             <img src="assets/plus.png" class="img-color-inv img-settings-button" />
           </button>
@@ -375,8 +375,8 @@
             <p class="modal-title">Create card</p>
             <form class="create-column-form" method="POST" id="createOperation">
               <input id="titleCardCreate" placeholder="Title" type="text" class="input-modal form-control" />
-              <input id="dateCardCreate" type="date" />
-              <input id="idcolCardCreate" type="number" readonly class="input-modal form-control" />
+              <input id="dateCardCreate" placeholder="" class="input-modal input-datepicker form-control" type="date" />
+              <input style="display: none;" id="idcolCardCreate" type="number" readonly class="input-modal form-control" />
               <select id="tagSelect" class="input-modal form-control">
                 <!-- Здесь будут добавлены опции тегов -->
               </select>

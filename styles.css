@@ -24,6 +24,7 @@ body {
 
 body {
   display: flex;
+  overflow: hidden;
   flex-direction: column;
 }
 
@@ -1230,13 +1231,33 @@ p {
 .button-confirm-modal {
   width: 150px;
   position: absolute;
-  bottom: 10px;
+  bottom: 0px;
+  right: 15px;
 }
 
 .input-modal {
   margin-top: 10px;
-  margin-right: 20px;
-  width: 200px;
+  /* margin-right: 20px; */
+  background-color: transparent;
+  color: white;
+  width: 100%;
+}
+
+.input-modal:focus{
+  outline: transparent;
+  background-color: transparent;
+  color: white;
+}
+
+.input-datepicker {
+  background-color: transparent;
+  color: white
+}
+
+.input-datepicker:focus{
+  outline: transparent;
+  background-color: transparent;
+  color: white;
 }
 
 .create-column-form {
