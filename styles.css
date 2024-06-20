@@ -24,8 +24,10 @@ body {
 
 body {
   display: flex;
+  overflow: hidden;
   flex-direction: column;
 }
+
 
 /* hr {
     padding-right: 50px;
@@ -37,18 +39,12 @@ body {
 
 aside {
   width: 13%;
-  /* Устанавливаем ширину сайдбара на 20% от ширины родительского контейнера */
   min-width: 170px;
   height: 100vh;
-  /* Задаем высоту сайдбара на всю высоту видимой области экрана */
   padding-left: 15px;
-  /* Отступ слева внутри сайдбара */
   float: left;
-  /* Выравниваем сайдбар слева */
   background-color: #2b2b2ee3;
-  /* Цвет фона сайдбара */
   color: white;
-  /* Цвет текста */
 }
 
 #aside-container {
@@ -460,6 +456,11 @@ aside {
   text-decoration: none;
 }
 
+a {
+  color: white;
+  text-decoration: none;
+}
+
 .My-boards-container-dropdown-menu li:hover {
   background-color: #2d2d30;
 }
@@ -763,7 +764,7 @@ header {
 }
 
 #workspace-dropdown-toggle:hover {
-  background-color: #36363a;
+  background-color: #323236;
 }
 
 #search-input {
@@ -1230,13 +1231,33 @@ p {
 .button-confirm-modal {
   width: 150px;
   position: absolute;
-  bottom: 10px;
+  bottom: 0px;
+  right: 15px;
 }
 
 .input-modal {
   margin-top: 10px;
-  margin-right: 20px;
-  width: 200px;
+  /* margin-right: 20px; */
+  background-color: transparent;
+  color: white;
+  width: 100%;
+}
+
+.input-modal:focus{
+  outline: transparent;
+  background-color: transparent;
+  color: white;
+}
+
+.input-datepicker {
+  background-color: transparent;
+  color: white
+}
+
+.input-datepicker:focus{
+  outline: transparent;
+  background-color: transparent;
+  color: white;
 }
 
 .create-column-form {
@@ -1591,6 +1612,7 @@ input[type="text"]:focus {
 /* Side panel */
 
 .side-panel-card {
+  overflow: hidden;
   position: fixed;
   transform: translate(0, -50%);
   right: -65%;
@@ -1605,4 +1627,36 @@ input[type="text"]:focus {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+
+/* Account */
+
+.account-button {
+  margin-left: 10px;
+  border-radius: 50%;
+  background-color: white;
+}
+
+.user-settings-container {
+  position: relative;
+  overflow: visible;
+  width: 0px;
+  height: 0px;
+}
+
+.user-settings {
+  position: absolute;
+  top: 0px;
+  transform: translateX(-80%);
+  width: 200px;
+  height: 250px;
+  padding: 5px;
+  background-color: #2b2b2e;
+}
+
+.user-settings-button {
+  padding: 3px 3px 3px 3px;
+  width: 100%;
+  height: 15%;
 }

@@ -1,7 +1,11 @@
 var endpoint = "https://localhost:7193/";
 var cardsEndpoint = "api/cards/";
 var statusEndpoint = "api/statuses/";
-var tasksEndpoint ="api/tasks/";
+var boardsEndpoint = "api/boards/";
+var tasksEndpoint = "api/tasks/";
+var usersBoardEndpoint = "api/users/boards/";
+
+var ciObject;
 
 var isPopupOpened = false;
 
@@ -21,6 +25,15 @@ function dateFormater(dateToFormat) {
     return dateToFormat.getFullYear() + "-" + month + "-" + day;
 }
 
+function getUrlParameter(name) {
+    name = name.replace(/[\[\]]/g, '\\$&');
+    var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)');
+    var results = regex.exec(window.location.href);
+    if (!results) return null;
+    if (!results[2]) return '';
+    return decodeURIComponent(results[2].replace(/\+/g, ' '));
+}
+
 function setStatId(id) {
     $("#idcolCardCreate").val(id);
 }
@@ -32,22 +45,131 @@ function getDataFormat(date) {
     });
 }
 
-function addCards() {
+// function addCards() {
+//     $.ajax({
+//         type: "GET",
+//         url: `${endpoint}${cardsEndpoint}`,
+//         dataType: "json",
+//         success: function (response) {
+//             response.forEach((item) => {
+//                 cardRender(item);
+//             });
+
+//             dragulaReload();
+//         },
+//         error: function (jqXHR, textStatus, errorThrown) {
+//             console.error(`Error: ${textStatus} - ${errorThrown}`);
+//         },
+//     });
+// }
+
+function getTask(taskId) {
+    return new Promise((resolve, reject) => {
+        $.ajax({
+            type: "GET",
+            url: `${endpoint}${tasksEndpoint}${taskId}`,
+            success: function (response) {
+                var responseTask = response;
+                resolve(responseTask);
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                // reject(`Error: ${textStatus} - ${errorThrown}`);
+            }
+        });
+    })
+
+}
+
+function getTasks(cardId) {
+    return new Promise((resolve, reject) => {
+        $.ajax({
+            type: "GET",
+            url: `${endpoint}${cardsEndpoint}${cardId}/tasks`,
+            success: function (response) {
+                var responseTasks = response;
+                resolve(responseTasks);
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                // reject(`Error: ${textStatus} - ${errorThrown}`);
+            }
+        });
+    })
+
+}
+
+function toggleTaskCompletion(taskid) {
+
     $.ajax({
         type: "GET",
-        url: `${endpoint}${cardsEndpoint}`,
-        dataType: "json",
+        url: `${endpoint}${tasksEndpoint}${taskid}/change-complete-status`,
+        headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+        },
+        contentType: "json",
         success: function (response) {
-            response.forEach((item) => {
-                cardRender(item);
-            });
-
-            dragulaReload();
+            console.log(response);
+            getTask(taskid).then(task => {
+                getTasks(task.idCard).then(responseTasks => {
+                    updateProgress(responseTasks);
+                })
+            })
         },
         error: function (jqXHR, textStatus, errorThrown) {
             console.error(`Error: ${textStatus} - ${errorThrown}`);
-        },
+        }
     });
+
+
+}
+
+function updateProgress(tasks, isDeleting = false) {
+    const totalTasks = isDeleting == true ? tasks.length - 1 : tasks.length;
+    const completedTasks = tasks.filter(task => task.iscompleted).length;
+    const progressPercentage = Math.floor((totalTasks === 0) ? 0 : (completedTasks / totalTasks) * 100);
+    
+
+    $('.side-card-progress-bar-fill').stop().animate({
+        width: `${progressPercentage}%`
+    }, {
+        duration: 500,
+        easing: 'swing'
+    });
+    $('.side-card-progress-bar-fill').html(progressPercentage + "%");
+}
+
+function checkboxesReload(tasks) {
+    $("input:checkbox").change(function (e) {
+        e.stopImmediatePropagation()
+        console.log(e.target);
+        var identifier = $(e.target).attr("id").slice(0, 4) == "task" ? $(e.target).attr("id").slice(5) : undefined;
+        if (identifier == undefined) return;
+
+        toggleTaskCompletion(identifier);
+        getTask(identifier).then(task => {
+            getTasks(task.idCard).then(responseTasks => {
+                updateProgress(responseTasks);
+            })
+        })
+
+    })
+}
+
+function clickReload() {
+    $(".main-card").on("mouseup", function () {
+        var sidePanelObj = $(".side-panel-card");
+
+        if (sidePanelObj.css("right")[0] == "-") {
+            sidePanelObj.animate({
+                "right": "10px"
+            }, 850)
+        }
+        else {
+            sidePanelObj.animate({
+                "right": "-65%"
+            }, 850)
+        }
+    })
 }
 
 function dragulaReload() {
@@ -64,6 +186,7 @@ function dragulaReload() {
 
         console.log(cardid + " " + columnid);
         console.log($(target));
+        
         $.ajax({
             type: "PUT",
             url: endpoint + cardsEndpoint,
@@ -84,6 +207,8 @@ function dragulaReload() {
             },
             dataType: "json",
         });
+
+        // $(el).data("column-id") = columnid;
     });
 }
 
@@ -123,7 +248,7 @@ function cardRender(data) {
         deadline: getDataFormat(data.deadline),
         cardid: data.id,
         columnid: data.idStatus,
-       
+
     }).then((resultHTML) => {
         // Загружаем теги, соответствующие карте
         $.ajax({
@@ -135,26 +260,54 @@ function cardRender(data) {
                 // Заменяем PLACEHOLDERtag на полученные теги в HTML-шаблоне карточки
                 resultHTML = resultHTML.replace("PLACEHOLDERtag", tags);
                 $("#" + data.idStatus + ".helping-container").prepend(resultHTML);
+
+                clickReload();
             },
             error: function (jqXHR, textStatus, errorThrown) {
                 console.error(`Error: ${textStatus} - ${errorThrown}`);
             },
         });
+
+        dragulaReload();
     });
 }
 
+function loadBoards() {
+    var boards = Cookies.get("recent") != undefined ? JSON.parse(Cookies.get("recent")) : [];
+    var usedIdentifiers = [];
+    for(let i = 0; i < 3; i++) {
+        let identifier;
+        if(boards[i] != undefined) {
+            identifier = boards[i];
+        }
+        else {
+            continue;
+        }
+
+        $.ajax({
+            type: "GET",
+            url: `${endpoint}${boardsEndpoint}${boards[i]}`,
+            dataType: "json",
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+            },
+            success: function (response) {
+                $(".My-boards-container-dropdown-menu").prepend(`<li><a type="button" href="#http://127.0.0.1:5500/index.html?boardid=${boards[i]}">${response.name}</a></li>`)
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                console.error(
+                    `${textStatus} - ${errorThrown}`
+                );
+            },
+        });
+    }
+}
+
 $(document).ready(function () {
-   /*  columnRender({name: "Upcomming", id: 1});
-    columnRender({name: "In Progress", id: 2});
-    columnRender({name: "Done", id: 3});
-
-    cardRender({title: "Card title 1", label: "", deadline: "03-03-2024", cardid: 1, columnid: 1})
-    cardRender({title: "Card title 2", label: "", deadline: "03-03-2024", cardid: 2, columnid: 2})
-    cardRender({title: "Card title 3", label: "", deadline: "03-03-2024", cardid: 3, columnid: 1}) */
-
     $.ajax({
         type: "GET",
-        url: `${endpoint}${statusEndpoint}`,
+        url: `${endpoint}${boardsEndpoint}${getUrlParameter("boardid")}`,
         dataType: "json",
         headers: {
             Accept: "application/json",
@@ -162,11 +315,24 @@ $(document).ready(function () {
         },
         success: function (response) {
             console.log(response);
-            Object.keys(response).forEach((item) => {
-                columnRender(response[item]);
+
+            Object.keys(response.statusColumns).forEach((item) => {
+                columnRender(response.statusColumns[item]);
             });
 
-            addCards();
+            Object.keys(response.cards).forEach((item) => {
+                cardRender(response.cards[item]);
+            });
+
+            getQuerryTemplate("Title", response).then((resultHTML) => {
+                $(".aside-h-container").append($(resultHTML));
+                ciObject = new ChangingInput();
+                ciObject.reload();
+            })
+            
+            loadBoards();
+            loadTags(response.tags);
+
             dragulaReload();
         },
         error: function (jqXHR, textStatus, errorThrown) {
@@ -175,6 +341,30 @@ $(document).ready(function () {
             );
         },
     });
+
+    // $.ajax({
+    //     type: "GET",
+    //     url: `${endpoint}${statusEndpoint}`,
+    //     dataType: "json",
+    //     headers: {
+    //         Accept: "application/json",
+    //         "Content-Type": "application/json",
+    //     },
+    //     success: function (response) {
+    //         console.log(response);
+    //         Object.keys(response).forEach((item) => {
+    //             columnRender(response[item]);
+    //         });
+
+    //         addCards();
+    //         dragulaReload();
+    //     },
+    //     error: function (jqXHR, textStatus, errorThrown) {
+    //         console.error(
+    //             `Ошибка при получении данных о карточках: ${textStatus} - ${errorThrown}`
+    //         );
+    //     },
+    // });
 
     $("#buttonColumnCreate").on("click", function () {
         $.ajax({
@@ -185,9 +375,10 @@ $(document).ready(function () {
                 "Content-Type": "application/json",
             },
             data: JSON.stringify({
-                name: document.getElementById("titleColumnCreate").value.toString(),
+                name: document.getElementById("titleColumnCreate").value.toString(), idBoard: getUrlParameter("boardid")
             }),
             success: function (data, status) {
+                console.log(data);
                 columnRender(data);
                 dragulaReload();
             },
@@ -210,6 +401,7 @@ $(document).ready(function () {
             startdate: dateFormater(new Date()),
             deadline: $("#dateCardCreate").val(),
             idStatus: $("#idcolCardCreate").val(),
+            idBoard: getUrlParameter("boardid")
         };
 
         var tagId = $("#tagSelect").val();
@@ -234,7 +426,7 @@ $(document).ready(function () {
                 dragulaReload();
 
                 if (tagId) {
-                    addTagToCard(cardData.id, tagId); 
+                    addTagToCard(cardData.id, tagId);
                 }
             },
             error: function (jqXHR, textStatus) {
@@ -243,57 +435,54 @@ $(document).ready(function () {
             dataType: "json",
         });
     });
-    
-    $(document).on("click", ".main-card", function() {
-        var cardId = $(this).data("card-id"); 
+
+    $(document).on("click", ".main-card", function () {
+        var cardId = $(this).data("card-id");
         var id_status = $(this).data("column-id");
-        console.log("card-id"+cardId); 
+        console.log("card-id" + cardId);
         updateCardSettingsMenu(cardId);
-          
-       
         updateColumnTitle(id_status);
 
-        console.log("column-id"+id_status);
-
+        console.log("column-id" + id_status);
 
         var sidePanelObj = $(".side-panel-card");
-       
-        if(sidePanelObj.css("right")[0] == "-" || sidePanelObj.css("right")[0] == "0") {
-            sidePanelObj.animate({
+
+        if (sidePanelObj.css("right")[0] == "-" || sidePanelObj.css("right")[0] == "0") {
+            sidePanelObj.stop().animate({
                 "right": "10px"
             }, 1500)
         }
         else {
-            sidePanelObj.animate({
+            sidePanelObj.stop().animate({
                 "right": "-65%"
             }, 1500)
         }
 
-        $("textarea[placeholder='Add more detailed description...']").off('change').on('change', function() {
+        $("textarea[placeholder='Add more detailed description...']").off('change').on('change', function () {
             var newLabel = $(this).val();
             saveCardLabel(cardId, newLabel);
         });
-        
 
-        $(document).on("click", ".delete-card-button", function() {
+
+        $(document).on("click", ".delete-card-button", function () {
             deleteCard(cardId);
         });
-    
+
         function deleteCard(cardId) {
             $.ajax({
                 type: "DELETE",
                 url: `${endpoint}${cardsEndpoint}${cardId}`,
                 success: function (response) {
                     console.log(response);
-                    closeModal(); 
-                    $(`[data-card-id='${cardId}']`).remove(); 
+                    closeModal();
+                    $(`[data-card-id='${cardId}']`).remove();
                 },
                 error: function (jqXHR, textStatus, errorThrown) {
                     console.error(`Error: ${textStatus} - ${errorThrown}`);
                 }
             });
         }
-        
+
     })
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -307,14 +496,17 @@ $(document).ready(function () {
                 $("textarea[placeholder='Add more detailed description...']").val(response.label);
                 $(".side-card-side-card-text").text(response.title);
 
-                if(response.taskDTOs != undefined) {
-                    getQuerryTemplate("Tasksdiv", {}).then(resultHTML => {
-                        $(".side-card-left-side").append(resultHTML)
+                if (response.taskDTOs != undefined) {
+                    getQuerryTemplate("Tasksdiv", {cardid: cardId}).then(resultHTML => {
 
+                        $("#task-cont-div").html(resultHTML);
+                        
                         renderTasks(response.taskDTOs);
-                        updateProgress(response.taskDTOs);  
+                        updateProgress(response.taskDTOs);
+
+
                     })
-                    
+
                 }
             },
             error: function (jqXHR, textStatus, errorThrown) {
@@ -323,19 +515,19 @@ $(document).ready(function () {
         });
     }
     function updateColumnTitle(id_status) {
- 
+
         $.ajax({
             type: "GET",
-          url: `${endpoint}${statusEndpoint}${id_status}`, 
+            url: `${endpoint}${statusEndpoint}${id_status}`,
             dataType: "json",
             success: function (response) {
-          
+
                 var columnTitle = response.name;
-                
-              
-                $(".side-card-side-card-column-text").text(columnTitle);
-    
-                
+
+
+                $(".side-card-side-card-column-text").text("In the column " + columnTitle);
+
+
             },
             error: function (jqXHR, textStatus, errorThrown) {
                 console.error(`Error: ${textStatus} - ${errorThrown}`);
@@ -364,10 +556,10 @@ $(document).ready(function () {
             url: `${endpoint}${cardsEndpoint}${cardId}`,
             dataType: "json",
             success: function (cardData) {
-                
+
                 cardData.label = newLabel;
 
-        
+
                 $.ajax({
                     type: "PUT",
                     url: `${endpoint}${cardsEndpoint}`,
@@ -387,31 +579,21 @@ $(document).ready(function () {
         });
     }
 
-    
+
 
 
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    
 
 
-    
+
+
     ///начало работы с тасками ////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-    // function getTasks(cardId) {
-    //     $.ajax({
-    //         type: "GET",
-    //         url: `${endpoint}${tasksEndpoint}?cardId=${cardId}`,
-    //         success: function (response) {
-    //             console.log(response);
-                
-    //         },
-    //         error: function (jqXHR, textStatus, errorThrown) {
-    //             console.error(`Error: ${textStatus} - ${errorThrown}`);
-    //         }
-    //     });
-    // }
+
+
+
 
     function createTask(taskData) {
         $.ajax({
@@ -420,73 +602,63 @@ $(document).ready(function () {
             data: JSON.stringify(taskData),
             contentType: "application/json",
             success: function (response) {
+                console.log(response);
                 renderTask(response);
-                // updateProgress(response.tasks);
+                
             },
             error: function (jqXHR, textStatus, errorThrown) {
                 console.error(`Error: ${textStatus} - ${errorThrown}`);
             }
         });
     }
-    
+
     function deleteTask(tasksId) {
+        getTask(tasksId).then(task => {
+            getTasks(task.idCard).then(responseTasks => {
+                updateProgress(responseTasks, true);
+            })
+        })
+
         $.ajax({
             type: "DELETE",
-            url: `${endpoint}${tasksEndpoint}/${tasksId}`, 
+            url: `${endpoint}${tasksEndpoint}${tasksId}`,
             success: function (response) {
                 console.log(response);
-                closeModal(); 
+                $("div.actualy-task-container#" + tasksId).remove();
                 
-                $("input#task" + tasksId).remove();
             },
             error: function (jqXHR, textStatus, errorThrown) {
                 console.error(`Error: ${textStatus} - ${errorThrown}`);
             }
         });
     }
-    
-    function toggleTaskCompletion(taskId, isCompleted) {
-        $.ajax({
-            type: "PATCH",
-            url: `${endpoint}${tasksEndpoint}/${taskId}`,
-            data: JSON.stringify({ isCompleted: !isCompleted }),
-            contentType: "application/json",
-            success: function (response) {
-                console.log(response);
-                updateTaskInDOM(response.task);
-                updateProgress(response.tasks);
-            },
-            error: function (jqXHR, textStatus, errorThrown) {
-                console.error(`Error: ${textStatus} - ${errorThrown}`);
-            }
-        });
-    }
-    
-    function updateProgress(tasks) {
-        const totalTasks = tasks.length;
-        const completedTasks = tasks.filter(task => task.isCompleted).length;
-        const progressPercentage = (totalTasks === 0) ? 0 : (completedTasks / totalTasks) * 100;
-        
-        $('side-card-progress-bar-fill').stop().animate({
-            width: `${progressPercentage}%`
-        }, {
-            duration: 500,
-            easing: 'swing' 
-        });
-    }
-    
+
+
+
+
+
 
 
     function renderTasks(tasks) {
         tasks.forEach(task => {
             renderTask(task);
         })
+
+        $("#AddTask").on("click", function() {
+            createTask({title: "click me", idCard: $(this).data("cardid")})
+        })
     }
 
     function renderTask(task) {
         getQuerryTemplate("Taskobj", task).then(resultHTML => {
-            console.log(resultHTML);
-            $("#tasks-div").prepend(resultHTML);
+            var $result = $(resultHTML);
+
+            $("#tasks-div").append($result);
+            $result.find(".cross-ico-task").off("click").on("click", function() {
+                deleteTask($(this).attr("id"))
+            });
+            checkboxesReload();
+            ciObject.reload();
         })
     }
 
@@ -511,8 +683,6 @@ $(document).ready(function () {
 
     ///конец работы с тасками ////////////////////////////////////////////////////////////////////////////////////////////////
 
-
-
     $(document).mouseup(function (e) {
         var divs = $(".popup-window");
         if (divs == null) {
@@ -522,7 +692,11 @@ $(document).ready(function () {
         divs.hide();
     });
 
-    $('#My-boards-button').on('click', function(event) {
+    function loadTags(tags) {
+        tags.forEach(tag => tagSelect.append(new Option(tag.name, tag.id)))
+    }
+
+    $('#My-boards-button').on('click', function (event) {
         var $menu = $('.My-boards-container-dropdown-menu');
         if ($menu.hasClass('show')) {
             $menu.removeClass('show');
@@ -532,35 +706,15 @@ $(document).ready(function () {
         event.stopPropagation();
     });
 
-    $(document).on('click', function(event) {
+    $(document).on('click', function (event) {
         if (!$(event.target).closest('.My-boards-container').length) {
             $('.My-boards-container-dropdown-menu').removeClass('show');
         }
     });
 
-    $('.My-boards-container-dropdown-menu li').on('click', function() {
+    $('.My-boards-container-dropdown-menu li').on('click', function () {
         $('.My-boards-container-dropdown-menu').removeClass('show');
     });
-
-
-
-    function loadTags(boardId) {
-        $.ajax({
-            type: "GET",
-            url: `${endpoint}api/boards/${boardId}/tags`,
-            dataType: "json",
-            success: function (response) {
-                var tagSelect = $('#tagSelect');
-                tagSelect.empty();
-                response.forEach(function (tag) {
-                    tagSelect.append(new Option(tag.name, tag.id));
-                });
-            },
-            error: function (jqXHR, textStatus, errorThrown) {
-                console.error(`Error: ${textStatus} - ${errorThrown}`);
-            },
-        });
-    }
 
     $(document).mouseup(function (e) {
         if (isPopupOpened &&
@@ -573,7 +727,7 @@ $(document).ready(function () {
             })
         }
 
-        if($(".side-panel-card").css("right")[0] != "-" 
+        if ($(".side-panel-card").css("right")[0] != "-"
             && $(e.target).closest(".side-panel-card").length == 0) {
             $(".side-panel-card").animate({
                 "right": "-65%"
@@ -581,15 +735,7 @@ $(document).ready(function () {
         }
     });
 
-    
 
-    $(document).on('click', 'a[href="#create"]', function () {
-        var boardId = 1;
-        if (boardId) {
-            loadTags(boardId);
-            console.log("Selected board ID: " + boardId);
-        }
-    });
 
     function addTagToCard(cardId, tagId) {
         $.ajax({
@@ -610,5 +756,36 @@ $(document).ready(function () {
         });
     }
 
-    dragulaReload();
+    $(".account-button").on("mouseup", function (e) {
+        if ($(".user-settings-container").css("display") == "none") {
+            $(".user-settings-container").show();
+        }
+    })
+
+    $(document).on("click", function (e) {
+        if ($(".user-settings-container").css("display") != "none" &&
+            (!$(e.target).hasClass(".user-settings-container") &&
+                $(e.target).closest(".account-button").length == 0)) {
+            $(".user-settings-container").hide();
+        }
+    })
+
+    $(".logout-butt").on("click", function () {
+        console.log(Cookies.get("userGUID"));
+        if (Cookies.get("userGUID") != null) {
+            Cookies.remove("userGUID");
+            window.location.href = 'http://127.0.0.1:5500/reglog.html';
+        }
+    })
+
+    
 });
+
+
+// BUTTON SETTINGS ROOTING
+
+$(document).ready(function () {
+    $("#settings-button-js").click(function () {
+      window.location.href = 'http://127.0.0.1:5500/profile-settings/profile_settings.html?#public-profile'
+    });
+  });

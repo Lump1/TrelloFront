@@ -69,9 +69,18 @@
       <div class="search-bar">
         <input type="text" placeholder="Search" id="search-input">
         <button type="button" id="search-button"><img src="assets/search-interface-symbol.png"
-            class="card-sm-img"></button>
+            class="card-sm-img">
+        </button>
+      </div>
+    </div>
 
+    <div class="account-button">
+      <img src="assets/user-icon-1.png" class="" />
 
+      <div class="user-settings-container" style="display: none;">
+        <div class="user-settings">
+          <button type="button" id="workspace-dropdown-toggle" class="user-settings-button logout-butt">Logout</button>
+        </div>
       </div>
     </div>
   </header>
@@ -85,30 +94,32 @@
       </article>
       <hr class="aside-line" />
       <div class="sidenav-container">
+        <a href="#create-board" rel="modal:open">
         <button type="button">
           <span class="icon">
             <img src="assets/plus.png" class="card-sm-img" />
           </span> Create board
         </button>
+        </a>
         <button type="button">
           <span class="icon">
             <img src="assets/colum-modal-img.png" class="card-sm-img" />
           </span> Templates
         </button>
       </div>
-      <hr class="aside-line" />
-      <div class="My-boards-container">
+      <!-- <hr class="aside-line" /> -->
+      <!-- <div class="My-boards-container">
         <button type="button">
           <span class="icon">
             <img src="assets/board-meeting.png" class="card-sm-img" />
           </span>My boards<span class="icon-plus">&#43;</span>
         </button>
-      </div>
+      </div> -->
 
       <hr class="aside-line" />
 
       <div class="settings-container">
-        <button type="button" class="settings-button">
+        <button type="button" class="settings-button" id="settings-button-js">
           <img src="assets/settings-icon-1.png" class="img-color-inv img-settings-button" />
         </button>
         <button type="button" class="settings-button">
