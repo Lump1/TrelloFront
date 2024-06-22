@@ -286,11 +286,19 @@
             <i class="side-card-icon">👥</i>
             <span class="side-card-text">Members</span>
           </button>
-          <button>
+          
+        <button id="showLabelsBtn">
             <i class="side-card-icon">🏷️</i>
             <span class="side-card-text">Labels</span>
-          </button>
-          <button>
+        </button>
+        
+        <div id="labelsPopup" class="labels-window" style="display: none;">
+            <div id="labelsList"></div>
+            <input type="text" id="newLabelName" placeholder="Введите название тега">
+            <button id="createLabelBtn">Создать тег</button>
+        </div>
+        
+
             <i class="side-card-icon">📝</i>
             <span class="side-card-text">Checklist</span>
           </button>
