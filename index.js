@@ -676,11 +676,9 @@ $(document).ready(function () {
                     getQuerryTemplate("Tasksdiv", {cardid: cardId}).then(resultHTML => {
 
                         $("#task-cont-div").html(resultHTML);
-                        
+
                         renderTasks(response.taskDTOs);
                         updateProgress(response.taskDTOs);
-
-
                     })
 
                 }
@@ -823,6 +821,7 @@ $(document).ready(function () {
 
 
     function renderTasks(tasks) {
+        console.log(tasks);
         tasks.forEach(task => {
             renderTask(task);
         })
@@ -833,6 +832,7 @@ $(document).ready(function () {
     }
 
     function renderTask(task) {
+        console.log(task);
         getQuerryTemplate("Taskobj", task).then(resultHTML => {
             var $result = $(resultHTML);
 

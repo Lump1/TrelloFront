@@ -31,7 +31,7 @@
 
 .side-card-section {
   margin-bottom: 20px;
-  background-color: #23272a;
+  background-color: #232a25;
     border-radius: 5px;
     padding: 10px;
 
@@ -254,7 +254,7 @@
   color: #b9bbbe;
   margin-right: 10px;
   cursor: pointer;
-
+}
 .side-card-section-content-tasks-container {
   display: inline-flex;
   flex-wrap: wrap;
@@ -266,7 +266,7 @@
   flex-wrap: nowrap;
   width: fit-content;
   margin-top: 5px;
-  background-color: #2b2b2b;
+  background-color: #1f1f1f;
   height: 30px;
   justify-content: center;
   margin-right: 5px;
