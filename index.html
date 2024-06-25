@@ -155,9 +155,11 @@
         <button type="button" class="settings-button">
           <img src="assets/user-icon-1.png" class="img-color-inv img-settings-button" />
         </button>
-        <button type="button" class="settings-button">
-          <img src="assets/group-icon-2.png" class="img-color-inv img-settings-button" />
-        </button>
+        <a href="#team-manipulation" rel="modal:open">
+          <button type="button" class="settings-button" id="team-man">
+            <img src="assets/group-icon-2.png" class="img-color-inv img-settings-button" />
+          </button>
+        </a>
         <a href="#create-column" rel="modal:open">
           <button type="button" class="settings-button">
             <img src="assets/plus.png" class="img-color-inv img-settings-button" />
@@ -420,6 +422,57 @@
           </div>
         </div>
       </div>
+
+      <div id="team-manipulation" class="modal">
+        <div class="modal-inside-container-board-index rounded-2">
+            <div class="main-container-modal">
+              <div class="modal-fight-index">
+                <div class="modal-input-team">
+                  <input placeholder="Search user" id="search_user_input" class="team-input-select form-select" />
+                  <!-- <a class="modal-button-team"> -->
+                    <button  type="button" class="settings-button-base modal-button-team-settings-mid" id="searchButton">
+                      <img src="assets/search-interface-symbol.png" class="img-color-inv img-team-search-button" />
+                  </button>
+                    <button id="search_user_button" type="button" class="settings-button-base modal-button-team-settings">
+                        <img src="assets/plus.png" class="img-color-inv img-team-plus-button" />
+                    </button>
+                  <!-- </a>              -->
+                </div>
+                <!-- <div class="under-buttons-container">
+                  <a href="#create-team" rel="modal:open" class="btn btn-outline-light create-team-button">
+                    Serch a user
+                  </a>
+                  <button class="btn btn-outline-light create-team-button">Friend list</button>
+                </div> -->
+                
+  
+                <div class="team-list-container">
+                  <div class="team-list">
+                    <div class="team-list-item">
+                      
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- <div class="modal-fight">
+                <div class="template-parent-container">
+                  <div class="template-container template-custom">
+                    Default template
+                  </div>
+                  <div class="template-container template-custom">
+                    Todo template
+                  </div>
+                  <div class="template-container template-custom">
+                    Rating template
+                  </div>
+                  <div class="template-container template-picker">
+                    Custom template
+                  </div>
+                </div>
+                <div class="btn btn-outline-light without-template-button" id="boardCreationWithoutTemplate">Start without template</div>
+              </div>   -->
+            </div>
+        </div>
     </div>
 </body>
 

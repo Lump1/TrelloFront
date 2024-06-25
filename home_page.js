@@ -202,24 +202,44 @@ function createBoard(teamid) {
   })
 }
 
-function getUser(username) {
+function getUser(username, guid = null) {
   return new Promise((resolve, reject) => {
     $.ajax({
       type: "GET",
-      url: `${endpoint}${usersEndpoint}`,
+      url: guid == null ? `${endpoint}${usersEndpoint}username=${username}` : `${endpoint}${usersEndpoint}${guid}`,
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
       },
-      data: {username: username},
+      // data: guid == null ? {username: username} : "",
 
       success: function(data) {
         var user = data;
         console.log(data);
         resolve(user);
-      }
+      },
+      error: function (jqXHR, textStatus, errorThrown) {
+        console.error(
+          `Ошибка при получении данных: ${textStatus} - ${errorThrown}`
+        );
+      },
     })
   });
+}
+
+function userSelectReload() {
+  console.log($(".team-list-item-content"));
+  $(".team-list-item-content").off("click").on("click", function(e) {
+    console.log($(e.target).closest(".team-list-item-content").attr("id"));
+    getUser("", $(e.target).closest(".team-list-item-content").attr("id")).then(user => {
+      console.log(user);
+      getQuerryTemplate("Teamusercard", {id: user.id, username: user.username}).then((resultHTML) => {
+        $(".team-list-item").append(resultHTML);
+
+        $(".users-select").hide();
+      }) 
+    })
+  })
 }
 
 $(document).ready(function(){
@@ -261,17 +281,35 @@ $(document).ready(function(){
     },
   });
 
-  $("#search_user_button").on("mouseup", function() {
+  // $("#search_user_button").on("mouseup", function() {
+  //   getUser($("#search_user_input").val()).then((user) => {
+  //     Object.keys(user).forEach(key => {
+  //       var tempUser = user[key];
+
+  //       getQuerryTemplate("Teamusercard", {id: tempUser.id, username: tempUser.username}).then((resultHTML) =>{
+  //         $(".team-list-item").append(resultHTML);
+  //       })   
+  //     })
+  //   })
+  // });
+
+  $("#searchButton").on("click", function() {
+    $("#searchButton").show();
+    $(".users-select").html("");
+
     getUser($("#search_user_input").val()).then((user) => {
       Object.keys(user).forEach(key => {
         var tempUser = user[key];
 
         getQuerryTemplate("Teamusercard", {id: tempUser.id, username: tempUser.username}).then((resultHTML) =>{
-          $(".team-list-item").append(resultHTML);
-        })   
+          $(".users-select").append(resultHTML);
+          $(".users-select").append("<hr />");
+          userSelectReload();
+        })       
       })
     })
-  });
+  })
+  
 
   $("#boardCreationWithoutTemplate").on("mouseup", function() {
     createTeamAjax().then((teamid) => {

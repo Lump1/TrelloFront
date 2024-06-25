@@ -14,7 +14,7 @@ function getQuerryTemplate(target, argumentalObject) {
             var template = getTemplate(templates, target);
 
             Object.keys(argumentalObject).forEach(key => {
-                template = template.replaceAll("PLACEHOLDER" + key, argumentalObject[key]);
+                template = template.replaceAll("PLACEHOLDER" + key.toLowerCase(), argumentalObject[key]);
             });
 
             var resultHTML = template;

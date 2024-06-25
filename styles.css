@@ -1203,6 +1203,8 @@ p {
   height: 100%;
 }
 
+
+
 .main-content-modal {
   flex-grow: 1;
   height: 90%;
@@ -1313,6 +1315,24 @@ input[type="text"]:focus {
   box-shadow: 0 15px 25px rgba(0, 0, 0, 0.6);
 }
 
+.modal-inside-container-board-index {
+  position: absolute;
+  display: grid;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  color: white;
+
+  width: fit-content;
+  height: 500px;
+  background-color: #404042;
+
+  box-sizing: border-box;
+  box-shadow: 0 15px 25px rgba(0, 0, 0, 0.6);
+}
+
+
 .modal-fight {
   display: flex;
   flex-direction: column;
@@ -1322,8 +1342,18 @@ input[type="text"]:focus {
   width: 50%;
 }
 
+.modal-fight-index {
+  display: flex;
+  flex-direction: column;
+  /* background-color: rgba(255, 0, 0, 0.1); */
+  background-clip: content-box;
+  padding: 20px;
+  width: 100%;
+}
+
 .modal-input-team {
   display: inline-flex;
+  position: relative;
 }
 
 .team-input-select {
@@ -1408,6 +1438,10 @@ input[type="text"]:focus {
   display: inline-flex;
 }
 
+.users-select .team-list-item-content:click {
+  background-color: #161618;
+}
+
 .team-list-text {}
 
 .cross-team-list {
@@ -1469,6 +1503,24 @@ input[type="text"]:focus {
 .without-template-button {
   margin-top: 33px;
   width: 100%;
+}
+
+.users-select {
+  position: absolute;
+  left: 0;
+  top: 50px;
+
+  width: 100%;
+  height: fit-content;
+  min-height: 0px;
+  max-height: 300px;
+  padding : 10px;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  background-color: #222224;
+  
+  border-radius: 10px;
+  box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.226);
 }
 
 /* Ends here */

@@ -366,6 +366,31 @@ $(document).ready(function () {
     //     },
     // });
 
+    $("#team-man").on("click", function() {
+        var currentBoardId = getUrlParameter("boardid"); 
+
+        $(".team-list-item").html("");
+
+        $.ajax({
+            type: "GET",
+            url: `${endpoint}${boardsEndpoint}${currentBoardId}`, 
+            contentType: "application/json",
+            success: function (response) {
+                console.log(response)
+                Object.keys(response.users).forEach(key => {
+                    console.log(response.users[key]);
+                    getQuerryTemplate("Teamusercard", response.users[key]).then(resultHTML => {
+                        $(".team-list-item").append(resultHTML)
+                    })
+                })
+                
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                console.error(`Error: ${textStatus} - ${errorThrown}`);
+            }
+        });
+    })
+
     $("#buttonColumnCreate").on("click", function () {
         $.ajax({
             type: "POST",
@@ -652,7 +677,7 @@ $(document).ready(function () {
             });
         });
 
-
+        
 
 
 
