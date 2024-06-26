@@ -206,16 +206,17 @@ function getUser(username, guid = null) {
   return new Promise((resolve, reject) => {
     $.ajax({
       type: "GET",
-      url: guid == null ? `${endpoint}${usersEndpoint}username=${username}` : `${endpoint}${usersEndpoint}${guid}`,
+      url: guid == null ? `${endpoint}${usersEndpoint}search/${username}` : `${endpoint}${usersEndpoint}guid=${guid}`,
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
       },
-      // data: guid == null ? {username: username} : "",
+      // data: guid == null ? {} : {guid: guid},
 
       success: function(data) {
         var user = data;
-        console.log(data);
+        // console.log("guid");
+        // console.log(data);
         resolve(user);
       },
       error: function (jqXHR, textStatus, errorThrown) {
@@ -232,8 +233,9 @@ function userSelectReload() {
   $(".team-list-item-content").off("click").on("click", function(e) {
     console.log($(e.target).closest(".team-list-item-content").attr("id"));
     getUser("", $(e.target).closest(".team-list-item-content").attr("id")).then(user => {
-      console.log(user);
-      getQuerryTemplate("Teamusercard", {id: user.id, username: user.username}).then((resultHTML) => {
+      // console.log("user: ")
+      // console.log(user);
+      getQuerryTemplate("Teamusercard", {id: user.guid, username: user.userName}).then((resultHTML) => {
         $(".team-list-item").append(resultHTML);
 
         $(".users-select").hide();
@@ -301,7 +303,7 @@ $(document).ready(function(){
       Object.keys(user).forEach(key => {
         var tempUser = user[key];
 
-        getQuerryTemplate("Teamusercard", {id: tempUser.id, username: tempUser.username}).then((resultHTML) =>{
+        getQuerryTemplate("Teamusercard", {id: tempUser.guid, username: tempUser.userName}).then((resultHTML) =>{
           $(".users-select").append(resultHTML);
           $(".users-select").append("<hr />");
           userSelectReload();
