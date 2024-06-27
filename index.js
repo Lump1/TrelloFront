@@ -3,6 +3,7 @@ var cardsEndpoint = "api/cards/";
 var statusEndpoint = "api/statuses/";
 var boardsEndpoint = "api/boards/";
 var tasksEndpoint = "api/tasks/";
+var commentsEndpoint = "api/comments/";
 var usersBoardEndpoint = "api/users/boards/";
 
 var ciObject;
@@ -439,8 +440,12 @@ $(document).ready(function () {
     $(document).on("click", ".main-card", function () {
         var cardId = $(this).data("card-id");
         var id_status = $(this).data("column-id");
-        console.log("card-id" + cardId);
-        updateCardSettingsMenu(cardId);
+        getCardObj(cardId).then(response => {
+            console.log(response);
+            updateCardSettingsMenu(response);
+            loadComments(response.cardCommentDTOs)
+        });
+        
         updateColumnTitle(id_status);
 
         console.log("column-id" + id_status);
@@ -463,10 +468,64 @@ $(document).ready(function () {
             saveCardLabel(cardId, newLabel);
         });
 
+        $("#commentSaveButton").off("click").on("click", function() {
+            let userId = 1;
+            addComment(userId, cardId, $("#commentText").val());
+        })
+
 
         $(document).on("click", ".delete-card-button", function () {
             deleteCard(cardId);
         });
+
+        function getCardObj(cardid) {
+            return new Promise((resolve, reject) => {
+                $.ajax({
+                    type: "GET",
+                    url: `${endpoint}${cardsEndpoint}${cardId}`,
+                    dataType: "json",
+                    success: function (response) {
+                        resolve(response);
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        console.error(`Error: ${textStatus} - ${errorThrown}`);
+                    }
+                });
+            })
+        }
+
+        function loadComments(comments) {
+            $(".side-card-comments-container").html("");
+            Object.keys(comments).forEach(key => {
+                let comment = comments[key];
+                getQuerryTemplate("Comment", {firstletter: comment.user.userName[0].toUpperCase(), 
+                                            username: comment.user.userName, 
+                                            commentText: comment.commentText}).then(resultHTML => {
+                    $(".side-card-comments-container").append(resultHTML);
+                })
+            })
+        }
+
+        function addComment(userId, cardId, text) {
+            $.ajax({
+                type: "POST",
+                url: `${endpoint}${commentsEndpoint}`,
+                data: JSON.stringify({commentText: text, idCard: cardId, idUser: userId}),
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json",
+                },
+                dataType: "json",
+                success: function (response) {
+                    getCardObj(cardId).then(response => {
+                        loadComments(response.cardCommentDTOs);
+                    })
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    console.error(`Error: ${textStatus} - ${errorThrown}`);
+                }
+            })
+        }
 
         function deleteCard(cardId) {
             $.ajax({
@@ -662,31 +721,20 @@ $(document).ready(function () {
     })
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    function updateCardSettingsMenu(cardId) {
-        $.ajax({
-            type: "GET",
-            url: `${endpoint}${cardsEndpoint}${cardId}`,
-            dataType: "json",
-            success: function (response) {
-                console.log(response);
-                $("textarea[placeholder='Add more detailed description...']").val(response.label);
-                $(".side-card-side-card-text").text(response.title);
+    function updateCardSettingsMenu(cardObj) {
+        $("textarea[placeholder='Add more detailed description...']").val(cardObj.label);
+        $(".side-card-side-card-text").text(cardObj.title);
 
-                if (response.taskDTOs != undefined) {
-                    getQuerryTemplate("Tasksdiv", {cardid: cardId}).then(resultHTML => {
+        if (cardObj.taskDTOs != undefined) {
+            getQuerryTemplate("Tasksdiv", {cardid: cardObj.id}).then(resultHTML => {
 
-                        $("#task-cont-div").html(resultHTML);
+                $("#task-cont-div").html(resultHTML);
 
-                        renderTasks(response.taskDTOs);
-                        updateProgress(response.taskDTOs);
-                    })
+                renderTasks(cardObj.taskDTOs);
+                updateProgress(cardObj.taskDTOs);
+            })
 
-                }
-            },
-            error: function (jqXHR, textStatus, errorThrown) {
-                console.error(`Error: ${textStatus} - ${errorThrown}`);
-            }
-        });
+        }
     }
     function updateColumnTitle(id_status) {
 
