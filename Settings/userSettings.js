@@ -1,5 +1,6 @@
-// let endpoint = "https://localhost:7193/";
-// let notificationsEndpoint = "api/team-user-notifications";
+var endpoint = "https://localhost:7193/";
+var notificationsEndpoint = "api/team-user-notifications/";
+var friendsEndpoint = "api/friendship/";
 
 $(document).ready(function() {
 
@@ -48,22 +49,74 @@ $(document).ready(function() {
             })
         })    
     })
+
+    notificationsAjax().then(notifications => {
+        
+    });
 })
 
-// function notificationsAjax(user) {
-//     $.ajax({
-//         type: "GET",
-//         url: `${endpoint}${notificationsEndpoint}user=${JSON.parse(Cookies.get("userGUID"))}`, 
-//         contentType: "application/json",
-//         // data: JSON.stringify(newTag),
-//         success: function (response) {
-            
-//         },
-//         error: function (jqXHR, textStatus, errorThrown) {
-//             console.error(`Error: ${textStatus} - ${errorThrown}`);
-//         }
-//     });
-// }
+
+function notificationsAjax() {
+    return new Promise((resolve, reject) => {
+        var notification = [];
+        let counter = 0;
+        notificationsBoardAjax().then(notificationsBoard => {
+            notification.push(notificationsBoard);
+            counter += 1;
+        });
+        notificationsFriendAjax().then(notificationsFriends => {
+            notification.push(notificationsFriends);
+            counter += 1;
+        });
+        
+        var ajInterval = setInterval(function() {
+            if(counter == 2) {
+                resolve(notification);
+                clearInterval(ajInterval);          
+            } 
+        }, 500)
+    });
+}
+
+function notificationsFriendAjax() {
+    return new Promise((resolve, reject) => {
+        $.ajax({
+            type: "GET",
+            url: `${endpoint}${friendsEndpoint}requests/user=${Cookies.get("userGUID")}`, 
+            contentType: "application/json",
+            // data: JSON.stringify(newTag),
+            success: function (response) {
+                Object.keys(response).forEach(item => {
+                    item.type = "friend"
+                })
+                resolve(response);
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                console.error(`Error: ${textStatus} - ${errorThrown}`);
+            }
+        });
+    });
+}
+
+function notificationsBoardAjax() {
+    return new Promise((resolve, reject) => {
+        $.ajax({
+            type: "GET",
+            url: `${endpoint}${notificationsEndpoint}user=${Cookies.get("userGUID")}`, 
+            contentType: "application/json",
+            // data: JSON.stringify(newTag),
+            success: function (response) {
+                Object.keys(response).forEach(item => {
+                    item.type = "board"
+                })
+                resolve(response);
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                console.error(`Error: ${textStatus} - ${errorThrown}`);
+            }
+        });
+    });
+}
 
 // function notificationsRender(notifications) {
     
