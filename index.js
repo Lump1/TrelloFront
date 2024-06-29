@@ -405,6 +405,7 @@ $(document).ready(function () {
         };
 
         var tagId = $("#tagSelect").val();
+        var userGuid = Cookies.get("userGUID");
 
         Object.keys(data).forEach(function (k) {
             if (data[k] == undefined) data[k] = null;
@@ -428,12 +429,40 @@ $(document).ready(function () {
                 if (tagId) {
                     addTagToCard(cardData.id, tagId);
                 }
+                if(userGuid){
+
+                 addUserToCard(cardData.id,userGuid)
+
+                }
+             
             },
             error: function (jqXHR, textStatus) {
                 console.warn(textStatus + "|" + jqXHR.responseText);
             },
             dataType: "json",
         });
+        function addUserToCard(cardId, userGuid) {
+            $.ajax({
+                type: "POST",
+                url: `${endpoint}api/user-card/cardId=${cardId}&userGuid=${userGuid}`,
+                success: function (response) {
+                    console.log(`User added to card: ${userGuid}`);
+                    
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    console.error(`Error: ${textStatus} - ${errorThrown}`);
+                }
+            });
+        }
+
+
+
+
+
+
+
+
+
     });
 
     $(document).on("click", ".main-card", function () {
@@ -474,7 +503,7 @@ $(document).ready(function () {
                 url: `${endpoint}${cardsEndpoint}${cardId}`,
                 success: function (response) {
                     console.log(response);
-                    closeModal();
+
                     $(`[data-card-id='${cardId}']`).remove();
                 },
                 error: function (jqXHR, textStatus, errorThrown) {
@@ -482,12 +511,12 @@ $(document).ready(function () {
                 }
             });
         }
-            /////////////////////////////////////////////////////////////////////////////////////////////////
-        var labelsList = $('#labelsList'); 
-        var labelsPopup = $('#labelsPopup'); 
-        var currentBoardId = getUrlParameter("boardid"); 
+        /////////////////////////////////////////////////////////////////////////////////////////////////
+        var labelsList = $('#labelsList');
+        var labelsPopup = $('#labelsPopup');
+        var currentBoardId = getUrlParameter("boardid");
 
-       currentCardId = cardId;
+        currentCardId = cardId;
 
 
 
@@ -498,27 +527,27 @@ $(document).ready(function () {
         function loadBoardTags(boardId) {
             $.ajax({
                 type: "GET",
-                url: `${endpoint}api/boards/${boardId}/tags`, 
+                url: `${endpoint}api/boards/${boardId}/tags`,
                 dataType: "json",
                 success: function (response) {
-                    renderLabels(response); 
+                    renderLabels(response);
                 },
                 error: function (jqXHR, textStatus, errorThrown) {
                     console.error(`Error: ${textStatus} - ${errorThrown}`);
                 }
             });
 
-            console.log("currentCardId:",currentCardId);
-          
+            console.log("currentCardId:", currentCardId);
+
 
         }
 
         // Функция для отображения тегов
         function renderLabels(labels) {
-            labelsList.empty(); 
+            labelsList.empty();
             if (labels && labels.length > 0) {
                 labels.forEach(function (label) {
-                    var labelItem = $(`<div class="label-item" data-id="${label.id}">${label.name}</div>`);
+                    var labelItem = $(`<div class="label-item" data-id="${label.id}">🏷️${label.name}</div>`);
                     labelItem.hover(
                         function () {
                             $(this).css({ backgroundColor: 'black', border: '1px solid #fff' });
@@ -540,16 +569,16 @@ $(document).ready(function () {
 
         // Функция для замены тега на карте
         function replaceCardTag(tagId) {
-           
+
             $.ajax({
                 type: "GET",
                 url: `${endpoint}${cardsEndpoint}${currentCardId}`,
                 dataType: "json",
                 success: function (card) {
-                    var currentTags = card.tagDTOs || []; // Получаем текущие теги или пустой массив
-                    var tagIdsToRemove = currentTags.map(tag => tag.id); 
-                    console.log("fagIdsToRemove",tagIdsToRemove);
-                    
+                    var currentTags = card.tagDTOs || [];
+                    var tagIdsToRemove = currentTags.map(tag => tag.id);
+                    console.log("fagIdsToRemove", tagIdsToRemove);
+
                     if (tagIdsToRemove.length > 0) {
                         var deletePromises = tagIdsToRemove.map(tagIdToRemove => {
                             return $.ajax({
@@ -561,12 +590,12 @@ $(document).ready(function () {
                             });
                         });
 
-                        // После удаления всех текущих тегов добавляем новый тег
+
                         $.when.apply($, deletePromises).done(function () {
                             addTagToCard(tagId);
                         });
                     } else {
-                        // Если текущих тегов нет, сразу добавляем новый тег
+                        //
                         addTagToCard(tagId);
                     }
                 },
@@ -587,14 +616,14 @@ $(document).ready(function () {
                 data: JSON.stringify(cardTag),
                 success: function (response) {
                     console.log(`Тег добавлен на карту: ${tagId}`);
-                    loadBoardTags(currentBoardId); 
+                    loadBoardTags(currentBoardId);
                 },
                 error: function (jqXHR, textStatus, errorThrown) {
                     console.error(`Error: ${textStatus} - ${errorThrown}`);
                 }
 
             });
-          
+
         }
 
 
@@ -605,13 +634,13 @@ $(document).ready(function () {
             // Показать или скрыть всплывающее окно
             labelsPopup.toggle();
 
-        
+
             if (labelsPopup.is(':visible')) {
                 labelsPopup.css({
-                    top: '10px', 
-                    left: '10px' 
+                    top: '10px',
+                    left: '10px'
                 });
-             
+
                 loadBoardTags(currentBoardId);
             }
         });
@@ -639,12 +668,12 @@ $(document).ready(function () {
 
             $.ajax({
                 type: "POST",
-                url: `${endpoint}api/tags`, 
+                url: `${endpoint}api/tags`,
                 contentType: "application/json",
                 data: JSON.stringify(newTag),
                 success: function (response) {
-                    $('#newLabelName').val(''); 
-                    loadBoardTags(currentBoardId); 
+                    $('#newLabelName').val('');
+                    loadBoardTags(currentBoardId);
                 },
                 error: function (jqXHR, textStatus, errorThrown) {
                     console.error(`Error: ${textStatus} - ${errorThrown}`);
@@ -656,7 +685,132 @@ $(document).ready(function () {
 
 
 
+
               ////////////////////////////////////////////////////////////////
+
+
+        $(document).ready(function () {
+            var currentBoardId = getUrlParameter("boardid"); // Замените на реальный Id текущей доски
+            currentCardId = cardId;
+
+            // Обработчик клика на кнопку для открытия всплывающего окна с пользователями
+            $('#showMembersBtn').on('click', function () {
+                // Показать или скрыть всплывающее окно
+                $('#membersPopup').toggle();
+
+                // Устанавливаем позицию всплывающего окна в верхнем левом углу
+                if ($('#membersPopup').is(':visible')) {
+                    $('#membersPopup').css({
+                        top: '10px',
+                        left: '10px'
+                    });
+                    // Загрузка пользователей при открытии окна
+                    loadMembers(currentBoardId, currentCardId);
+                }
+            });
+
+            // Закрытие всплывающего окна при клике вне его области
+            $(document).mouseup(function (e) {
+                var membersPopup = $('#membersPopup');
+                if (!membersPopup.is(e.target) && membersPopup.has(e.target).length === 0) {
+                    membersPopup.hide();
+                }
+            });
+
+            function loadMembers(boardId, cardId) {
+                $.ajax({
+                    type: "GET",
+                    url: `${endpoint}api/boards/${boardId}`,
+                    dataType: "json",
+                    success: function (response) {
+                        renderMembers(response, cardId);
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        console.error(`Error: ${textStatus} - ${errorThrown}`);
+                    }
+                });
+            }
+
+            function renderMembers(boardData, cardId) {
+                var cardMembersList = $('#cardMembersList');
+                var boardMembersList = $('#boardMembersList');
+                cardMembersList.empty();
+                boardMembersList.empty();
+
+                var cardMembers = boardData.cards.find(card => card.id === cardId).userDtos || [];
+                var boardMembers = boardData.users || [];
+                console.log("cardMembers", cardMembers)
+                console.log("boardMembers", boardMembers)
+
+
+                var cardMemberGuids = cardMembers.map(member => member.guid);
+                var nonCardMembers = boardMembers.filter(member => !cardMemberGuids.includes(member.guid));
+                console.log("cardMemberGuids", cardMemberGuids)
+                console.log("nonCardMembers", nonCardMembers)
+                cardMembers.forEach(function (member) {
+                    var memberItem = $(`<div class="member-item" data-guid="${member.guid}">👥${member.userName}</div>`);
+                    cardMembersList.append(memberItem);
+                });
+
+                nonCardMembers.forEach(function (member) {
+                    var memberItem = $(`<div class="member-item" data-guid="${member.guid}">👥${member.userName}</div>`);
+                    memberItem.dblclick(function () {
+                        addUserToCard(currentCardId, member.guid);
+                    });
+                    boardMembersList.append(memberItem);
+                });
+            }
+            function addUserToCard(cardId, userGuid) {
+                $.ajax({
+                    type: "POST",
+                    url: `${endpoint}api/user-card/cardId=${cardId}&userGuid=${userGuid}`,
+                    success: function (response) {
+                        console.log(`User added to card: ${userGuid}`);
+                        loadMembers(currentBoardId, currentCardId);
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        console.error(`Error: ${textStatus} - ${errorThrown}`);
+                    }
+                });
+            }
+
+            function getUrlParameter(name) {
+                var urlParams = new URLSearchParams(window.location.search);
+                return urlParams.get(name);
+            }
+        });
+            
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
     })
@@ -969,6 +1123,13 @@ $(document).ready(function () {
 
 $(document).ready(function () {
     $("#settings-button-js").click(function () {
-      window.location.href = 'http://127.0.0.1:5500/profile-settings/profile_settings.html?#public-profile'
+        var userGUID = Cookies.get("userGUID");
+        if (userGUID != null) {
+            var targetUrl = 'http://127.0.0.1:5500/profile-settings/profile_settings.html?userGUID=' + encodeURIComponent(userGUID) + '#public-profile';
+            window.location.href = targetUrl;
+        } else {
+            console.log("userGUID is not available");
+        }
     });
-  });
+});
+
