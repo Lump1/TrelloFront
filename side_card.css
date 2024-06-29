@@ -196,7 +196,7 @@
 
 
 .side-card-comments-container{
-  overflow: scroll;
+  overflow-y: scroll;
   height: fit-content;
   max-height: 200px;
   width: 100%;
@@ -278,4 +278,27 @@
 .task-text {
   margin-right: 10px;
 
+}
+
+::-webkit-scrollbar {
+  width: 10px; 
+  height: 12px; 
+}
+
+::-webkit-scrollbar-thumb {
+  background: #46464d; 
+  border-radius: 6px; 
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555; 
+}
+
+::-webkit-scrollbar-track {
+  background: #2e2c35; 
+  border-radius: 6px; 
+}
+
+::-webkit-scrollbar-track:hover {
+  background: #2e2e2e; 
 }
