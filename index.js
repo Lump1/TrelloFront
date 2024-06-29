@@ -770,21 +770,16 @@ $(document).ready(function () {
         if (cardObj.taskDTOs != undefined) {
             getQuerryTemplate("Tasksdiv", {cardid: cardObj.id}).then(resultHTML => {
 
-                $("#task-cont-div").html(resultHTML);
+                    $("#task-cont-div").html(resultHTML);
 
-                renderTasks(cardObj.taskDTOs);
-                updateProgress(cardObj.taskDTOs);
-            })
-                }
-
-                miniatureRender(response);
-            },
-            error: function (jqXHR, textStatus, errorThrown) {
-                console.error(`Error: ${textStatus} - ${errorThrown}`);
+                    renderTasks(cardObj.taskDTOs);
+                    updateProgress(cardObj.taskDTOs);
+                    miniatureRender(cardObj);
+                })
+                
             }
-        });
+        };
 
-    }
     function updateColumnTitle(id_status) {
 
         $.ajax({

@@ -1,3 +1,6 @@
+// let endpoint = "https://localhost:7193/";
+// let notificationsEndpoint = "api/team-user-notifications";
+
 $(document).ready(function() {
 
     if (CSS.supports('scrollbar-gutter', 'stable')) {
@@ -46,3 +49,22 @@ $(document).ready(function() {
         })    
     })
 })
+
+// function notificationsAjax(user) {
+//     $.ajax({
+//         type: "GET",
+//         url: `${endpoint}${notificationsEndpoint}user=${JSON.parse(Cookies.get("userGUID"))}`, 
+//         contentType: "application/json",
+//         // data: JSON.stringify(newTag),
+//         success: function (response) {
+            
+//         },
+//         error: function (jqXHR, textStatus, errorThrown) {
+//             console.error(`Error: ${textStatus} - ${errorThrown}`);
+//         }
+//     });
+// }
+
+// function notificationsRender(notifications) {
+    
+// }
