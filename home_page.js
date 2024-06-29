@@ -29,11 +29,11 @@ function generateName() {
   tempText = "";
 
   for(let i = 0; i < getRandomIntInc(3, 4); i++) {
-    console.log(i);
+    // console.log(i);
     tempText += words[getRandomInt(words.length)];
   }
 
-  console.log(getRandomInt(subWords.length));
+  // console.log(getRandomInt(subWords.length));
   return subWords[getRandomInt  (subWords.length)] + " " + tempText;
 }
 
@@ -96,11 +96,11 @@ function clickReload() {
 }
 
 function createTeamAjax() {
-  console.log(`${endpoint}${teamEndpoint}user=${Cookies.get("userGUID")}`);
+  // console.log(`${endpoint}${teamEndpoint}user=${Cookies.get("userGUID")}`);
   return new Promise((resolve, reject) => {
     $.ajax({
       type: "POST",
-      url: `${endpoint}${teamEndpoint}user=${JSON.parse(Cookies.get("userGUID"))}`,
+      url: `${endpoint}${teamEndpoint}user=${Cookies.get("userGUID")}`,
       dataType: "json",
       headers: {
         Accept: "application/json",
@@ -128,15 +128,15 @@ function pushUsersAjax(teamid) {
   // usersArray.push(Cookies.get("userGUID").id);
 
   usersArray.forEach(userid => {
-    console.log(userid)
+    // console.log(userid)
     $.ajax({
       type: "POST",
-      url: `${endpoint}${teamuserEndpoint}`,
+      url: `${endpoint}${teamuserEndpoint}add/team=${teamid}&user=${userid}`,
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
         },
-        data: JSON.stringify({teamId: teamid, userGuid: userid}),
+        // data: JSON.stringify({team: teamid, user: userid}),
 
         success: function(data) {
           console.log(data);
@@ -168,7 +168,7 @@ function pushUsersAjax(teamid) {
 // }
 
 function addUserAjax(teamid, userid) {
-  console.log(`${endpoint}${teamuserEndpoint}add/team=${teamid}&user=${userid}`);
+  // console.log(`${endpoint}${teamuserEndpoint}add/team=${teamid}&user=${userid}`);
   $.ajax({
     type: "POST",
     url: `${endpoint}${teamuserEndpoint}add/team=${teamid}&user=${userid}`,
@@ -231,7 +231,7 @@ function getUser(username, guid = null) {
 }
 
 function userSelectReload() {
-  console.log($(".team-list-item-content"));
+  // console.log($(".team-list-item-content"));
   $(".team-list-item-content").off("click").on("click", function(e) {
     console.log($(e.target).closest(".team-list-item-content").attr("id"));
     getUser("", $(e.target).closest(".team-list-item-content").attr("id")).then(user => {
@@ -257,12 +257,12 @@ $(document).ready(function(){
     },
     // data: {"userGuid": Cookies.get("userGUID")},
     success: function (response) {
-      console.log(response);
+      // console.log(response);
 
       var recentArray = Cookies.get("recent") != undefined ? JSON.parse(Cookies.get("recent")) : [];
       var favArray = Cookies.get("favorite") != undefined ? JSON.parse(Cookies.get("favorite")) : [];
 
-      console.log(recentArray);
+      // console.log(recentArray);
 
       Object.keys(response).forEach((item) => {
         boardCardRender(response[item]);
@@ -329,7 +329,7 @@ $(document).ready(function(){
   })
 
   $(".logout-butt").on("click", function () {
-    console.log(Cookies.get("userGUID"));
+    // console.log(Cookies.get("userGUID"));
     if (Cookies.get("userGUID") != null) {
         Cookies.remove("userGUID");
         window.location.href = 'http://127.0.0.1:5500/reglog.html';

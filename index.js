@@ -4,6 +4,7 @@ var statusEndpoint = "api/statuses/";
 var boardsEndpoint = "api/boards/";
 var tasksEndpoint = "api/tasks/";
 var usersBoardEndpoint = "api/users/boards/";
+var usersEndpoint = "api/users/";
 
 var ciObject;
 
@@ -996,4 +997,68 @@ $(document).ready(function () {
     $("#settings-button-js").click(function () {
       window.location.href = 'http://127.0.0.1:5500/profile-settings/profile_settings.html?#public-profile'
     });
+    searchButtonLoad();
   });
+
+
+
+function searchButtonLoad() {
+    $("#searchButton").on("click", function() {
+        $(".users-select").show();
+        $(".users-select").html("");
+    
+        getUser($("#search_user_input").val()).then((user) => {
+          Object.keys(user).forEach(key => {
+            var tempUser = user[key];
+    
+            getQuerryTemplate("Teamusercard", {id: tempUser.guid, username: tempUser.userName}).then((resultHTML) =>{
+              $(".users-select").append(resultHTML);
+              $(".users-select").append("<hr />");
+              userSelectReload();
+            })       
+          })
+        })
+      })
+}
+
+function getUser(username, guid = null) {
+    return new Promise((resolve, reject) => {
+      $.ajax({
+        type: "GET",
+        url: guid == null ? `${endpoint}${usersEndpoint}search/${username}` : `${endpoint}${usersEndpoint}guid=${guid}`,
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        // data: guid == null ? {} : {guid: guid},
+  
+        success: function(data) {
+          var user = data;
+          // console.log("guid");
+          // console.log(data);
+          resolve(user);
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+          console.error(
+            `Ошибка при получении данных: ${textStatus} - ${errorThrown}`
+          );
+        },
+      })
+    });
+  }
+
+  function userSelectReload() {
+    // console.log($(".team-list-item-content"));
+    $(".team-list-item-content").off("click").on("click", function(e) {
+      console.log($(e.target).closest(".team-list-item-content").attr("id"));
+      getUser("", $(e.target).closest(".team-list-item-content").attr("id")).then(user => {
+        // console.log("user: ")
+        // console.log(user);
+        getQuerryTemplate("Teamusercard", {id: user.guid, username: user.userName}).then((resultHTML) => {
+          $(".team-list-item").append(resultHTML);
+  
+          $(".users-select").hide();
+        }) 
+      })
+    })
+  }
