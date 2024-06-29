@@ -96,10 +96,11 @@ function clickReload() {
 }
 
 function createTeamAjax() {
+  console.log(`${endpoint}${teamEndpoint}user=${Cookies.get("userGUID")}`);
   return new Promise((resolve, reject) => {
     $.ajax({
       type: "POST",
-      url: `${endpoint}${teamEndpoint}`,
+      url: `${endpoint}${teamEndpoint}user=${JSON.parse(Cookies.get("userGUID"))}`,
       dataType: "json",
       headers: {
         Accept: "application/json",
@@ -135,7 +136,7 @@ function pushUsersAjax(teamid) {
           Accept: "application/json",
           "Content-Type": "application/json",
         },
-        data: JSON.stringify({idTeam: teamid, idUser: userid}),
+        data: JSON.stringify({teamId: teamid, userGuid: userid}),
 
         success: function(data) {
           console.log(data);
@@ -167,14 +168,15 @@ function pushUsersAjax(teamid) {
 // }
 
 function addUserAjax(teamid, userid) {
+  console.log(`${endpoint}${teamuserEndpoint}add/team=${teamid}&user=${userid}`);
   $.ajax({
     type: "POST",
-    url: `${endpoint}${teamuserEndpoint}`,
+    url: `${endpoint}${teamuserEndpoint}add/team=${teamid}&user=${userid}`,
     headers: {
       Accept: "application/json",
       "Content-Type": "application/json",
     },
-    data: {idTeam: teamid, idUser: userid},
+    // data: {idTeam: teamid, idUser: userid},
 
     success: function(data) {
       console.log(data);
@@ -296,7 +298,7 @@ $(document).ready(function(){
   // });
 
   $("#searchButton").on("click", function() {
-    $("#searchButton").show();
+    $(".users-select").show();
     $(".users-select").html("");
 
     getUser($("#search_user_input").val()).then((user) => {
