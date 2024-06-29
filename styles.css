@@ -974,6 +974,7 @@ p {
 
 .text-footer {
   margin-top: -3px;
+  margin-left: 25px;
 
   /* margin-left: 10px; */
   /* margin-top: 5px; */
@@ -1241,6 +1242,15 @@ p {
   background-color: transparent;
   color: white;
   width: 100%;
+}
+
+.input-modal option {
+  background-color: #2e2e2e;
+  color: #ffffff;
+}
+
+.input-modal option:hover {
+  background-color: #444444;
 }
 
 .input-modal:focus{

@@ -3,6 +3,7 @@ var cardsEndpoint = "api/cards/";
 var statusEndpoint = "api/statuses/";
 var boardsEndpoint = "api/boards/";
 var tasksEndpoint = "api/tasks/";
+var commentsEndpoint = "api/comments/";
 var usersBoardEndpoint = "api/users/boards/";
 
 var ciObject;
@@ -97,6 +98,22 @@ function getTasks(cardId) {
 
 }
 
+function getCard(cardId) {
+    return new Promise(resolve => {
+        $.ajax({
+            type: "GET",
+            url: `${endpoint}${cardsEndpoint}${cardId}`,
+            success: function (response) {
+                var responseCard = response;
+                resolve(responseCard);
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                // reject(`Error: ${textStatus} - ${errorThrown}`);
+            }
+        });
+    })
+}
+
 function toggleTaskCompletion(taskid) {
 
     $.ajax({
@@ -112,6 +129,10 @@ function toggleTaskCompletion(taskid) {
             getTask(taskid).then(task => {
                 getTasks(task.idCard).then(responseTasks => {
                     updateProgress(responseTasks);
+
+                    getCard(task.idCard).then(responseCard => {
+                        miniatureRender(responseCard);
+                    });
                 })
             })
         },
@@ -123,9 +144,9 @@ function toggleTaskCompletion(taskid) {
 
 }
 
-function updateProgress(tasks, isDeleting = false) {
-    const totalTasks = isDeleting == true ? tasks.length - 1 : tasks.length;
-    const completedTasks = tasks.filter(task => task.iscompleted).length;
+function updateProgress(tasks, deletingTaskID = null) {
+    const totalTasks = deletingTaskID != null ? tasks.length - 1 : tasks.length;
+    const completedTasks = tasks.filter(task => task.iscompleted == true && task.id != deletingTaskID).length;
     const progressPercentage = Math.floor((totalTasks === 0) ? 0 : (completedTasks / totalTasks) * 100);
     
 
@@ -250,17 +271,15 @@ function cardRender(data) {
         columnid: data.idStatus,
 
     }).then((resultHTML) => {
-        // Загружаем теги, соответствующие карте
         $.ajax({
             type: "GET",
             url: `${endpoint}api/cards/${data.id}/tags`,
             dataType: "json",
             success: function (response) {
-                var tags = response.map(tag => tag.name).join(', '); // Преобразуем массив названий тегов в строку
-                // Заменяем PLACEHOLDERtag на полученные теги в HTML-шаблоне карточки
+                var tags = response.map(tag => tag.name).join(', ');
                 resultHTML = resultHTML.replace("PLACEHOLDERtag", tags);
                 $("#" + data.idStatus + ".helping-container").prepend(resultHTML);
-
+                miniatureRender(data);
                 clickReload();
             },
             error: function (jqXHR, textStatus, errorThrown) {
@@ -268,8 +287,55 @@ function cardRender(data) {
             },
         });
 
+        
         dragulaReload();
     });
+}
+
+function miniatureRender(card) {
+    $("#" + card.id + ".card-footer-man").html("");
+
+    if(card.deadline != null) {
+        let div = `<div class="d-inline-flex">
+                    <img
+                        src="assets/free-icon-clock-2088617.png"
+                        class="card-sm-img clock-img"
+                    />
+                    <p class="card-text card-sm-text text-footer sm-mar-l">
+                        ${getDataFormat(card.deadline)}
+                    </p>
+                    </div>`;
+        $("#" + card.id + ".card-footer-man").append(div);
+    }
+
+
+    if(card.label != null && card.label != "") {
+        let div = `<div class="d-inline-flex m-mar-l">
+                      <img src="assets/description_min.png" class="card-sm-img">
+                   </div>`;
+        $("#" + card.id + ".card-footer-man").append(div);
+    }
+
+    if(card.taskDTOs.length != 0){ 
+        let maxTasks = card.taskDTOs.length
+        let complated = 0;
+        card.taskDTOs.forEach(task => {
+            if(task.iscompleted){
+                complated += 1;
+            }
+        });
+
+        let style = "";
+
+        if(maxTasks == complated) {
+            style = "background-color: #318f4a; padding-right: 5px; border-radius: 5px;"
+        }
+
+        let div = `<div class="d-inline-flex m-mar-l" style="${style}">
+                      <p class="card-text card-sm-text text-footer sm-mar-l">${complated}/${maxTasks}</p>
+                   </div>`;
+        $("#" + card.id + ".card-footer-man").append(div);
+    }
 }
 
 function loadBoards() {
@@ -342,30 +408,6 @@ $(document).ready(function () {
         },
     });
 
-    // $.ajax({
-    //     type: "GET",
-    //     url: `${endpoint}${statusEndpoint}`,
-    //     dataType: "json",
-    //     headers: {
-    //         Accept: "application/json",
-    //         "Content-Type": "application/json",
-    //     },
-    //     success: function (response) {
-    //         console.log(response);
-    //         Object.keys(response).forEach((item) => {
-    //             columnRender(response[item]);
-    //         });
-
-    //         addCards();
-    //         dragulaReload();
-    //     },
-    //     error: function (jqXHR, textStatus, errorThrown) {
-    //         console.error(
-    //             `Ошибка при получении данных о карточках: ${textStatus} - ${errorThrown}`
-    //         );
-    //     },
-    // });
-
     $("#buttonColumnCreate").on("click", function () {
         $.ajax({
             type: "POST",
@@ -424,6 +466,7 @@ $(document).ready(function () {
                 console.log(cardData);
                 cardRender(cardData);
                 dragulaReload();
+                miniatureRender(cardData);
 
                 if (tagId) {
                     addTagToCard(cardData.id, tagId);
@@ -439,8 +482,12 @@ $(document).ready(function () {
     $(document).on("click", ".main-card", function () {
         var cardId = $(this).data("card-id");
         var id_status = $(this).data("column-id");
-        console.log("card-id" + cardId);
-        updateCardSettingsMenu(cardId);
+        getCardObj(cardId).then(response => {
+            console.log(response);
+            updateCardSettingsMenu(response);
+            loadComments(response.cardCommentDTOs)
+        });
+        
         updateColumnTitle(id_status);
 
         console.log("column-id" + id_status);
@@ -463,10 +510,64 @@ $(document).ready(function () {
             saveCardLabel(cardId, newLabel);
         });
 
+        $("#commentSaveButton").off("click").on("click", function() {
+            let userId = 1;
+            addComment(userId, cardId, $("#commentText").val());
+        })
+
 
         $(document).on("click", ".delete-card-button", function () {
             deleteCard(cardId);
         });
+
+        function getCardObj(cardid) {
+            return new Promise((resolve, reject) => {
+                $.ajax({
+                    type: "GET",
+                    url: `${endpoint}${cardsEndpoint}${cardId}`,
+                    dataType: "json",
+                    success: function (response) {
+                        resolve(response);
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        console.error(`Error: ${textStatus} - ${errorThrown}`);
+                    }
+                });
+            })
+        }
+
+        function loadComments(comments) {
+            $(".side-card-comments-container").html("");
+            Object.keys(comments).forEach(key => {
+                let comment = comments[key];
+                getQuerryTemplate("Comment", {firstletter: comment.user.userName[0].toUpperCase(), 
+                                            username: comment.user.userName, 
+                                            commentText: comment.commentText}).then(resultHTML => {
+                    $(".side-card-comments-container").append(resultHTML);
+                })
+            })
+        }
+
+        function addComment(userId, cardId, text) {
+            $.ajax({
+                type: "POST",
+                url: `${endpoint}${commentsEndpoint}`,
+                data: JSON.stringify({commentText: text, idCard: cardId, idUser: userId}),
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json",
+                },
+                dataType: "json",
+                success: function (response) {
+                    getCardObj(cardId).then(response => {
+                        loadComments(response.cardCommentDTOs);
+                    })
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    console.error(`Error: ${textStatus} - ${errorThrown}`);
+                }
+            })
+        }
 
         function deleteCard(cardId) {
             $.ajax({
@@ -662,31 +763,27 @@ $(document).ready(function () {
     })
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    function updateCardSettingsMenu(cardId) {
-        $.ajax({
-            type: "GET",
-            url: `${endpoint}${cardsEndpoint}${cardId}`,
-            dataType: "json",
-            success: function (response) {
-                console.log(response);
-                $("textarea[placeholder='Add more detailed description...']").val(response.label);
-                $(".side-card-side-card-text").text(response.title);
+    function updateCardSettingsMenu(cardObj) {
+        $("textarea[placeholder='Add more detailed description...']").val(cardObj.label);
+        $(".side-card-side-card-text").text(cardObj.title);
 
-                if (response.taskDTOs != undefined) {
-                    getQuerryTemplate("Tasksdiv", {cardid: cardId}).then(resultHTML => {
+        if (cardObj.taskDTOs != undefined) {
+            getQuerryTemplate("Tasksdiv", {cardid: cardObj.id}).then(resultHTML => {
 
-                        $("#task-cont-div").html(resultHTML);
+                $("#task-cont-div").html(resultHTML);
 
-                        renderTasks(response.taskDTOs);
-                        updateProgress(response.taskDTOs);
-                    })
-
+                renderTasks(cardObj.taskDTOs);
+                updateProgress(cardObj.taskDTOs);
+            })
                 }
+
+                miniatureRender(response);
             },
             error: function (jqXHR, textStatus, errorThrown) {
                 console.error(`Error: ${textStatus} - ${errorThrown}`);
             }
         });
+
     }
     function updateColumnTitle(id_status) {
 
@@ -741,6 +838,7 @@ $(document).ready(function () {
                     data: JSON.stringify(cardData),
                     success: function (response) {
                         console.log(`Card ${cardId} label updated successfully`);
+                        miniatureRender(cardData);
                     },
                     error: function (jqXHR, textStatus, errorThrown) {
                         console.error(`Error: ${textStatus} - ${errorThrown}`);
@@ -783,9 +881,15 @@ $(document).ready(function () {
             data: JSON.stringify(taskData),
             contentType: "application/json",
             success: function (response) {
-                console.log(response);
                 renderTask(response);
-                
+
+                getTasks(response.idCard).then(responseTasks => {
+                    updateProgress(responseTasks);
+                });
+
+                getCard(taskData.idCard).then(responseCard => {
+                    miniatureRender(responseCard);
+                });
             },
             error: function (jqXHR, textStatus, errorThrown) {
                 console.error(`Error: ${textStatus} - ${errorThrown}`);
@@ -796,22 +900,25 @@ $(document).ready(function () {
     function deleteTask(tasksId) {
         getTask(tasksId).then(task => {
             getTasks(task.idCard).then(responseTasks => {
-                updateProgress(responseTasks, true);
+                $.ajax({
+                    type: "DELETE",
+                    url: `${endpoint}${tasksEndpoint}${tasksId}`,
+                    success: function (response) {
+                        $("div.actualy-task-container#" + tasksId).remove();
+                        updateProgress(responseTasks, tasksId);
+                        getCard(task.idCard).then(responseCard => {
+                            console.log(responseCard);
+                            miniatureRender(responseCard);
+                        });
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        console.error(`Error: ${textStatus} - ${errorThrown}`);
+                    }
+                });
             })
         })
 
-        $.ajax({
-            type: "DELETE",
-            url: `${endpoint}${tasksEndpoint}${tasksId}`,
-            success: function (response) {
-                console.log(response);
-                $("div.actualy-task-container#" + tasksId).remove();
-                
-            },
-            error: function (jqXHR, textStatus, errorThrown) {
-                console.error(`Error: ${textStatus} - ${errorThrown}`);
-            }
-        });
+
     }
 
 
