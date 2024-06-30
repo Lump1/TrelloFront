@@ -5,6 +5,7 @@ var boardsEndpoint = "api/boards/";
 var tasksEndpoint = "api/tasks/";
 var usersBoardEndpoint = "api/users/boards/";
 var usersEndpoint = "api/users/";
+var teamuserEndpoint = "api/team-user/"
 
 var ciObject;
 
@@ -45,24 +46,6 @@ function getDataFormat(date) {
         day: "numeric",
     });
 }
-
-// function addCards() {
-//     $.ajax({
-//         type: "GET",
-//         url: `${endpoint}${cardsEndpoint}`,
-//         dataType: "json",
-//         success: function (response) {
-//             response.forEach((item) => {
-//                 cardRender(item);
-//             });
-
-//             dragulaReload();
-//         },
-//         error: function (jqXHR, textStatus, errorThrown) {
-//             console.error(`Error: ${textStatus} - ${errorThrown}`);
-//         },
-//     });
-// }
 
 function getTask(taskId) {
     return new Promise((resolve, reject) => {
@@ -208,8 +191,6 @@ function dragulaReload() {
             },
             dataType: "json",
         });
-
-        // $(el).data("column-id") = columnid;
     });
 }
 
@@ -251,14 +232,12 @@ function cardRender(data) {
         columnid: data.idStatus,
 
     }).then((resultHTML) => {
-        // Загружаем теги, соответствующие карте
         $.ajax({
             type: "GET",
             url: `${endpoint}api/cards/${data.id}/tags`,
             dataType: "json",
             success: function (response) {
-                var tags = response.map(tag => tag.name).join(', '); // Преобразуем массив названий тегов в строку
-                // Заменяем PLACEHOLDERtag на полученные теги в HTML-шаблоне карточки
+                var tags = response.map(tag => tag.name).join(', ');
                 resultHTML = resultHTML.replace("PLACEHOLDERtag", tags);
                 $("#" + data.idStatus + ".helping-container").prepend(resultHTML);
 
@@ -306,90 +285,40 @@ function loadBoards() {
 }
 
 $(document).ready(function () {
-    $.ajax({
-        type: "GET",
-        url: `${endpoint}${boardsEndpoint}${getUrlParameter("boardid")}`,
-        dataType: "json",
-        headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-        },
-        success: function (response) {
-            console.log(response);
+    searchButtonLoad();
 
-            Object.keys(response.statusColumns).forEach((item) => {
-                columnRender(response.statusColumns[item]);
-            });
+    getBoard().then(response => {
+        Object.keys(response.statusColumns).forEach((item) => {
+            columnRender(response.statusColumns[item]);
+        });
 
-            Object.keys(response.cards).forEach((item) => {
-                cardRender(response.cards[item]);
-            });
+        Object.keys(response.cards).forEach((item) => {
+            cardRender(response.cards[item]);
+        });
 
-            getQuerryTemplate("Title", response).then((resultHTML) => {
-                $(".aside-h-container").append($(resultHTML));
-                ciObject = new ChangingInput();
-                ciObject.reload();
-            })
-            
-            loadBoards();
-            loadTags(response.tags);
+        getQuerryTemplate("Title", response).then((resultHTML) => {
+            $(".aside-h-container").append($(resultHTML));
+            ciObject = new ChangingInput();
+            ciObject.reload();
+        })
+        
+        loadBoards();
+        loadTags(response.tags);
 
-            dragulaReload();
-        },
-        error: function (jqXHR, textStatus, errorThrown) {
-            console.error(
-                `Ошибка при получении данных о карточках: ${textStatus} - ${errorThrown}`
-            );
-        },
-    });
-
-    // $.ajax({
-    //     type: "GET",
-    //     url: `${endpoint}${statusEndpoint}`,
-    //     dataType: "json",
-    //     headers: {
-    //         Accept: "application/json",
-    //         "Content-Type": "application/json",
-    //     },
-    //     success: function (response) {
-    //         console.log(response);
-    //         Object.keys(response).forEach((item) => {
-    //             columnRender(response[item]);
-    //         });
-
-    //         addCards();
-    //         dragulaReload();
-    //     },
-    //     error: function (jqXHR, textStatus, errorThrown) {
-    //         console.error(
-    //             `Ошибка при получении данных о карточках: ${textStatus} - ${errorThrown}`
-    //         );
-    //     },
-    // });
+        dragulaReload();
+    })
 
     $("#team-man").on("click", function() {
-        var currentBoardId = getUrlParameter("boardid"); 
-
         $(".team-list-item").html("");
 
-        $.ajax({
-            type: "GET",
-            url: `${endpoint}${boardsEndpoint}${currentBoardId}`, 
-            contentType: "application/json",
-            success: function (response) {
-                console.log(response)
-                Object.keys(response.users).forEach(key => {
-                    console.log(response.users[key]);
-                    getQuerryTemplate("Teamusercard", response.users[key]).then(resultHTML => {
-                        $(".team-list-item").append(resultHTML)
-                    })
+        getBoard().then(response => {
+            Object.keys(response.users).forEach(key => {
+                console.log(response.users[key]);
+                getQuerryTemplate("Teamusercard", response.users[key]).then(resultHTML => {
+                    $(".team-list-item").append(resultHTML)
                 })
-                
-            },
-            error: function (jqXHR, textStatus, errorThrown) {
-                console.error(`Error: ${textStatus} - ${errorThrown}`);
-            }
-        });
+            })
+        })
     })
 
     $("#buttonColumnCreate").on("click", function () {
@@ -508,19 +437,13 @@ $(document).ready(function () {
                 }
             });
         }
-            /////////////////////////////////////////////////////////////////////////////////////////////////
+
         var labelsList = $('#labelsList'); 
         var labelsPopup = $('#labelsPopup'); 
         var currentBoardId = getUrlParameter("boardid"); 
 
        currentCardId = cardId;
 
-
-
-
-
-
-        // Функция для загрузки тегов, привязанных к доске
         function loadBoardTags(boardId) {
             $.ajax({
                 type: "GET",
@@ -539,7 +462,6 @@ $(document).ready(function () {
 
         }
 
-        // Функция для отображения тегов
         function renderLabels(labels) {
             labelsList.empty(); 
             if (labels && labels.length > 0) {
@@ -564,7 +486,6 @@ $(document).ready(function () {
             }
         }
 
-        // Функция для замены тега на карте
         function replaceCardTag(tagId) {
            
             $.ajax({
@@ -572,7 +493,7 @@ $(document).ready(function () {
                 url: `${endpoint}${cardsEndpoint}${currentCardId}`,
                 dataType: "json",
                 success: function (card) {
-                    var currentTags = card.tagDTOs || []; // Получаем текущие теги или пустой массив
+                    var currentTags = card.tagDTOs || []; 
                     var tagIdsToRemove = currentTags.map(tag => tag.id); 
                     console.log("fagIdsToRemove",tagIdsToRemove);
                     
@@ -997,68 +918,27 @@ $(document).ready(function () {
     $("#settings-button-js").click(function () {
       window.location.href = 'http://127.0.0.1:5500/profile-settings/profile_settings.html?#public-profile'
     });
-    searchButtonLoad();
   });
 
 
 
-function searchButtonLoad() {
-    $("#searchButton").on("click", function() {
-        $(".users-select").show();
-        $(".users-select").html("");
-    
-        getUser($("#search_user_input").val()).then((user) => {
-          Object.keys(user).forEach(key => {
-            var tempUser = user[key];
-    
-            getQuerryTemplate("Teamusercard", {id: tempUser.guid, username: tempUser.userName}).then((resultHTML) =>{
-              $(".users-select").append(resultHTML);
-              $(".users-select").append("<hr />");
-              userSelectReload();
-            })       
-          })
-        })
-      })
-}
 
-function getUser(username, guid = null) {
-    return new Promise((resolve, reject) => {
-      $.ajax({
-        type: "GET",
-        url: guid == null ? `${endpoint}${usersEndpoint}search/${username}` : `${endpoint}${usersEndpoint}guid=${guid}`,
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
-        // data: guid == null ? {} : {guid: guid},
-  
-        success: function(data) {
-          var user = data;
-          // console.log("guid");
-          // console.log(data);
-          resolve(user);
-        },
-        error: function (jqXHR, textStatus, errorThrown) {
-          console.error(
-            `Ошибка при получении данных: ${textStatus} - ${errorThrown}`
-          );
-        },
-      })
-    });
-  }
 
-  function userSelectReload() {
-    // console.log($(".team-list-item-content"));
-    $(".team-list-item-content").off("click").on("click", function(e) {
-      console.log($(e.target).closest(".team-list-item-content").attr("id"));
-      getUser("", $(e.target).closest(".team-list-item-content").attr("id")).then(user => {
-        // console.log("user: ")
-        // console.log(user);
-        getQuerryTemplate("Teamusercard", {id: user.guid, username: user.userName}).then((resultHTML) => {
-          $(".team-list-item").append(resultHTML);
-  
-          $(".users-select").hide();
-        }) 
-      })
+  function getBoard() {
+    var currentBoardId = getUrlParameter("boardid"); 
+    return new Promise(resolve => {
+        $.ajax({
+            type: "GET",
+            url: `${endpoint}${boardsEndpoint}${currentBoardId}`, 
+            contentType: "application/json",
+            success: function (response) {
+                resolve(response);
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                console.error(`Error: ${textStatus} - ${errorThrown}`);
+            }
+        });
     })
+    
   }
+

@@ -1325,6 +1325,7 @@ input[type="text"]:focus {
   color: white;
 
   width: fit-content;
+  max-width: 500px;
   height: 500px;
   background-color: #404042;
 
@@ -1428,7 +1429,7 @@ input[type="text"]:focus {
   width: 100%;
 }
 
-.team-list-item-content {
+.team-list-item-content, .team-list-item-content-act {
   margin-left: 10px;
   margin-top: 5px;
 

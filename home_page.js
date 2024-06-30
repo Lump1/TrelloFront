@@ -121,9 +121,11 @@ function createTeamAjax() {
 }
 
 function pushUsersAjax(teamid) {
-  var usersArray = $(".team-list-item-content").toArray().map(item => {
+  var usersArray = $(".team-list-item-content-act").toArray().map(item => {
     return item.id;
   });
+
+  console.log(usersArray);
 
   // usersArray.push(Cookies.get("userGUID").id);
 
@@ -237,7 +239,7 @@ function userSelectReload() {
     getUser("", $(e.target).closest(".team-list-item-content").attr("id")).then(user => {
       // console.log("user: ")
       // console.log(user);
-      getQuerryTemplate("Teamusercard", {id: user.guid, username: user.userName}).then((resultHTML) => {
+      getQuerryTemplate("ActualTeamusercard", {id: user.guid, username: user.userName}).then((resultHTML) => {
         $(".team-list-item").append(resultHTML);
 
         $(".users-select").hide();
