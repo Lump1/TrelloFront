@@ -29,11 +29,11 @@ function generateName() {
   tempText = "";
 
   for(let i = 0; i < getRandomIntInc(3, 4); i++) {
-    console.log(i);
+    // console.log(i);
     tempText += words[getRandomInt(words.length)];
   }
 
-  console.log(getRandomInt(subWords.length));
+  // console.log(getRandomInt(subWords.length));
   return subWords[getRandomInt  (subWords.length)] + " " + tempText;
 }
 
@@ -96,10 +96,11 @@ function clickReload() {
 }
 
 function createTeamAjax() {
+  // console.log(`${endpoint}${teamEndpoint}user=${Cookies.get("userGUID")}`);
   return new Promise((resolve, reject) => {
     $.ajax({
       type: "POST",
-      url: `${endpoint}${teamEndpoint}`,
+      url: `${endpoint}${teamEndpoint}user=${Cookies.get("userGUID")}`,
       dataType: "json",
       headers: {
         Accept: "application/json",
@@ -120,22 +121,24 @@ function createTeamAjax() {
 }
 
 function pushUsersAjax(teamid) {
-  var usersArray = $(".team-list-item-content").toArray().map(item => {
+  var usersArray = $(".team-list-item-content-act").toArray().map(item => {
     return item.id;
   });
+
+  console.log(usersArray);
 
   // usersArray.push(Cookies.get("userGUID").id);
 
   usersArray.forEach(userid => {
-    console.log(userid)
+    // console.log(userid)
     $.ajax({
       type: "POST",
-      url: `${endpoint}${teamuserEndpoint}`,
+      url: `${endpoint}${teamuserEndpoint}add/team=${teamid}&user=${userid}`,
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
         },
-        data: JSON.stringify({idTeam: teamid, idUser: userid}),
+        // data: JSON.stringify({team: teamid, user: userid}),
 
         success: function(data) {
           console.log(data);
@@ -167,14 +170,15 @@ function pushUsersAjax(teamid) {
 // }
 
 function addUserAjax(teamid, userid) {
+  // console.log(`${endpoint}${teamuserEndpoint}add/team=${teamid}&user=${userid}`);
   $.ajax({
     type: "POST",
-    url: `${endpoint}${teamuserEndpoint}`,
+    url: `${endpoint}${teamuserEndpoint}add/team=${teamid}&user=${userid}`,
     headers: {
       Accept: "application/json",
       "Content-Type": "application/json",
     },
-    data: {idTeam: teamid, idUser: userid},
+    // data: {idTeam: teamid, idUser: userid},
 
     success: function(data) {
       console.log(data);
@@ -202,24 +206,46 @@ function createBoard(teamid) {
   })
 }
 
-function getUser(username) {
+function getUser(username, guid = null) {
   return new Promise((resolve, reject) => {
     $.ajax({
       type: "GET",
-      url: `${endpoint}${usersEndpoint}`,
+      url: guid == null ? `${endpoint}${usersEndpoint}search/${username}` : `${endpoint}${usersEndpoint}guid=${guid}`,
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
       },
-      data: {username: username},
+      // data: guid == null ? {} : {guid: guid},
 
       success: function(data) {
         var user = data;
-        console.log(data);
+        // console.log("guid");
+        // console.log(data);
         resolve(user);
-      }
+      },
+      error: function (jqXHR, textStatus, errorThrown) {
+        console.error(
+          `Ошибка при получении данных: ${textStatus} - ${errorThrown}`
+        );
+      },
     })
   });
+}
+
+function userSelectReload() {
+  // console.log($(".team-list-item-content"));
+  $(".team-list-item-content").off("click").on("click", function(e) {
+    console.log($(e.target).closest(".team-list-item-content").attr("id"));
+    getUser("", $(e.target).closest(".team-list-item-content").attr("id")).then(user => {
+      // console.log("user: ")
+      // console.log(user);
+      getQuerryTemplate("ActualTeamusercard", {id: user.guid, username: user.userName}).then((resultHTML) => {
+        $(".team-list-item").append(resultHTML);
+
+        $(".users-select").hide();
+      }) 
+    })
+  })
 }
 
 $(document).ready(function(){
@@ -233,12 +259,12 @@ $(document).ready(function(){
     },
     // data: {"userGuid": Cookies.get("userGUID")},
     success: function (response) {
-      console.log(response);
+      // console.log(response);
 
       var recentArray = Cookies.get("recent") != undefined ? JSON.parse(Cookies.get("recent")) : [];
       var favArray = Cookies.get("favorite") != undefined ? JSON.parse(Cookies.get("favorite")) : [];
 
-      console.log(recentArray);
+      // console.log(recentArray);
 
       Object.keys(response).forEach((item) => {
         boardCardRender(response[item]);
@@ -261,17 +287,35 @@ $(document).ready(function(){
     },
   });
 
-  $("#search_user_button").on("mouseup", function() {
+  // $("#search_user_button").on("mouseup", function() {
+  //   getUser($("#search_user_input").val()).then((user) => {
+  //     Object.keys(user).forEach(key => {
+  //       var tempUser = user[key];
+
+  //       getQuerryTemplate("Teamusercard", {id: tempUser.id, username: tempUser.username}).then((resultHTML) =>{
+  //         $(".team-list-item").append(resultHTML);
+  //       })   
+  //     })
+  //   })
+  // });
+
+  $("#searchButton").on("click", function() {
+    $(".users-select").show();
+    $(".users-select").html("");
+
     getUser($("#search_user_input").val()).then((user) => {
       Object.keys(user).forEach(key => {
         var tempUser = user[key];
 
-        getQuerryTemplate("Teamusercard", {id: tempUser.id, username: tempUser.username}).then((resultHTML) =>{
-          $(".team-list-item").append(resultHTML);
-        })   
+        getQuerryTemplate("Teamusercard", {id: tempUser.guid, username: tempUser.userName}).then((resultHTML) =>{
+          $(".users-select").append(resultHTML);
+          $(".users-select").append("<hr />");
+          userSelectReload();
+        })       
       })
     })
-  });
+  })
+  
 
   $("#boardCreationWithoutTemplate").on("mouseup", function() {
     createTeamAjax().then((teamid) => {
@@ -287,7 +331,7 @@ $(document).ready(function(){
   })
 
   $(".logout-butt").on("click", function () {
-    console.log(Cookies.get("userGUID"));
+    // console.log(Cookies.get("userGUID"));
     if (Cookies.get("userGUID") != null) {
         Cookies.remove("userGUID");
         window.location.href = 'http://127.0.0.1:5500/reglog.html';
