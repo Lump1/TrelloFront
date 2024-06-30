@@ -298,7 +298,7 @@ function miniatureRender(card) {
         $("#" + card.id + ".card-footer-man").append(div);
     }
 
-    if(card.taskDTOs.length != 0){ 
+    if(card.taskDTOs.length != 0) { 
         let maxTasks = card.taskDTOs.length
         let complated = 0;
         card.taskDTOs.forEach(task => {
@@ -316,6 +316,21 @@ function miniatureRender(card) {
         let div = `<div class="d-inline-flex m-mar-l" style="${style}">
                       <p class="card-text card-sm-text text-footer sm-mar-l">${complated}/${maxTasks}</p>
                    </div>`;
+        $("#" + card.id + ".card-footer-man").append(div);
+    }
+    if(card.userDtos.length != 0) {
+        let styles = "width: 21px; height: 21px;";
+
+        card.userDtos.forEach(item => {
+            if(item.guid == Cookies.get("userGUID")) {
+                styles = "background-color: #e65cdd; padding: 5px; width: 30px; height: 30px; border-radius: 5px;"
+                return;
+            };
+        });
+
+        let div = `<div class="d-inline-flex m-mar-l">
+                    <img src="assets/group-icon-2.png" class="card-sm-img" style="${styles}">
+                </div>`;
         $("#" + card.id + ".card-footer-man").append(div);
     }
 }
@@ -813,14 +828,10 @@ $(document).ready(function () {
 
                 var cardMembers = boardData.cards.find(card => card.id === cardId).userDtos || [];
                 var boardMembers = boardData.users || [];
-                console.log("cardMembers", cardMembers)
-                console.log("boardMembers", boardMembers)
 
 
                 var cardMemberGuids = cardMembers.map(member => member.guid);
                 var nonCardMembers = boardMembers.filter(member => !cardMemberGuids.includes(member.guid));
-                console.log("cardMemberGuids", cardMemberGuids)
-                console.log("nonCardMembers", nonCardMembers)
                 cardMembers.forEach(function (member) {
                     var memberItem = $(`<div class="member-item" data-guid="${member.guid}">👥${member.userName}</div>`);
                     cardMembersList.append(memberItem);

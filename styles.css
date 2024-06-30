@@ -965,7 +965,8 @@ p {
   margin-left: 12px;
   display: flex;
   flex-direction: row;
-  align-items: left;
+  align-items: end;
+  justify-content: start;
 }
 
 .card-sm-text {
