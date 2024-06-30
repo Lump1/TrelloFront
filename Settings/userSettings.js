@@ -51,7 +51,8 @@ $(document).ready(function() {
     })
 
     notificationsAjax().then(notifications => {
-        
+        notifications.forEach(notification => {
+
     });
 })
 
