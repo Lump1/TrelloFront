@@ -3,7 +3,10 @@ var cardsEndpoint = "api/cards/";
 var statusEndpoint = "api/statuses/";
 var boardsEndpoint = "api/boards/";
 var tasksEndpoint = "api/tasks/";
+var commentsEndpoint = "api/comments/";
 var usersBoardEndpoint = "api/users/boards/";
+var usersEndpoint = "api/users/";
+var teamuserEndpoint = "api/team-user/"
 
 var ciObject;
 
@@ -45,24 +48,6 @@ function getDataFormat(date) {
     });
 }
 
-// function addCards() {
-//     $.ajax({
-//         type: "GET",
-//         url: `${endpoint}${cardsEndpoint}`,
-//         dataType: "json",
-//         success: function (response) {
-//             response.forEach((item) => {
-//                 cardRender(item);
-//             });
-
-//             dragulaReload();
-//         },
-//         error: function (jqXHR, textStatus, errorThrown) {
-//             console.error(`Error: ${textStatus} - ${errorThrown}`);
-//         },
-//     });
-// }
-
 function getTask(taskId) {
     return new Promise((resolve, reject) => {
         $.ajax({
@@ -97,6 +82,22 @@ function getTasks(cardId) {
 
 }
 
+function getCard(cardId) {
+    return new Promise(resolve => {
+        $.ajax({
+            type: "GET",
+            url: `${endpoint}${cardsEndpoint}${cardId}`,
+            success: function (response) {
+                var responseCard = response;
+                resolve(responseCard);
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                // reject(`Error: ${textStatus} - ${errorThrown}`);
+            }
+        });
+    })
+}
+
 function toggleTaskCompletion(taskid) {
 
     $.ajax({
@@ -112,6 +113,10 @@ function toggleTaskCompletion(taskid) {
             getTask(taskid).then(task => {
                 getTasks(task.idCard).then(responseTasks => {
                     updateProgress(responseTasks);
+
+                    getCard(task.idCard).then(responseCard => {
+                        miniatureRender(responseCard);
+                    });
                 })
             })
         },
@@ -123,9 +128,9 @@ function toggleTaskCompletion(taskid) {
 
 }
 
-function updateProgress(tasks, isDeleting = false) {
-    const totalTasks = isDeleting == true ? tasks.length - 1 : tasks.length;
-    const completedTasks = tasks.filter(task => task.iscompleted).length;
+function updateProgress(tasks, deletingTaskID = null) {
+    const totalTasks = deletingTaskID != null ? tasks.length - 1 : tasks.length;
+    const completedTasks = tasks.filter(task => task.iscompleted == true && task.id != deletingTaskID).length;
     const progressPercentage = Math.floor((totalTasks === 0) ? 0 : (completedTasks / totalTasks) * 100);
     
 
@@ -207,8 +212,6 @@ function dragulaReload() {
             },
             dataType: "json",
         });
-
-        // $(el).data("column-id") = columnid;
     });
 }
 
@@ -250,17 +253,16 @@ function cardRender(data) {
         cardid: data.id,
         columnid: data.idStatus,
     }).then((resultHTML) => {
-        // Загружаем теги, соответствующие карте
         $.ajax({
             type: "GET",
             url: `${endpoint}api/cards/${data.id}/tags`,
             dataType: "json",
             success: function (response) {
                 var tags = response.map(tag => `🏷️${tag.name}`).join(', '); // Преобразуем массив названий тегов в строку
-                // Заменяем PLACEHOLDERtag на полученные теги в HTML-шаблоне карточки
+
                 resultHTML = resultHTML.replace("PLACEHOLDERtag", tags);
                 $("#" + data.idStatus + ".helping-container").prepend(resultHTML);
-
+                miniatureRender(data);
                 clickReload();
             },
             error: function (jqXHR, textStatus, errorThrown) {
@@ -268,10 +270,71 @@ function cardRender(data) {
             },
         });
 
+        
         dragulaReload();
     });
 }
 
+function miniatureRender(card) {
+    $("#" + card.id + ".card-footer-man").html("");
+
+    if(card.deadline != null) {
+        let div = `<div class="d-inline-flex">
+                    <img
+                        src="assets/free-icon-clock-2088617.png"
+                        class="card-sm-img clock-img"
+                    />
+                    <p class="card-text card-sm-text text-footer sm-mar-l">
+                        ${getDataFormat(card.deadline)}
+                    </p>
+                    </div>`;
+        $("#" + card.id + ".card-footer-man").append(div);
+    }
+
+
+    if(card.label != null && card.label != "") {
+        let div = `<div class="d-inline-flex m-mar-l">
+                      <img src="assets/description_min.png" class="card-sm-img">
+                   </div>`;
+        $("#" + card.id + ".card-footer-man").append(div);
+    }
+
+    if(card.taskDTOs.length != 0) { 
+        let maxTasks = card.taskDTOs.length
+        let complated = 0;
+        card.taskDTOs.forEach(task => {
+            if(task.iscompleted){
+                complated += 1;
+            }
+        });
+
+        let style = "";
+
+        if(maxTasks == complated) {
+            style = "background-color: #318f4a; padding-right: 5px; border-radius: 5px;"
+        }
+
+        let div = `<div class="d-inline-flex m-mar-l" style="${style}">
+                      <p class="card-text card-sm-text text-footer sm-mar-l">${complated}/${maxTasks}</p>
+                   </div>`;
+        $("#" + card.id + ".card-footer-man").append(div);
+    }
+    if(card.userDtos.length != 0) {
+        let styles = "width: 21px; height: 21px;";
+
+        card.userDtos.forEach(item => {
+            if(item.guid == Cookies.get("userGUID")) {
+                styles = "background-color: #e65cdd; padding: 5px; width: 30px; height: 30px; border-radius: 5px;"
+                return;
+            };
+        });
+
+        let div = `<div class="d-inline-flex m-mar-l">
+                    <img src="assets/group-icon-2.png" class="card-sm-img" style="${styles}">
+                </div>`;
+        $("#" + card.id + ".card-footer-man").append(div);
+    }
+}
 
 function loadBoards() {
     var boards = Cookies.get("recent") != undefined ? JSON.parse(Cookies.get("recent")) : [];
@@ -306,67 +369,42 @@ function loadBoards() {
 }
 
 $(document).ready(function () {
-    $.ajax({
-        type: "GET",
-        url: `${endpoint}${boardsEndpoint}${getUrlParameter("boardid")}`,
-        dataType: "json",
-        headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-        },
-        success: function (response) {
-            console.log(response);
+    searchButtonLoad();
 
-            Object.keys(response.statusColumns).forEach((item) => {
-                columnRender(response.statusColumns[item]);
-            });
+    getBoard().then(response => {
+        Object.keys(response.statusColumns).forEach((item) => {
+            columnRender(response.statusColumns[item]);
+        });
 
-            Object.keys(response.cards).forEach((item) => {
-                cardRender(response.cards[item]);
-            });
+        Object.keys(response.cards).forEach((item) => {
+            cardRender(response.cards[item]);
+        });
 
-            getQuerryTemplate("Title", response).then((resultHTML) => {
-                $(".aside-h-container").append($(resultHTML));
-                ciObject = new ChangingInput();
-                ciObject.reload();
+        getQuerryTemplate("Title", response).then((resultHTML) => {
+            $(".aside-h-container").append($(resultHTML));
+            ciObject = new ChangingInput();
+            ciObject.reload();
+        })
+        
+        loadBoards();
+        loadTags(response.tags);
+
+        dragulaReload();
+    })
+
+
+    $("#team-man").on("click", function() {
+        $(".team-list-item").html("");
+
+        getBoard().then(response => {
+            Object.keys(response.users).forEach(key => {
+                console.log(response.users[key]);
+                getQuerryTemplate("Teamusercard", response.users[key]).then(resultHTML => {
+                    $(".team-list-item").append(resultHTML)
+                })
             })
-            
-            loadBoards();
-            loadTags(response.tags);
-
-            dragulaReload();
-        },
-        error: function (jqXHR, textStatus, errorThrown) {
-            console.error(
-                `Ошибка при получении данных о карточках: ${textStatus} - ${errorThrown}`
-            );
-        },
-    });
-
-    // $.ajax({
-    //     type: "GET",
-    //     url: `${endpoint}${statusEndpoint}`,
-    //     dataType: "json",
-    //     headers: {
-    //         Accept: "application/json",
-    //         "Content-Type": "application/json",
-    //     },
-    //     success: function (response) {
-    //         console.log(response);
-    //         Object.keys(response).forEach((item) => {
-    //             columnRender(response[item]);
-    //         });
-
-    //         addCards();
-    //         dragulaReload();
-    //     },
-    //     error: function (jqXHR, textStatus, errorThrown) {
-    //         console.error(
-    //             `Ошибка при получении данных о карточках: ${textStatus} - ${errorThrown}`
-    //         );
-    //     },
-    // });
-
+        })
+    })
     $("#buttonColumnCreate").on("click", function () {
         $.ajax({
             type: "POST",
@@ -426,6 +464,7 @@ $(document).ready(function () {
                 console.log(cardData);
                 cardRender(cardData);
                 dragulaReload();
+                miniatureRender(cardData);
 
                 if (tagId) {
                     addTagToCard(cardData.id, tagId);
@@ -469,8 +508,12 @@ $(document).ready(function () {
     $(document).on("click", ".main-card", function () {
         var cardId = $(this).data("card-id");
         var id_status = $(this).data("column-id");
-        console.log("card-id" + cardId);
-        updateCardSettingsMenu(cardId);
+        getCardObj(cardId).then(response => {
+            console.log(response);
+            updateCardSettingsMenu(response);
+            loadComments(response.cardCommentDTOs)
+        });
+        
         updateColumnTitle(id_status);
 
         console.log("column-id" + id_status);
@@ -493,10 +536,64 @@ $(document).ready(function () {
             saveCardLabel(cardId, newLabel);
         });
 
+        $("#commentSaveButton").off("click").on("click", function() {
+            let userId = 1;
+            addComment(userId, cardId, $("#commentText").val());
+        })
+
 
         $(document).on("click", ".delete-card-button", function () {
             deleteCard(cardId);
         });
+
+        function getCardObj(cardid) {
+            return new Promise((resolve, reject) => {
+                $.ajax({
+                    type: "GET",
+                    url: `${endpoint}${cardsEndpoint}${cardId}`,
+                    dataType: "json",
+                    success: function (response) {
+                        resolve(response);
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        console.error(`Error: ${textStatus} - ${errorThrown}`);
+                    }
+                });
+            })
+        }
+
+        function loadComments(comments) {
+            $(".side-card-comments-container").html("");
+            Object.keys(comments).forEach(key => {
+                let comment = comments[key];
+                getQuerryTemplate("Comment", {firstletter: comment.user.userName[0].toUpperCase(), 
+                                            username: comment.user.userName, 
+                                            commentText: comment.commentText}).then(resultHTML => {
+                    $(".side-card-comments-container").append(resultHTML);
+                })
+            })
+        }
+
+        function addComment(userId, cardId, text) {
+            $.ajax({
+                type: "POST",
+                url: `${endpoint}${commentsEndpoint}`,
+                data: JSON.stringify({commentText: text, idCard: cardId, idUser: userId}),
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json",
+                },
+                dataType: "json",
+                success: function (response) {
+                    getCardObj(cardId).then(response => {
+                        loadComments(response.cardCommentDTOs);
+                    })
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    console.error(`Error: ${textStatus} - ${errorThrown}`);
+                }
+            })
+        }
 
         function deleteCard(cardId) {
             $.ajax({
@@ -513,33 +610,12 @@ $(document).ready(function () {
             });
         }
 
+        var labelsList = $('#labelsList'); 
+        var labelsPopup = $('#labelsPopup'); 
+        var currentBoardId = getUrlParameter("boardid"); 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        /////////////////////////////////////////////////////////////////////////////////////////////////
-     
-
-
-        var labelsList = $('#labelsList');
-        var labelsPopup = $('#labelsPopup');
-        var currentBoardId = getUrlParameter("boardid");
         currentCardId = cardId;
-        
-        // Функция для загрузки тегов, привязанных к доске
+
         function loadBoardTags(boardId) {
             $.ajax({
                 type: "GET",
@@ -553,8 +629,7 @@ $(document).ready(function () {
                 }
             });
         }
-        
-        // Функция для загрузки тегов, привязанных к карте
+
         function loadCardTags(cardId, allTags) {
             $.ajax({
                 type: "GET",
@@ -568,8 +643,7 @@ $(document).ready(function () {
                 }
             });
         }
-        
-        // Функция для отображения тегов
+
         function renderLabels(allLabels, cardLabels) {
             labelsList.empty();
             var cardLabelIds = cardLabels.map(label => label.id);
@@ -604,8 +678,44 @@ $(document).ready(function () {
                 labelsList.append(`<div>Нет тегов, привязанных к этой карте</div>`);
             }
         }
-        
-        // Функция для добавления тега на карту
+
+        function replaceCardTag(tagId) {
+
+            $.ajax({
+                type: "GET",
+                url: `${endpoint}${cardsEndpoint}${currentCardId}`,
+                dataType: "json",
+                success: function (card) {
+                    var currentTags = card.tagDTOs || []; 
+                    var tagIdsToRemove = currentTags.map(tag => tag.id); 
+                    console.log("fagIdsToRemove",tagIdsToRemove);
+
+                    if (tagIdsToRemove.length > 0) {
+                        var deletePromises = tagIdsToRemove.map(tagIdToRemove => {
+                            return $.ajax({
+                                type: "DELETE",
+                                url: `${endpoint}api/card-tags/card=${currentCardId}&tag=${tagIdToRemove}`,
+                                error: function (jqXHR, textStatus, errorThrown) {
+                                    console.error(`Error deleting tag ${tagIdToRemove}: ${textStatus} - ${errorThrown}`);
+                                }
+                            });
+                        });
+
+
+                        $.when.apply($, deletePromises).done(function () {
+                            addTagToCard(tagId);
+                        });
+                    } else {
+                        //
+                        addTagToCard(tagId);
+                    }
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    console.error(`Error fetching card ${currentCardId}: ${textStatus} - ${errorThrown}`);
+                }
+            });
+        }
+
         function addTagToCard(tagId) {
             var cardTag = { idCard: currentCardId, idTags: tagId };
             $.ajax({
@@ -623,7 +733,6 @@ $(document).ready(function () {
             });
         }
         
-        // Функция для удаления тега с карты
         function removeTagFromCard(tagId) {
             $.ajax({
                 type: "DELETE",
@@ -638,7 +747,6 @@ $(document).ready(function () {
             });
         }
         
-        // Обработчик клика на кнопку для открытия всплывающего окна с тегами
         $('#showLabelsBtn').on('click', function () {
             labelsPopup.toggle();
             if (labelsPopup.is(':visible')) {
@@ -650,14 +758,12 @@ $(document).ready(function () {
             }
         });
         
-        // Закрытие всплывающего окна при клике вне его области
         $(document).mouseup(function (e) {
             if (!labelsPopup.is(e.target) && labelsPopup.has(e.target).length === 0) {
                 labelsPopup.hide();
             }
         });
         
-        // Обработчик клика на кнопку для создания нового тега
         $('#createLabelBtn').on('click', function () {
             var newLabelName = $('#newLabelName').val().trim();
             if (newLabelName === "") {
@@ -685,80 +791,7 @@ $(document).ready(function () {
             });
         });
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         
-
-
-
-
-
-
-
-
-              ////////////////////////////////////////////////////////////////
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
         $(document).ready(function () {
             var currentBoardId = getUrlParameter("boardid"); // Замените на реальный Id текущей доски
@@ -810,14 +843,10 @@ $(document).ready(function () {
 
                 var cardMembers = boardData.cards.find(card => card.id === cardId).userDtos || [];
                 var boardMembers = boardData.users || [];
-                console.log("cardMembers", cardMembers)
-                console.log("boardMembers", boardMembers)
 
 
                 var cardMemberGuids = cardMembers.map(member => member.guid);
                 var nonCardMembers = boardMembers.filter(member => !cardMemberGuids.includes(member.guid));
-                console.log("cardMemberGuids", cardMemberGuids)
-                console.log("nonCardMembers", nonCardMembers)
                 cardMembers.forEach(function (member) {
                     var memberItem = $(`<div class="member-item" data-guid="${member.guid}">👥${member.userName}</div>`);
                     cardMembersList.append(memberItem);
@@ -851,70 +880,25 @@ $(document).ready(function () {
             }
         });
             
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     })
 
-    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    function updateCardSettingsMenu(cardId) {
-        $.ajax({
-            type: "GET",
-            url: `${endpoint}${cardsEndpoint}${cardId}`,
-            dataType: "json",
-            success: function (response) {
-                console.log(response);
-                $("textarea[placeholder='Add more detailed description...']").val(response.label);
-                $(".side-card-side-card-text").text(response.title);
+    function updateCardSettingsMenu(cardObj) {
+        $("textarea[placeholder='Add more detailed description...']").val(cardObj.label);
+        $(".side-card-side-card-text").text(cardObj.title);
 
-                if (response.taskDTOs != undefined) {
-                    getQuerryTemplate("Tasksdiv", {cardid: cardId}).then(resultHTML => {
+        if (cardObj.taskDTOs != undefined) {
+            getQuerryTemplate("Tasksdiv", {cardid: cardObj.id}).then(resultHTML => {
 
-                        $("#task-cont-div").html(resultHTML);
-                        
-                        renderTasks(response.taskDTOs);
-                        updateProgress(response.taskDTOs);
+                    $("#task-cont-div").html(resultHTML);
 
-
-                    })
-
-                }
-            },
-            error: function (jqXHR, textStatus, errorThrown) {
-                console.error(`Error: ${textStatus} - ${errorThrown}`);
+                    renderTasks(cardObj.taskDTOs);
+                    updateProgress(cardObj.taskDTOs);
+                    miniatureRender(cardObj);
+                })
+                
             }
-        });
-    }
+        };
+
     function updateColumnTitle(id_status) {
 
         $.ajax({
@@ -968,6 +952,7 @@ $(document).ready(function () {
                     data: JSON.stringify(cardData),
                     success: function (response) {
                         console.log(`Card ${cardId} label updated successfully`);
+                        miniatureRender(cardData);
                     },
                     error: function (jqXHR, textStatus, errorThrown) {
                         console.error(`Error: ${textStatus} - ${errorThrown}`);
@@ -982,27 +967,6 @@ $(document).ready(function () {
 
 
 
-
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-    
-
-
-
-
-
-
-  
-
-
-    ///начало работы с тасками ////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-
-
-
-
     function createTask(taskData) {
         $.ajax({
             type: "POST",
@@ -1010,9 +974,15 @@ $(document).ready(function () {
             data: JSON.stringify(taskData),
             contentType: "application/json",
             success: function (response) {
-                console.log(response);
                 renderTask(response);
-                
+
+                getTasks(response.idCard).then(responseTasks => {
+                    updateProgress(responseTasks);
+                });
+
+                getCard(taskData.idCard).then(responseCard => {
+                    miniatureRender(responseCard);
+                });
             },
             error: function (jqXHR, textStatus, errorThrown) {
                 console.error(`Error: ${textStatus} - ${errorThrown}`);
@@ -1023,22 +993,25 @@ $(document).ready(function () {
     function deleteTask(tasksId) {
         getTask(tasksId).then(task => {
             getTasks(task.idCard).then(responseTasks => {
-                updateProgress(responseTasks, true);
+                $.ajax({
+                    type: "DELETE",
+                    url: `${endpoint}${tasksEndpoint}${tasksId}`,
+                    success: function (response) {
+                        $("div.actualy-task-container#" + tasksId).remove();
+                        updateProgress(responseTasks, tasksId);
+                        getCard(task.idCard).then(responseCard => {
+                            console.log(responseCard);
+                            miniatureRender(responseCard);
+                        });
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        console.error(`Error: ${textStatus} - ${errorThrown}`);
+                    }
+                });
             })
         })
 
-        $.ajax({
-            type: "DELETE",
-            url: `${endpoint}${tasksEndpoint}${tasksId}`,
-            success: function (response) {
-                console.log(response);
-                $("div.actualy-task-container#" + tasksId).remove();
-                
-            },
-            error: function (jqXHR, textStatus, errorThrown) {
-                console.error(`Error: ${textStatus} - ${errorThrown}`);
-            }
-        });
+
     }
 
 
@@ -1048,6 +1021,7 @@ $(document).ready(function () {
 
 
     function renderTasks(tasks) {
+        console.log(tasks);
         tasks.forEach(task => {
             renderTask(task);
         })
@@ -1058,6 +1032,7 @@ $(document).ready(function () {
     }
 
     function renderTask(task) {
+        console.log(task);
         getQuerryTemplate("Taskobj", task).then(resultHTML => {
             var $result = $(resultHTML);
 
@@ -1070,26 +1045,6 @@ $(document).ready(function () {
         })
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    ///конец работы с тасками ////////////////////////////////////////////////////////////////////////////////////////////////
 
     $(document).mouseup(function (e) {
         var divs = $(".popup-window");
@@ -1163,30 +1118,6 @@ $(document).ready(function () {
             dataType: "json",
         });
     }
-
-    $(".account-button").on("mouseup", function (e) {
-        if ($(".user-settings-container").css("display") == "none") {
-            $(".user-settings-container").show();
-        }
-    })
-
-    $(document).on("click", function (e) {
-        if ($(".user-settings-container").css("display") != "none" &&
-            (!$(e.target).hasClass(".user-settings-container") &&
-                $(e.target).closest(".account-button").length == 0)) {
-            $(".user-settings-container").hide();
-        }
-    })
-
-    $(".logout-butt").on("click", function () {
-        console.log(Cookies.get("userGUID"));
-        if (Cookies.get("userGUID") != null) {
-            Cookies.remove("userGUID");
-            window.location.href = 'http://127.0.0.1:5500/reglog.html';
-        }
-    })
-
-    
 });
 
 
@@ -1202,5 +1133,27 @@ $(document).ready(function () {
             console.log("userGUID is not available");
         }
     });
-});
+  });
+
+
+
+
+
+  function getBoard() {
+    var currentBoardId = getUrlParameter("boardid"); 
+    return new Promise(resolve => {
+        $.ajax({
+            type: "GET",
+            url: `${endpoint}${boardsEndpoint}${currentBoardId}`, 
+            contentType: "application/json",
+            success: function (response) {
+                resolve(response);
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                console.error(`Error: ${textStatus} - ${errorThrown}`);
+            }
+        });
+    })
+    
+  }
 

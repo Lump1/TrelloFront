@@ -14,13 +14,16 @@
     <script src="jquery/node_modules/js-cookie/dist/js.cookie.min.js"></script>
     <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" /> -->
     <script src="index.js"></script>
+    <script src="Settings/userSettings.js"></script>
     <script src="columnPattern.js"></script>
     <script src="ciLib.js"></script>
+    <script src="OurModules/team-work/teamManipulations.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="side_card.css">
     <link rel="stylesheet" href="ciStyles.css">
+    <link rel="stylesheet" href="Settings/userSettings.css">
 
 </head>
 
@@ -69,15 +72,7 @@
 
             </div>
         </div>
-        <div class="account-button">
-          <img src="assets/user-icon-1.png" class="" />
-    
-          <div class="user-settings-container" style="display: none;">
-            <div class="user-settings">
-              <button type="button" id="workspace-dropdown-toggle" class="user-settings-button logout-butt">Logout</button>
-            </div>
-          </div>
-        </div>
+        
     </header>
 
 
@@ -155,10 +150,12 @@
         <button type="button" class="settings-button">
           <img src="assets/user-icon-1.png" class="img-color-inv img-settings-button" />
         </button>
-        <button type="button" class="settings-button">
-          <img src="assets/group-icon-2.png" class="img-color-inv img-settings-button" />
-        </button>
-        <a href="#create" rel="modal:open">
+        <a href="#team-manipulation" rel="modal:open">
+          <button type="button" class="settings-button" id="team-man">
+            <img src="assets/group-icon-2.png" class="img-color-inv img-settings-button" />
+          </button>
+        </a>
+        <a href="#create-column" rel="modal:open">
           <button type="button" class="settings-button">
             <img src="assets/plus.png" class="img-color-inv img-settings-button" />
           </button>
@@ -189,7 +186,7 @@
       <h1 class="side-card-side-card-text">PLACEHOLDERtitl</h1>
       <p class="side-card-side-card-column-text">PLACEHOLDERcolumn</p>
 
-      <div class="side-card-section">
+      <!-- <div class="side-card-section">
         <div class="side-card-section-header">
           <i class="side-card-section-icon">🔔</i>
           <h2 class="side-card-section-title">Notifications</h2>
@@ -197,7 +194,7 @@
         <div class="side-card-section-content">
           <button>Subscribe</button>
         </div>
-      </div>
+      </div> -->
 
       <div class="side-card-section">
         <div class="side-card-section-header">
@@ -209,7 +206,11 @@
         </div>
       </div>
 
-      <div class="side-card-section">
+      <div id="task-cont-div">
+
+      </div>
+
+      <!-- <div class="side-card-section">
         <div class="side-card-section-header">
           <i class="side-card-section-icon">📝</i>
           <h2 class="side-card-section-title">Tasks</h2>
@@ -229,51 +230,14 @@
           <button>Add element</button>
           <button>Delete</button>
         </div>
-      </div>
+      </div> -->
 
       <div class="side-card-section side-card-section-comments">
         <div class="side-card-section-content">
-          <textarea placeholder="Write a comment..."></textarea>
-          <button>Save coments</button>
+          <textarea placeholder="Write a comment..." id="commentText"></textarea>
+          <button id="commentSaveButton">Save coment</button>
         </div>
         <div class="side-card-comments-container">
-          <div class="comment">
-            <div class="user-icon">N</div>
-            <div class="comment-content">
-              <div class="comment-header">
-                <span class="user-name">Name</span>
-              </div>
-              <div class="comment-body">
-                ewrd
-              </div>
-            </div>
-          </div>
-
-          <div class="comment">
-            <div class="user-icon">N</div>
-            <div class="comment-content">
-              <div class="comment-header">
-                <span class="user-name">Name</span>
-              </div>
-              <div class="comment-body">
-                ewrd
-              </div>
-            </div>
-          </div>
-
-          <div class="comment">
-            <div class="user-icon">N</div>
-            <div class="comment-content">
-              <div class="comment-header">
-                <span class="user-name">Name</span>
-              </div>
-              <div class="comment-body">
-                ewrd
-              </div>
-            </div>
-          </div>
-
-
         </div>
       </div>
     </div>
@@ -428,6 +392,61 @@
           </div>
         </div>
       </div>
+
+      <div id="team-manipulation" class="modal">
+        <div class="modal-inside-container-board-index rounded-2">
+            <div class="main-container-modal">
+              <div class="modal-fight-index">
+                <div class="modal-input-team">
+                  <input placeholder="Search user" id="search_user_input" class="team-input-select form-select" />
+                  <!-- <a class="modal-button-team"> -->
+                    <button  type="button" class="settings-button-base modal-button-team-settings-mid" id="searchButton">
+                      <img src="assets/search-interface-symbol.png" class="img-color-inv img-team-search-button" />
+                  </button>
+                    <button id="search_user_button" type="button" class="settings-button-base modal-button-team-settings">
+                        <img src="assets/plus.png" class="img-color-inv img-team-plus-button" />
+                    </button>
+                  <!-- </a>              -->
+                  <div class="users-select" style="display: none;">
+                  
+                  </div>
+                </div>
+                
+                <!-- <div class="under-buttons-container">
+                  <a href="#create-team" rel="modal:open" class="btn btn-outline-light create-team-button">
+                    Serch a user
+                  </a>
+                  <button class="btn btn-outline-light create-team-button">Friend list</button>
+                </div> -->
+                
+  
+                <div class="team-list-container">
+                  <div class="team-list">
+                    <div class="team-list-item">
+                      
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- <div class="modal-fight">
+                <div class="template-parent-container">
+                  <div class="template-container template-custom">
+                    Default template
+                  </div>
+                  <div class="template-container template-custom">
+                    Todo template
+                  </div>
+                  <div class="template-container template-custom">
+                    Rating template
+                  </div>
+                  <div class="template-container template-picker">
+                    Custom template
+                  </div>
+                </div>
+                <div class="btn btn-outline-light without-template-button" id="boardCreationWithoutTemplate">Start without template</div>
+              </div>   -->
+            </div>
+        </div>
     </div>
 </body>
 
