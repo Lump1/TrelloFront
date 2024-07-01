@@ -929,6 +929,7 @@ p {
 }
 
 .card-header-man {
+  display: inline-flex;
   margin-right: 16px;
   margin-left: 12px;
   margin-top: 16px;
@@ -957,6 +958,7 @@ p {
   color: white !important;
   background: rgb(33, 33, 34);
   padding: 3px;
+  margin-right: 5px;
   width: fit-content;
 }
 
@@ -1721,13 +1723,17 @@ input[type="text"]:focus {
   border: 1px solid #fff;
 }
 
-.label-item.selected::after {
+/* .label-item.selected::after {
   content: '✔️';
   margin-left: 5px;
   color: green;
+  background-color: red;
+} */
+
+.label-item.selected {
+  margin-left: 10px;
+  color: green;
 }
-
-
 
 
 

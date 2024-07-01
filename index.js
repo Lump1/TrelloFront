@@ -258,10 +258,14 @@ function cardRender(data) {
             url: `${endpoint}api/cards/${data.id}/tags`,
             dataType: "json",
             success: function (response) {
-                var tags = response.map(tag => `🏷️${tag.name}`).join(', '); // Преобразуем массив названий тегов в строку
-
-                resultHTML = resultHTML.replace("PLACEHOLDERtag", tags);
                 $("#" + data.idStatus + ".helping-container").prepend(resultHTML);
+
+                var tags = response.map(tag => `${tag.name}`);
+                tags.forEach(tag => { 
+                    let htmlTag = `<p class="card-tag card-sm-text">${tag}</p>`;
+                    $("#" + data.id + ".card-header-man").append(htmlTag);
+                })
+
                 miniatureRender(data);
                 clickReload();
             },
@@ -1055,7 +1059,7 @@ $(document).ready(function () {
         divs.hide();
     });
 
-    function loadTags(tags) {
+    function load   (tags) {
         tags.forEach(tag => tagSelect.append(new Option(tag.name, tag.id)))
     }
 
