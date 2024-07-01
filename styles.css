@@ -1695,15 +1695,19 @@ input[type="text"]:focus {
 }
 
 
+
+
+
 .labels-window {
   position: absolute;
-  background:#404042;
+  background: #404042;
   padding: 10px;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
   z-index: 1000;
-  top: 10px; /* Отступ сверху */
-  left: 10px; /* Отступ слева */
+  top: 10px;
+  left: 10px;
 }
+
 .label-item {
   padding: 5px;
   margin: 5px;
@@ -1713,9 +1717,22 @@ input[type="text"]:focus {
   border-radius: 5px;
 }
 
-.label-item:hover {
+.label-item.hover {
   border: 1px solid #fff;
 }
+
+.label-item.selected::after {
+  content: '✔️';
+  margin-left: 5px;
+  color: green;
+}
+
+
+
+
+
+
+
 
 .members-window {
   position: absolute;
