@@ -391,7 +391,6 @@ $(document).ready(function () {
         })
         
         loadBoards();
-        loadTags(response.tags);
 
         dragulaReload();
     })
@@ -572,7 +571,7 @@ $(document).ready(function () {
                 let comment = comments[key];
                 getQuerryTemplate("Comment", {firstletter: comment.user.userName[0].toUpperCase(), 
                                             username: comment.user.userName, 
-                                            commentText: comment.commentText}).then(resultHTML => {
+                                            commenttext: comment.commentText}).then(resultHTML => {
                     $(".side-card-comments-container").append(resultHTML);
                 })
             })
