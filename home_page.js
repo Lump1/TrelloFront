@@ -125,7 +125,7 @@ function pushUsersAjax(teamid) {
     return item.id;
   });
 
-  console.log(usersArray);
+  $(".team-list-item").html("");
 
   // usersArray.push(Cookies.get("userGUID").id);
 
@@ -133,7 +133,7 @@ function pushUsersAjax(teamid) {
     // console.log(userid)
     $.ajax({
       type: "POST",
-      url: `${endpoint}${teamuserEndpoint}add/team=${teamid}&user=${userid}`,
+      url: `${endpoint}${teamuserEndpoint}add/team=${teamid}&user=${userid}&isAdmin=${Cookies.get("userGUID")}`,
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
@@ -220,7 +220,7 @@ function getUser(username, guid = null) {
       success: function(data) {
         var user = data;
         // console.log("guid");
-        // console.log(data);
+        console.log(data);
         resolve(user);
       },
       error: function (jqXHR, textStatus, errorThrown) {
@@ -238,7 +238,7 @@ function userSelectReload() {
     console.log($(e.target).closest(".team-list-item-content").attr("id"));
     getUser("", $(e.target).closest(".team-list-item-content").attr("id")).then(user => {
       // console.log("user: ")
-      // console.log(user);
+      console.log(user);
       getQuerryTemplate("ActualTeamusercard", {id: user.guid, username: user.userName}).then((resultHTML) => {
         $(".team-list-item").append(resultHTML);
 
@@ -306,8 +306,9 @@ $(document).ready(function(){
     getUser($("#search_user_input").val()).then((user) => {
       Object.keys(user).forEach(key => {
         var tempUser = user[key];
+        console.log(tempUser);
 
-        getQuerryTemplate("Teamusercard", {id: tempUser.guid, username: tempUser.userName}).then((resultHTML) =>{
+        getQuerryTemplate("Teamusercard", {guid: tempUser.guid, username: tempUser.userName}).then((resultHTML) =>{
           $(".users-select").append(resultHTML);
           $(".users-select").append("<hr />");
           userSelectReload();
@@ -321,6 +322,8 @@ $(document).ready(function(){
     createTeamAjax().then((teamid) => {
       pushUsersAjax(teamid);
       createBoard(teamid);
+
+      $("#create-board").hide();
     })
   })
 
