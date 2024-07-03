@@ -114,8 +114,10 @@ function notificationsBoardAjax() {
             // data: JSON.stringify(newTag),
             success: function (response) {
                 Object.keys(response).forEach(item => {
-                    item.type = "board"
+                    response[item].type = "board";
+                    response[item].sender = response[item].teamName;
                 })
+
                 resolve(response);
             },
             error: function (jqXHR, textStatus, errorThrown) {
@@ -137,7 +139,8 @@ function notificationManage(id, decision) {
         url: `${endpoint}${notificationsEndpoint}notification=${id}&decision=${decision}`, 
         contentType: "application/json",
         // data: JSON.stringify(newTag),
-        success: function () {
+        success: function (response) {
+            console.log(response)
             $("#" + id + ".notification").remove();
         },
         error: function (jqXHR, textStatus, errorThrown) {

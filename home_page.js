@@ -95,7 +95,7 @@ function clickReload() {
   });
 }
 
-function createTeamAjax() {
+function createTeamAjax(teamName) {
   return new Promise((resolve, reject) => {
     $.ajax({
       type: "POST",
@@ -105,9 +105,10 @@ function createTeamAjax() {
         Accept: "application/json",
         "Content-Type": "application/json",
       },
-      data: JSON.stringify({name: "teamname"}),
+      data: JSON.stringify({name: teamName}),
 
       success: function(data) {
+        console.log(data);
         var teamid = data.id;
         resolve(teamid);
       },
@@ -182,7 +183,7 @@ function addUserAjax(teamid, userid) {
   })
 }
 
-function createBoard(teamid) {
+function createBoard(teamid, boardName) {
   $.ajax({
     type: "POST",
     url: `${endpoint}${boardsEndpoint}`,
@@ -190,9 +191,8 @@ function createBoard(teamid) {
       Accept: "application/json",
       "Content-Type": "application/json",
     },
-    data: JSON.stringify({name: generateName(), idTeam: teamid}),
+    data: JSON.stringify({name: boardName, idTeam: teamid}),
     success: function(board) {
-      console.log(board);
       boardCardRender(board);
     },
     error: function (jqXHR, textStatus, errorThrown) {
@@ -200,6 +200,23 @@ function createBoard(teamid) {
       console.log("Response:", jqXHR.responseText);
     },
   })
+
+  // $.ajax({
+  //   type: "PUT",
+  //   url: `${endpoint}${boardsEndpoint}isAdmin=${Cookies.get("userGUID")}`,
+  //   headers: {
+  //     Accept: "application/json",
+  //     "Content-Type": "application/json",
+  //   },
+  //   data: JSON.stringify({name: boardName}),
+  //   success: function(response) {
+  //     boardCardRender(response);
+  //   },
+  //   error: function (jqXHR, textStatus, errorThrown) {
+  //     console.log("AJAX error:", textStatus, errorThrown);
+  //     console.log("Response:", jqXHR.responseText);
+  //   },
+  // })
 }
 
 function getUser(username) {
@@ -274,7 +291,9 @@ $(document).ready(function(){
   });
 
   $("#boardCreationWithoutTemplate").on("mouseup", function() {
-    createTeamAjax().then((teamid) => {
+    let boardName = generateName();
+
+    createTeamAjax(boardName).then((teamid) => {
       pushUsersAjax(teamid);
       createBoard(teamid);
     })
