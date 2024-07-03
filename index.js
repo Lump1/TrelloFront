@@ -281,6 +281,7 @@ function cardRender(data) {
 
 function miniatureRender(card) {
     $("#" + card.id + ".card-footer-man").html("");
+    console.log(card)
 
     if(card.deadline != null) {
         let div = `<div class="d-inline-flex">
@@ -327,7 +328,9 @@ function miniatureRender(card) {
         let styles = "width: 21px; height: 21px;";
 
         card.userDtos.forEach(item => {
+            console.log(item)
             if(item.guid == Cookies.get("userGUID")) {
+                
                 styles = "background-color: #e65cdd; padding: 5px; width: 30px; height: 30px; border-radius: 5px;"
                 return;
             };
@@ -391,7 +394,6 @@ $(document).ready(function () {
         })
         
         loadBoards();
-        loadTags(response.tags);
 
         dragulaReload();
     })
@@ -541,7 +543,7 @@ $(document).ready(function () {
         });
 
         $("#commentSaveButton").off("click").on("click", function() {
-            let userId = 1;
+            let userId = Cookies.get("userGUID");
             addComment(userId, cardId, $("#commentText").val());
         })
 
@@ -570,9 +572,10 @@ $(document).ready(function () {
             $(".side-card-comments-container").html("");
             Object.keys(comments).forEach(key => {
                 let comment = comments[key];
+                console.log(comment)
                 getQuerryTemplate("Comment", {firstletter: comment.user.userName[0].toUpperCase(), 
                                             username: comment.user.userName, 
-                                            commentText: comment.commentText}).then(resultHTML => {
+                                            commenttext: comment.commentText}).then(resultHTML => {
                     $(".side-card-comments-container").append(resultHTML);
                 })
             })
@@ -582,7 +585,7 @@ $(document).ready(function () {
             $.ajax({
                 type: "POST",
                 url: `${endpoint}${commentsEndpoint}`,
-                data: JSON.stringify({commentText: text, idCard: cardId, idUser: userId}),
+                data: JSON.stringify({commentText: text, idCard: cardId, GuidUser: userId}),
                 headers: {
                     Accept: "application/json",
                     "Content-Type": "application/json",
@@ -826,16 +829,8 @@ $(document).ready(function () {
             });
 
             function loadMembers(boardId, cardId) {
-                $.ajax({
-                    type: "GET",
-                    url: `${endpoint}api/boards/${boardId}`,
-                    dataType: "json",
-                    success: function (response) {
-                        renderMembers(response, cardId);
-                    },
-                    error: function (jqXHR, textStatus, errorThrown) {
-                        console.error(`Error: ${textStatus} - ${errorThrown}`);
-                    }
+                getBoard().then(response => {
+                    renderMembers(response, cardId);
                 });
             }
 
@@ -1148,7 +1143,7 @@ $(document).ready(function () {
     return new Promise(resolve => {
         $.ajax({
             type: "GET",
-            url: `${endpoint}${boardsEndpoint}${currentBoardId}`, 
+            url: `${endpoint}${boardsEndpoint}${currentBoardId}&user=${Cookies.get("userGUID")}`, 
             contentType: "application/json",
             success: function (response) {
                 resolve(response);
