@@ -5,6 +5,8 @@ var boardsEndpoint = "api/boards/";
 var tasksEndpoint = "api/tasks/";
 var commentsEndpoint = "api/comments/";
 var usersBoardEndpoint = "api/users/boards/";
+var usersEndpoint = "api/users/";
+var teamuserEndpoint = "api/team-user/"
 
 var ciObject;
 
@@ -45,24 +47,6 @@ function getDataFormat(date) {
         day: "numeric",
     });
 }
-
-// function addCards() {
-//     $.ajax({
-//         type: "GET",
-//         url: `${endpoint}${cardsEndpoint}`,
-//         dataType: "json",
-//         success: function (response) {
-//             response.forEach((item) => {
-//                 cardRender(item);
-//             });
-
-//             dragulaReload();
-//         },
-//         error: function (jqXHR, textStatus, errorThrown) {
-//             console.error(`Error: ${textStatus} - ${errorThrown}`);
-//         },
-//     });
-// }
 
 function getTask(taskId) {
     return new Promise((resolve, reject) => {
@@ -228,8 +212,6 @@ function dragulaReload() {
             },
             dataType: "json",
         });
-
-        // $(el).data("column-id") = columnid;
     });
 }
 
@@ -262,6 +244,7 @@ function columnRender(data) {
     columnSettingsRender(data.id);
 }
 
+// Функция для рендеринга карточки
 function cardRender(data) {
     getQuerryTemplate("Card", {
         title: data.title,
@@ -269,16 +252,20 @@ function cardRender(data) {
         deadline: getDataFormat(data.deadline),
         cardid: data.id,
         columnid: data.idStatus,
-
     }).then((resultHTML) => {
         $.ajax({
             type: "GET",
             url: `${endpoint}api/cards/${data.id}/tags`,
             dataType: "json",
             success: function (response) {
-                var tags = response.map(tag => tag.name).join(', ');
-                resultHTML = resultHTML.replace("PLACEHOLDERtag", tags);
                 $("#" + data.idStatus + ".helping-container").prepend(resultHTML);
+
+                var tags = response.map(tag => `${tag.name}`);
+                tags.forEach(tag => { 
+                    let htmlTag = `<p class="card-tag card-sm-text">${tag}</p>`;
+                    $("#" + data.id + ".card-header-man").append(htmlTag);
+                })
+
                 miniatureRender(data);
                 clickReload();
             },
@@ -294,6 +281,7 @@ function cardRender(data) {
 
 function miniatureRender(card) {
     $("#" + card.id + ".card-footer-man").html("");
+    console.log(card)
 
     if(card.deadline != null) {
         let div = `<div class="d-inline-flex">
@@ -316,7 +304,7 @@ function miniatureRender(card) {
         $("#" + card.id + ".card-footer-man").append(div);
     }
 
-    if(card.taskDTOs.length != 0){ 
+    if(card.taskDTOs.length != 0) { 
         let maxTasks = card.taskDTOs.length
         let complated = 0;
         card.taskDTOs.forEach(task => {
@@ -334,6 +322,23 @@ function miniatureRender(card) {
         let div = `<div class="d-inline-flex m-mar-l" style="${style}">
                       <p class="card-text card-sm-text text-footer sm-mar-l">${complated}/${maxTasks}</p>
                    </div>`;
+        $("#" + card.id + ".card-footer-man").append(div);
+    }
+    if(card.userDtos.length != 0) {
+        let styles = "width: 21px; height: 21px;";
+
+        card.userDtos.forEach(item => {
+            console.log(item)
+            if(item.guid == Cookies.get("userGUID")) {
+                
+                styles = "background-color: #e65cdd; padding: 5px; width: 30px; height: 30px; border-radius: 5px;"
+                return;
+            };
+        });
+
+        let div = `<div class="d-inline-flex m-mar-l">
+                    <img src="assets/group-icon-2.png" class="card-sm-img" style="${styles}">
+                </div>`;
         $("#" + card.id + ".card-footer-man").append(div);
     }
 }
@@ -371,43 +376,41 @@ function loadBoards() {
 }
 
 $(document).ready(function () {
-    $.ajax({
-        type: "GET",
-        url: `${endpoint}${boardsEndpoint}${getUrlParameter("boardid")}`,
-        dataType: "json",
-        headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-        },
-        success: function (response) {
-            console.log(response);
+    searchButtonLoad();
 
-            Object.keys(response.statusColumns).forEach((item) => {
-                columnRender(response.statusColumns[item]);
-            });
+    getBoard().then(response => {
+        Object.keys(response.statusColumns).forEach((item) => {
+            columnRender(response.statusColumns[item]);
+        });
 
-            Object.keys(response.cards).forEach((item) => {
-                cardRender(response.cards[item]);
-            });
+        Object.keys(response.cards).forEach((item) => {
+            cardRender(response.cards[item]);
+        });
 
-            getQuerryTemplate("Title", response).then((resultHTML) => {
-                $(".aside-h-container").append($(resultHTML));
-                ciObject = new ChangingInput();
-                ciObject.reload();
+        getQuerryTemplate("Title", response).then((resultHTML) => {
+            $(".aside-h-container").append($(resultHTML));
+            ciObject = new ChangingInput();
+            ciObject.reload();
+        })
+        
+        loadBoards();
+
+        dragulaReload();
+    })
+
+
+    $("#team-man").on("click", function() {
+        $(".team-list-item").html("");
+
+        getBoard().then(response => {
+            Object.keys(response.users).forEach(key => {
+                console.log(response.users[key]);
+                getQuerryTemplate("Teamusercard", response.users[key]).then(resultHTML => {
+                    $(".team-list-item").append(resultHTML)
+                })
             })
-            
-            loadBoards();
-            loadTags(response.tags);
-
-            dragulaReload();
-        },
-        error: function (jqXHR, textStatus, errorThrown) {
-            console.error(
-                `Ошибка при получении данных о карточках: ${textStatus} - ${errorThrown}`
-            );
-        },
-    });
-
+        })
+    })
     $("#buttonColumnCreate").on("click", function () {
         $.ajax({
             type: "POST",
@@ -540,7 +543,7 @@ $(document).ready(function () {
         });
 
         $("#commentSaveButton").off("click").on("click", function() {
-            let userId = 1;
+            let userId = Cookies.get("userGUID");
             addComment(userId, cardId, $("#commentText").val());
         })
 
@@ -569,9 +572,10 @@ $(document).ready(function () {
             $(".side-card-comments-container").html("");
             Object.keys(comments).forEach(key => {
                 let comment = comments[key];
+                console.log(comment)
                 getQuerryTemplate("Comment", {firstletter: comment.user.userName[0].toUpperCase(), 
                                             username: comment.user.userName, 
-                                            commentText: comment.commentText}).then(resultHTML => {
+                                            commenttext: comment.commentText}).then(resultHTML => {
                     $(".side-card-comments-container").append(resultHTML);
                 })
             })
@@ -581,7 +585,7 @@ $(document).ready(function () {
             $.ajax({
                 type: "POST",
                 url: `${endpoint}${commentsEndpoint}`,
-                data: JSON.stringify({commentText: text, idCard: cardId, idUser: userId}),
+                data: JSON.stringify({commentText: text, idCard: cardId, GuidUser: userId}),
                 headers: {
                     Accept: "application/json",
                     "Content-Type": "application/json",
@@ -612,43 +616,51 @@ $(document).ready(function () {
                 }
             });
         }
-        /////////////////////////////////////////////////////////////////////////////////////////////////
-        var labelsList = $('#labelsList');
-        var labelsPopup = $('#labelsPopup');
-        var currentBoardId = getUrlParameter("boardid");
+
+        var labelsList = $('#labelsList'); 
+        var labelsPopup = $('#labelsPopup'); 
+        var currentBoardId = getUrlParameter("boardid"); 
 
         currentCardId = cardId;
 
-
-
-
-
-
-        // Функция для загрузки тегов, привязанных к доске
         function loadBoardTags(boardId) {
             $.ajax({
                 type: "GET",
                 url: `${endpoint}api/boards/${boardId}/tags`,
                 dataType: "json",
                 success: function (response) {
-                    renderLabels(response);
+                    loadCardTags(currentCardId, response);
                 },
                 error: function (jqXHR, textStatus, errorThrown) {
                     console.error(`Error: ${textStatus} - ${errorThrown}`);
                 }
             });
-
-            console.log("currentCardId:", currentCardId);
-
-
         }
 
-        // Функция для отображения тегов
-        function renderLabels(labels) {
+        function loadCardTags(cardId, allTags) {
+            $.ajax({
+                type: "GET",
+                url: `${endpoint}${cardsEndpoint}${cardId}`,
+                dataType: "json",
+                success: function (card) {
+                    renderLabels(allTags, card.tagDTOs || []);
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    console.error(`Error fetching card ${cardId}: ${textStatus} - ${errorThrown}`);
+                }
+            });
+        }
+
+        function renderLabels(allLabels, cardLabels) {
             labelsList.empty();
-            if (labels && labels.length > 0) {
-                labels.forEach(function (label) {
+            var cardLabelIds = cardLabels.map(label => label.id);
+        
+            if (allLabels && allLabels.length > 0) {
+                allLabels.forEach(function (label) {
                     var labelItem = $(`<div class="label-item" data-id="${label.id}">🏷️${label.name}</div>`);
+                    if (cardLabelIds.includes(label.id)) {
+                        labelItem.addClass('selected');
+                    }
                     labelItem.hover(
                         function () {
                             $(this).css({ backgroundColor: 'black', border: '1px solid #fff' });
@@ -659,7 +671,13 @@ $(document).ready(function () {
                     );
                     labelItem.click(function () {
                         var tagId = $(this).data('id');
-                        replaceCardTag(tagId);
+                        if (labelItem.hasClass('selected')) {
+                            removeTagFromCard(tagId);
+                            labelItem.removeClass('selected');
+                        } else {
+                            addTagToCard(tagId);
+                            labelItem.addClass('selected');
+                        }
                     });
                     labelsList.append(labelItem);
                 });
@@ -668,7 +686,6 @@ $(document).ready(function () {
             }
         }
 
-        // Функция для замены тега на карте
         function replaceCardTag(tagId) {
 
             $.ajax({
@@ -676,9 +693,9 @@ $(document).ready(function () {
                 url: `${endpoint}${cardsEndpoint}${currentCardId}`,
                 dataType: "json",
                 success: function (card) {
-                    var currentTags = card.tagDTOs || [];
-                    var tagIdsToRemove = currentTags.map(tag => tag.id);
-                    console.log("fagIdsToRemove", tagIdsToRemove);
+                    var currentTags = card.tagDTOs || []; 
+                    var tagIdsToRemove = currentTags.map(tag => tag.id); 
+                    console.log("fagIdsToRemove",tagIdsToRemove);
 
                     if (tagIdsToRemove.length > 0) {
                         var deletePromises = tagIdsToRemove.map(tagIdToRemove => {
@@ -706,10 +723,8 @@ $(document).ready(function () {
             });
         }
 
-        // Функция для добавления нового тега на карту
         function addTagToCard(tagId) {
             var cardTag = { idCard: currentCardId, idTags: tagId };
-            console.log(cardTag);
             $.ajax({
                 type: "POST",
                 url: `${endpoint}api/card-tags`,
@@ -722,51 +737,52 @@ $(document).ready(function () {
                 error: function (jqXHR, textStatus, errorThrown) {
                     console.error(`Error: ${textStatus} - ${errorThrown}`);
                 }
-
             });
-
         }
-
-
-
-
-        // Обработчик клика на кнопку для открытия всплывающего окна с тегами
+        
+        function removeTagFromCard(tagId) {
+            $.ajax({
+                type: "DELETE",
+                url: `${endpoint}api/card-tags/card=${currentCardId}&tag=${tagId}`,
+                success: function (response) {
+                    console.log(`Тег удален с карты: ${tagId}`);
+                    loadBoardTags(currentBoardId);
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    console.error(`Error: ${textStatus} - ${errorThrown}`);
+                }
+            });
+        }
+        
         $('#showLabelsBtn').on('click', function () {
-            // Показать или скрыть всплывающее окно
             labelsPopup.toggle();
-
-
             if (labelsPopup.is(':visible')) {
                 labelsPopup.css({
                     top: '10px',
                     left: '10px'
                 });
-
                 loadBoardTags(currentBoardId);
             }
         });
-
-        // Закрытие всплывающего окна при клике вне его области
+        
         $(document).mouseup(function (e) {
             if (!labelsPopup.is(e.target) && labelsPopup.has(e.target).length === 0) {
                 labelsPopup.hide();
             }
         });
-
-        // Обработчик клика на кнопку для создания нового тега
+        
         $('#createLabelBtn').on('click', function () {
             var newLabelName = $('#newLabelName').val().trim();
             if (newLabelName === "") {
                 alert("Введите название тега");
                 return;
             }
-
+        
             var newTag = {
                 name: newLabelName,
                 idBoard: currentBoardId
             };
-            console.log(newTag);
-
+        
             $.ajax({
                 type: "POST",
                 url: `${endpoint}api/tags`,
@@ -782,13 +798,7 @@ $(document).ready(function () {
             });
         });
 
-
-
-
-
-
-              ////////////////////////////////////////////////////////////////
-
+        
 
         $(document).ready(function () {
             var currentBoardId = getUrlParameter("boardid"); // Замените на реальный Id текущей доски
@@ -819,16 +829,8 @@ $(document).ready(function () {
             });
 
             function loadMembers(boardId, cardId) {
-                $.ajax({
-                    type: "GET",
-                    url: `${endpoint}api/boards/${boardId}`,
-                    dataType: "json",
-                    success: function (response) {
-                        renderMembers(response, cardId);
-                    },
-                    error: function (jqXHR, textStatus, errorThrown) {
-                        console.error(`Error: ${textStatus} - ${errorThrown}`);
-                    }
+                getBoard().then(response => {
+                    renderMembers(response, cardId);
                 });
             }
 
@@ -840,14 +842,10 @@ $(document).ready(function () {
 
                 var cardMembers = boardData.cards.find(card => card.id === cardId).userDtos || [];
                 var boardMembers = boardData.users || [];
-                console.log("cardMembers", cardMembers)
-                console.log("boardMembers", boardMembers)
 
 
                 var cardMemberGuids = cardMembers.map(member => member.guid);
                 var nonCardMembers = boardMembers.filter(member => !cardMemberGuids.includes(member.guid));
-                console.log("cardMemberGuids", cardMemberGuids)
-                console.log("nonCardMembers", nonCardMembers)
                 cardMembers.forEach(function (member) {
                     var memberItem = $(`<div class="member-item" data-guid="${member.guid}">👥${member.userName}</div>`);
                     cardMembersList.append(memberItem);
@@ -881,42 +879,8 @@ $(document).ready(function () {
             }
         });
             
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     })
 
-    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     function updateCardSettingsMenu(cardObj) {
         $("textarea[placeholder='Add more detailed description...']").val(cardObj.label);
         $(".side-card-side-card-text").text(cardObj.title);
@@ -1002,27 +966,6 @@ $(document).ready(function () {
 
 
 
-
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-    
-
-
-
-
-
-
-  
-
-
-    ///начало работы с тасками ////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-
-
-
-
     function createTask(taskData) {
         $.ajax({
             type: "POST",
@@ -1102,26 +1045,6 @@ $(document).ready(function () {
     }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    ///конец работы с тасками ////////////////////////////////////////////////////////////////////////////////////////////////
-
     $(document).mouseup(function (e) {
         var divs = $(".popup-window");
         if (divs == null) {
@@ -1131,7 +1054,7 @@ $(document).ready(function () {
         divs.hide();
     });
 
-    function loadTags(tags) {
+    function load   (tags) {
         tags.forEach(tag => tagSelect.append(new Option(tag.name, tag.id)))
     }
 
@@ -1209,5 +1132,27 @@ $(document).ready(function () {
             console.log("userGUID is not available");
         }
     });
-});
+  });
+
+
+
+
+
+  function getBoard() {
+    var currentBoardId = getUrlParameter("boardid"); 
+    return new Promise(resolve => {
+        $.ajax({
+            type: "GET",
+            url: `${endpoint}${boardsEndpoint}${currentBoardId}&user=${Cookies.get("userGUID")}`, 
+            contentType: "application/json",
+            success: function (response) {
+                resolve(response);
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                console.error(`Error: ${textStatus} - ${errorThrown}`);
+            }
+        });
+    })
+    
+  }
 

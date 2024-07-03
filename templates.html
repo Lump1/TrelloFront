@@ -38,8 +38,8 @@ breakPointColumn startPointCard
   data-card-id="PLACEHOLDERcardid"
   data-column-id="PLACEHOLDERcolumnid"
 >
-  <div class="card-header-man">
-    <p class="card-tag card-sm-text">PLACEHOLDERtag</p>
+  <div class="card-header-man" id="PLACEHOLDERcardid">
+    
   </div>
   <div class="card-main">
     <p class="card-main-text card-text">PLACEHOLDERtitle</p>
@@ -150,14 +150,24 @@ startPointBoard
 breakPointBoard
 
 startPointTeamusercard
-<div class="team-list-item-content" id="PLACEHOLDERid">
+<div class="team-list-item-content" id="PLACEHOLDERguid">
+  <p class="team-list-text">PLACEHOLDERusername</p>
+  <div class="cross-team-list">                     
+    <!-- <img class="cross-ico-team-list" src="assets/group-icon-2.png" /> -->
+    <img class="cross-ico-team-list" id="PLACEHOLDERguid" src="assets/x-mark.png" />
+  </div>
+</div>
+breakPointTeamusercard
+
+startPointActualTeamusercard
+<div class="team-list-item-content-act" id="PLACEHOLDERid">
   <p class="team-list-text">PLACEHOLDERusername</p>
   <div class="cross-team-list">                     
     <!-- <img class="cross-ico-team-list" src="assets/group-icon-2.png" /> -->
     <img class="cross-ico-team-list" src="assets/x-mark.png" />
   </div>
 </div>
-breakPointTeamusercard
+breakPointActualTeamusercard
 
 startPointTasksdiv
 <div class="side-card-section">
@@ -252,7 +262,7 @@ startPointComment
       <span class="user-name">PLACEHOLDERusername</span>
     </div>
     <div class="comment-body">
-      PLACEHOLDERcommentText
+      PLACEHOLDERcommenttext
     </div>
   </div>
 </div>
