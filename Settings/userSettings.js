@@ -42,19 +42,22 @@ $(document).ready(function() {
                 $("#not-cont").html("");
                 $("#not-cont").append(container);
 
-                getQuerryTemplate("Notifications", {}).then(notification => {
-                    $(".notifications-container-inner").html("");
-                    $(".notifications-container-inner").append(notification);
+                $(".notifications-container-inner").html("");
+
+                notificationsAjax().then(notifications => {
+                    if(notifications.length != 0) {
+                        notifications.forEach(notification => {
+                            notificationRender(notification);
+                        })
+                    }
+                    else {
+                        $(".notifications-container-inner").append("<p>There is nothing here...</p>")
+                    }
                 })
             })
         })    
     })
-
-    notificationsAjax().then(notifications => {
-        notifications.forEach(notification => {
-
-    });
-})
+});
 
 
 function notificationsAjax() {
@@ -62,16 +65,19 @@ function notificationsAjax() {
         var notification = [];
         let counter = 0;
         notificationsBoardAjax().then(notificationsBoard => {
-            notification.push(notificationsBoard);
+            notification.push(...notificationsBoard);
+            console.log(notificationsBoard);
             counter += 1;
         });
         notificationsFriendAjax().then(notificationsFriends => {
-            notification.push(notificationsFriends);
+            notification.push(...notificationsFriends);
+            console.log(notificationsFriends);
             counter += 1;
         });
         
         var ajInterval = setInterval(function() {
             if(counter == 2) {
+                console.log(notification)
                 resolve(notification);
                 clearInterval(ajInterval);          
             } 
@@ -119,6 +125,23 @@ function notificationsBoardAjax() {
     });
 }
 
-// function notificationsRender(notifications) {
-    
-// }
+function notificationRender(notification) {
+    getQuerryTemplate("Notifications", notification).then(response => {
+        $(".notifications-container-inner").append(response);
+    })
+}
+
+function notificationManage(id, decision) {
+    $.ajax({
+        type: "PUT",
+        url: `${endpoint}${notificationsEndpoint}notification=${id}&decision=${decision}`, 
+        contentType: "application/json",
+        // data: JSON.stringify(newTag),
+        success: function () {
+            $("#" + id + ".notification").remove();
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            console.error(`Error: ${textStatus} - ${errorThrown}`);
+        }
+    });
+}

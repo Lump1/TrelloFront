@@ -231,7 +231,7 @@ startPointNotificationContainer
 breakPointNotificationContainer
 
 startPointNotifications
-<div class="notification">
+<div class="notification" id="PLACEHOLDERid">
   <div class="header">
     <div class="request-type" id="PLACEHOLDERtype">
       PLACEHOLDERtype
@@ -239,8 +239,8 @@ startPointNotifications
     <p>PLACEHOLDERsender</p>
   </div>
   <div class="footer">
-    <button type="button" class="btn btn-outline-danger">X</button>
-    <button type="button" class="btn btn-outline-success">Accept</button>
+    <button type="button" class="btn btn-outline-danger" onclick="notificationManage(PLACEHOLDERid, 'Deny')">X</button>
+    <button type="button" class="btn btn-outline-success" onclick="notificationManage(PLACEHOLDERid, 'Accept')">Accept</button>
   </div>
 </div>
 breakPointNotifications
