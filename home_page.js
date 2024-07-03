@@ -335,11 +335,11 @@ $(document).ready(function(){
   
 
   $("#boardCreationWithoutTemplate").on("mouseup", function() {
-    let boardName = generateName();
+    var boardName = generateName();
 
     createTeamAjax(boardName).then((teamid) => {
       pushUsersAjax(teamid);
-      createBoard(teamid);
+      createBoard(teamid, boardName);
 
       $("#create-board").hide();
     })

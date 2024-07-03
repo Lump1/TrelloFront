@@ -400,16 +400,7 @@ $(document).ready(function () {
 
 
     $("#team-man").on("click", function() {
-        $(".team-list-item").html("");
-
-        getBoard().then(response => {
-            Object.keys(response.users).forEach(key => {
-                console.log(response.users[key]);
-                getQuerryTemplate("Teamusercard", response.users[key]).then(resultHTML => {
-                    $(".team-list-item").append(resultHTML)
-                })
-            })
-        })
+        loadTeamUsers();
     })
     $("#buttonColumnCreate").on("click", function () {
         $.ajax({
