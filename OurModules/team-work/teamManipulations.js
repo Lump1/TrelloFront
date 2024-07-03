@@ -37,8 +37,10 @@ function userSelectReload() {
         getUser($("#search_user_input").val()).then((user) => {
           Object.keys(user).forEach(key => {
             var tempUser = user[key];
+
+            console.log(tempUser);
     
-            getQuerryTemplate("Teamusercard", {id: tempUser.guid, username: tempUser.userName}).then((resultHTML) =>{
+            getQuerryTemplate("Teamusercard", {guid: tempUser.guid, username: tempUser.userName}).then((resultHTML) =>{
               $(".users-select").append(resultHTML);
               userSelectReload();
             })       
@@ -70,6 +72,16 @@ function getUser(username, guid = null) {
           );
         },
       })
+    });
+  }
+
+  function deleteUserFromTeam(teamid, userid) {
+      $.ajax({
+        type: "DELETE",
+        url: `${endpoint}${teamuserEndpoint}team=${teamid}&user=${userid}`,
+        error: function (jqXHR, textStatus, errorThrown) {
+            console.error(`Error: ${textStatus} - ${errorThrown}`);
+        }
     });
   }
 

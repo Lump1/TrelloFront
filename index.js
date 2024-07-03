@@ -540,7 +540,7 @@ $(document).ready(function () {
         });
 
         $("#commentSaveButton").off("click").on("click", function() {
-            let userId = 1;
+            let userId = Cookies.get("userGUID");
             addComment(userId, cardId, $("#commentText").val());
         })
 
@@ -569,6 +569,7 @@ $(document).ready(function () {
             $(".side-card-comments-container").html("");
             Object.keys(comments).forEach(key => {
                 let comment = comments[key];
+                console.log(comment)
                 getQuerryTemplate("Comment", {firstletter: comment.user.userName[0].toUpperCase(), 
                                             username: comment.user.userName, 
                                             commenttext: comment.commentText}).then(resultHTML => {
@@ -581,7 +582,7 @@ $(document).ready(function () {
             $.ajax({
                 type: "POST",
                 url: `${endpoint}${commentsEndpoint}`,
-                data: JSON.stringify({commentText: text, idCard: cardId, idUser: userId}),
+                data: JSON.stringify({commentText: text, idCard: cardId, GuidUser: userId}),
                 headers: {
                     Accept: "application/json",
                     "Content-Type": "application/json",
