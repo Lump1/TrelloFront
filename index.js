@@ -281,6 +281,7 @@ function cardRender(data) {
 
 function miniatureRender(card) {
     $("#" + card.id + ".card-footer-man").html("");
+    console.log(card)
 
     if(card.deadline != null) {
         let div = `<div class="d-inline-flex">
@@ -327,7 +328,9 @@ function miniatureRender(card) {
         let styles = "width: 21px; height: 21px;";
 
         card.userDtos.forEach(item => {
+            console.log(item)
             if(item.guid == Cookies.get("userGUID")) {
+                
                 styles = "background-color: #e65cdd; padding: 5px; width: 30px; height: 30px; border-radius: 5px;"
                 return;
             };
@@ -826,16 +829,8 @@ $(document).ready(function () {
             });
 
             function loadMembers(boardId, cardId) {
-                $.ajax({
-                    type: "GET",
-                    url: `${endpoint}api/boards/${boardId}`,
-                    dataType: "json",
-                    success: function (response) {
-                        renderMembers(response, cardId);
-                    },
-                    error: function (jqXHR, textStatus, errorThrown) {
-                        console.error(`Error: ${textStatus} - ${errorThrown}`);
-                    }
+                getBoard().then(response => {
+                    renderMembers(response, cardId);
                 });
             }
 
