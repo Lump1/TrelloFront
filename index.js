@@ -1148,7 +1148,7 @@ $(document).ready(function () {
     return new Promise(resolve => {
         $.ajax({
             type: "GET",
-            url: `${endpoint}${boardsEndpoint}${currentBoardId}`, 
+            url: `${endpoint}${boardsEndpoint}${currentBoardId}&user=${Cookies.get("userGUID")}`, 
             contentType: "application/json",
             success: function (response) {
                 resolve(response);

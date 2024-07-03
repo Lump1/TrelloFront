@@ -12,7 +12,7 @@ function userSelectReload() {
   function addUser(teamid, userid) {
     $.ajax({
         type: "POST",
-        url: `${endpoint}${teamuserEndpoint}add/team=${teamid}&user=${userid}`,
+        url: `${endpoint}${teamuserEndpoint}add/team=${teamid}&user=${userid}&isAdmin=${Cookies.get("userGUID")}`,
           headers: {
             Accept: "application/json",
             "Content-Type": "application/json",
@@ -78,7 +78,7 @@ function getUser(username, guid = null) {
   function deleteUserFromTeam(teamid, userid) {
       $.ajax({
         type: "DELETE",
-        url: `${endpoint}${teamuserEndpoint}team=${teamid}&user=${userid}`,
+        url: `${endpoint}${teamuserEndpoint}team=${teamid}&user=${userid}&isAdmin=${Cookies.get("userGUID")}`,
         error: function (jqXHR, textStatus, errorThrown) {
             console.error(`Error: ${textStatus} - ${errorThrown}`);
         }
