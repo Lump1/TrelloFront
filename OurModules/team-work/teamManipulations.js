@@ -12,7 +12,7 @@ function userSelectReload() {
   function addUser(teamid, userid) {
     $.ajax({
         type: "POST",
-        url: `${endpoint}${teamuserEndpoint}add/team=${teamid}&user=${userid}`,
+        url: `${endpoint}${teamuserEndpoint}add/team=${teamid}&user=${userid}&isAdmin=${Cookies.get("userGUID")}`,
           headers: {
             Accept: "application/json",
             "Content-Type": "application/json",
@@ -20,7 +20,9 @@ function userSelectReload() {
           // data: JSON.stringify({team: teamid, user: userid}),
   
           success: function(data) {
-            console.log(data);
+            if(data == "User added to team") {
+              loadTeamUsers();
+            }
           },
           error: function (jqXHR, textStatus, errorThrown) {
             console.log("AJAX error:", textStatus, errorThrown);
@@ -37,8 +39,10 @@ function userSelectReload() {
         getUser($("#search_user_input").val()).then((user) => {
           Object.keys(user).forEach(key => {
             var tempUser = user[key];
+
+            console.log(tempUser);
     
-            getQuerryTemplate("Teamusercard", {id: tempUser.guid, username: tempUser.userName}).then((resultHTML) =>{
+            getQuerryTemplate("Teamusercard", {guid: tempUser.guid, username: tempUser.userName}).then((resultHTML) =>{
               $(".users-select").append(resultHTML);
               userSelectReload();
             })       
@@ -73,4 +77,25 @@ function getUser(username, guid = null) {
     });
   }
 
-  
+  function deleteUserFromTeam(teamid, userid) {
+      $.ajax({
+        type: "DELETE",
+        url: `${endpoint}${teamuserEndpoint}team=${teamid}&user=${userid}&isAdmin=${Cookies.get("userGUID")}`,
+        error: function (jqXHR, textStatus, errorThrown) {
+            console.error(`Error: ${textStatus} - ${errorThrown}`);
+        }
+    });
+  }
+
+  function loadTeamUsers() {
+    $(".team-list-item").html("");
+
+        getBoard().then(response => {
+            Object.keys(response.users).forEach(key => {
+                console.log(response.users[key]);
+                getQuerryTemplate("Teamusercard", response.users[key]).then(resultHTML => {
+                    $(".team-list-item").append(resultHTML)
+                })
+            })
+        })
+}

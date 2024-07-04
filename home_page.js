@@ -95,8 +95,7 @@ function clickReload() {
   });
 }
 
-function createTeamAjax() {
-  // console.log(`${endpoint}${teamEndpoint}user=${Cookies.get("userGUID")}`);
+function createTeamAjax(teamName) {
   return new Promise((resolve, reject) => {
     $.ajax({
       type: "POST",
@@ -106,9 +105,10 @@ function createTeamAjax() {
         Accept: "application/json",
         "Content-Type": "application/json",
       },
-      data: JSON.stringify({name: "teamname"}),
+      data: JSON.stringify({name: teamName}),
 
       success: function(data) {
+        console.log(data);
         var teamid = data.id;
         resolve(teamid);
       },
@@ -125,7 +125,7 @@ function pushUsersAjax(teamid) {
     return item.id;
   });
 
-  console.log(usersArray);
+  $(".team-list-item").html("");
 
   // usersArray.push(Cookies.get("userGUID").id);
 
@@ -133,7 +133,7 @@ function pushUsersAjax(teamid) {
     // console.log(userid)
     $.ajax({
       type: "POST",
-      url: `${endpoint}${teamuserEndpoint}add/team=${teamid}&user=${userid}`,
+      url: `${endpoint}${teamuserEndpoint}add/team=${teamid}&user=${userid}&isAdmin=${Cookies.get("userGUID")}`,
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
@@ -186,7 +186,7 @@ function addUserAjax(teamid, userid) {
   })
 }
 
-function createBoard(teamid) {
+function createBoard(teamid, boardName) {
   $.ajax({
     type: "POST",
     url: `${endpoint}${boardsEndpoint}`,
@@ -194,9 +194,8 @@ function createBoard(teamid) {
       Accept: "application/json",
       "Content-Type": "application/json",
     },
-    data: JSON.stringify({name: generateName(), idTeam: teamid}),
+    data: JSON.stringify({name: boardName, idTeam: teamid}),
     success: function(board) {
-      console.log(board);
       boardCardRender(board);
     },
     error: function (jqXHR, textStatus, errorThrown) {
@@ -204,6 +203,23 @@ function createBoard(teamid) {
       console.log("Response:", jqXHR.responseText);
     },
   })
+
+  // $.ajax({
+  //   type: "PUT",
+  //   url: `${endpoint}${boardsEndpoint}isAdmin=${Cookies.get("userGUID")}`,
+  //   headers: {
+  //     Accept: "application/json",
+  //     "Content-Type": "application/json",
+  //   },
+  //   data: JSON.stringify({name: boardName}),
+  //   success: function(response) {
+  //     boardCardRender(response);
+  //   },
+  //   error: function (jqXHR, textStatus, errorThrown) {
+  //     console.log("AJAX error:", textStatus, errorThrown);
+  //     console.log("Response:", jqXHR.responseText);
+  //   },
+  // })
 }
 
 function getUser(username, guid = null) {
@@ -220,7 +236,7 @@ function getUser(username, guid = null) {
       success: function(data) {
         var user = data;
         // console.log("guid");
-        // console.log(data);
+        console.log(data);
         resolve(user);
       },
       error: function (jqXHR, textStatus, errorThrown) {
@@ -238,7 +254,7 @@ function userSelectReload() {
     console.log($(e.target).closest(".team-list-item-content").attr("id"));
     getUser("", $(e.target).closest(".team-list-item-content").attr("id")).then(user => {
       // console.log("user: ")
-      // console.log(user);
+      console.log(user);
       getQuerryTemplate("ActualTeamusercard", {id: user.guid, username: user.userName}).then((resultHTML) => {
         $(".team-list-item").append(resultHTML);
 
@@ -306,8 +322,9 @@ $(document).ready(function(){
     getUser($("#search_user_input").val()).then((user) => {
       Object.keys(user).forEach(key => {
         var tempUser = user[key];
+        console.log(tempUser);
 
-        getQuerryTemplate("Teamusercard", {id: tempUser.guid, username: tempUser.userName}).then((resultHTML) =>{
+        getQuerryTemplate("Teamusercard", {guid: tempUser.guid, username: tempUser.userName}).then((resultHTML) =>{
           $(".users-select").append(resultHTML);
           $(".users-select").append("<hr />");
           userSelectReload();
@@ -318,9 +335,13 @@ $(document).ready(function(){
   
 
   $("#boardCreationWithoutTemplate").on("mouseup", function() {
-    createTeamAjax().then((teamid) => {
+    var boardName = generateName();
+
+    createTeamAjax(boardName).then((teamid) => {
       pushUsersAjax(teamid);
-      createBoard(teamid);
+      createBoard(teamid, boardName);
+
+      $("#create-board").hide();
     })
   })
 

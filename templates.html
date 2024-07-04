@@ -150,11 +150,11 @@ startPointBoard
 breakPointBoard
 
 startPointTeamusercard
-<div class="team-list-item-content" id="PLACEHOLDERid">
+<div class="team-list-item-content" id="PLACEHOLDERguid">
   <p class="team-list-text">PLACEHOLDERusername</p>
   <div class="cross-team-list">                     
     <!-- <img class="cross-ico-team-list" src="assets/group-icon-2.png" /> -->
-    <img class="cross-ico-team-list" src="assets/x-mark.png" />
+    <img class="cross-ico-team-list" id="PLACEHOLDERguid" src="assets/x-mark.png" />
   </div>
 </div>
 breakPointTeamusercard
@@ -241,40 +241,16 @@ startPointNotificationContainer
 breakPointNotificationContainer
 
 startPointNotifications
-<div class="notification">
+<div class="notification" id="PLACEHOLDERid">
   <div class="header">
-    <div class="request-type" id="friend">
-      friend
+    <div class="request-type" id="PLACEHOLDERtype">
+      PLACEHOLDERtype
     </div>
-    <p>LumpiPhosphate</p>
+    <p>PLACEHOLDERsender</p>
   </div>
   <div class="footer">
-    <button type="button" class="btn btn-outline-danger">X</button>
-    <button type="button" class="btn btn-outline-success">Accept</button>
-  </div>
-</div>
-<div class="notification">
-  <div class="header">
-    <div class="request-type" id="board">
-      board
-    </div>
-    <p>Cool project 3</p>
-  </div>
-  <div class="footer">
-    <button type="button" class="btn btn-outline-danger">X</button>
-    <button type="button" class="btn btn-outline-success">Accept</button>
-  </div>
-</div>
-<div class="notification">
-  <div class="header">
-    <div class="request-type" id="friend">
-      friend
-    </div>
-    <p>LumpiPhosphate2</p>
-  </div>
-  <div class="footer">
-    <button type="button" class="btn btn-outline-danger">X</button>
-    <button type="button" class="btn btn-outline-success">Accept</button>
+    <button type="button" class="btn btn-outline-danger" onclick="notificationManage(PLACEHOLDERid, 'Deny')">X</button>
+    <button type="button" class="btn btn-outline-success" onclick="notificationManage(PLACEHOLDERid, 'Accept')">Accept</button>
   </div>
 </div>
 breakPointNotifications
