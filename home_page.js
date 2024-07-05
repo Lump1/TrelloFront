@@ -257,6 +257,10 @@ function userSelectReload() {
       console.log(user);
       getQuerryTemplate("ActualTeamusercard", {id: user.guid, username: user.userName}).then((resultHTML) => {
         $(".team-list-item").append(resultHTML);
+        
+        $(".cross-ico-team-list").off("click").on("click", function() {
+          $(this).closest(".team-list-item-content-act").remove();
+        })
 
         $(".users-select").hide();
       }) 
