@@ -161,7 +161,7 @@ function checkboxesReload(tasks) {
 }
 
 function clickReload() {
-    $(".main-card").on("mouseup", function () {
+    $(".main-card").off("dbclick").on("dbclick", function () {
         var sidePanelObj = $(".side-panel-card");
 
         if (sidePanelObj.css("right")[0] == "-") {
@@ -607,7 +607,7 @@ $(document).ready(function () {
                 }
             });
         }
-
+        
         var labelsList = $('#labelsList'); 
         var labelsPopup = $('#labelsPopup'); 
         var currentBoardId = getUrlParameter("boardid"); 
