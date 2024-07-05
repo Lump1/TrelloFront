@@ -40,7 +40,7 @@ function generateName() {
 function boardCardRender(board, target="AllBoards"){
   getQuerryTemplate("Board", { name: board.name, id: board.id}).then(
     (resultHTML) => {
-      $("#" + target + ".sidenav-cards-container").append(resultHTML);
+      $("#" + target + ".sidenav-cards-container").prepend(resultHTML);
       stickerRender(board.id);
 
       clickReload();
@@ -69,14 +69,14 @@ function stickerRender(boardid){
 }
 
 function clickReload() {
-  $(".sidenav-card").on("click", function(){
+  $(".sidenav-card").off("click").on("click", function(){
     var recentArray = Cookies.get("recent") != undefined ? JSON.parse(Cookies.get("recent")) : null;
     var identifier = $(this).attr("id");
 
     if(recentArray != null) {
-      if(recentArray.includes(identifier)) {
-        let index = recentArray.indexOf(identifier);
-        recentArray.splice(index, index);
+      var index = recentArray.indexOf(identifier);
+      if(index != -1) {
+        recentArray.splice(index, 1);
       }
 
       recentArray.unshift(identifier);
@@ -315,7 +315,7 @@ $(document).ready(function(){
   //   })
   // });
 
-  $("#searchButton").on("click", function() {
+  $("#searchButton").off("click").on("click", function() {
     $(".users-select").show();
     $(".users-select").html("");
 
@@ -334,7 +334,7 @@ $(document).ready(function(){
   })
   
 
-  $("#boardCreationWithoutTemplate").on("mouseup", function() {
+  $("#boardCreationWithoutTemplate").off("mouseup").on("mouseup", function() {
     var boardName = generateName();
 
     createTeamAjax(boardName).then((teamid) => {
@@ -345,13 +345,13 @@ $(document).ready(function(){
     })
   })
 
-  $(".account-button").on("mouseup", function(e) {
+  $(".account-button").off("mouseup").on("mouseup", function(e) {
     if($(".user-settings-container").css("display") == "none") {
       $(".user-settings-container").show();
     }
   })
 
-  $(".logout-butt").on("click", function () {
+  $(".logout-butt").off("click").on("click", function () {
     // console.log(Cookies.get("userGUID"));
     if (Cookies.get("userGUID") != null) {
         Cookies.remove("userGUID");
@@ -359,7 +359,7 @@ $(document).ready(function(){
     }
 })
 
-  $(document).on("click", function(e) {
+  $(document).off("click").on("click", function(e) {
     var t = $('#sidenav-button-temlates-menu-js');
     if (e.target.id === 'sidenav-button-temlates-js' || e.target.id === 'sidenav-button-temlates-menu-js') {
       t.slideToggle("slow");
@@ -369,7 +369,7 @@ $(document).ready(function(){
   });
   
 
-  $(document).on("click", function(e) {
+  $(document).off("click").on("click", function(e) {
     var w = $('#sidenav-button-bIerps-js');
     if (e.target.id === 'sidenav-button-Ws-js' || e.target.id === 'sidenav-button-bIerps-js') {
       w.slideToggle("slow");
@@ -378,7 +378,7 @@ $(document).ready(function(){
     }
   });
 
-  $(document).on("click", function(e) {
+  $(document).off("click").on("click", function(e) {
     if($(".user-settings-container").css("display") != "none" && 
     (!$(e.target).hasClass(".user-settings-container") &&
     $(e.target).closest(".account-button").length == 0)) {
@@ -386,7 +386,7 @@ $(document).ready(function(){
     }
   })
 
-  $(".sidenav-button-home-page").click(function(){
+  $(".sidenav-button-home-page").off("click").click(function(){
     window.location.href='http://127.0.0.1:5500/index.html' //пока что для проверки
   });
 });
