@@ -161,7 +161,7 @@ function checkboxesReload(tasks) {
 }
 
 function clickReload() {
-    $(".main-card").on("mouseup", function () {
+    $(".main-card").off("dbclick").on("dbclick", function () {
         var sidePanelObj = $(".side-panel-card");
 
         if (sidePanelObj.css("right")[0] == "-") {
@@ -325,6 +325,7 @@ function miniatureRender(card) {
         $("#" + card.id + ".card-footer-man").append(div);
     }
     if(card.userDtos.length != 0) {
+        console.log(card.userDtos.length);
         let styles = "width: 21px; height: 21px;";
 
         card.userDtos.forEach(item => {
@@ -365,7 +366,7 @@ function loadBoards() {
                 "Content-Type": "application/json",
             },
             success: function (response) {
-                $(".My-boards-container-dropdown-menu").prepend(`<li><a type="button" href="#http://127.0.0.1:5500/index.html?boardid=${boards[i]}">${response.name}</a></li>`)
+                $(".My-boards-container-dropdown-menu").prepend(`<li><a type="button" href="http://127.0.0.1:5500/index.html?boardid=${boards[i]}">${response.name}</a></li>`)
             },
             error: function (jqXHR, textStatus, errorThrown) {
                 console.error(
@@ -401,16 +402,7 @@ $(document).ready(function () {
 
 
     $("#team-man").on("click", function() {
-        $(".team-list-item").html("");
-
-        getBoard().then(response => {
-            Object.keys(response.users).forEach(key => {
-                console.log(response.users[key]);
-                getQuerryTemplate("Teamusercard", response.users[key]).then(resultHTML => {
-                    $(".team-list-item").append(resultHTML)
-                })
-            })
-        })
+        loadTeamUsers();
     })
     $("#buttonColumnCreate").on("click", function () {
         $.ajax({
@@ -487,18 +479,6 @@ $(document).ready(function () {
             },
             dataType: "json",
         });
-      
-
-        
-
-
-
-
-
-
-
-
-
     });
 
     $(document).on("click", ".main-card", function () {
@@ -606,7 +586,7 @@ $(document).ready(function () {
                 }
             });
         }
-
+        
         var labelsList = $('#labelsList'); 
         var labelsPopup = $('#labelsPopup'); 
         var currentBoardId = getUrlParameter("boardid"); 
@@ -755,6 +735,7 @@ $(document).ready(function () {
             }
         });
         
+        
         $(document).mouseup(function (e) {
             if (!labelsPopup.is(e.target) && labelsPopup.has(e.target).length === 0) {
                 labelsPopup.hide();
@@ -798,11 +779,6 @@ $(document).ready(function () {
                 $('#membersPopup').toggle();
         
                 if ($('#membersPopup').is(':visible')) {
-                    $('#membersPopup').css({
-                        top: '10px',
-                        left: '10px'
-                    });
-        
                     loadMembers(currentBoardId, currentCardId);
                 }
             });
@@ -821,6 +797,9 @@ $(document).ready(function () {
                     dataType: "json",
                     success: function (response) {
                         renderMembers(response, cardId);
+                        getCard(cardId).then(responseCard => {
+                            miniatureRender(responseCard);
+                        });
                     },
                     error: function (jqXHR, textStatus, errorThrown) {
                         console.error(`Error: ${textStatus} - ${errorThrown}`);
@@ -858,17 +837,17 @@ $(document).ready(function () {
             }
         
             function addUserToCard(cardId, userGuid) {
-                $.ajax({
-                    type: "POST",
-                    url: `${endpoint}api/user-card/cardId=${cardId}&userGuid=${userGuid}`,
-                    success: function (response) {
-                        console.log(`User added to card: ${userGuid}`);
-                        loadMembers(currentBoardId, currentCardId);
-                    },
-                    error: function (jqXHR, textStatus, errorThrown) {
-                        console.error(`Error: ${textStatus} - ${errorThrown}`);
-                    }
-                });
+                    $.ajax({
+                        type: "POST",
+                        url: `${endpoint}api/user-card/cardId=${cardId}&userGuid=${userGuid}`,
+                        success: function (response) {
+                            console.log(`User added to card: ${userGuid}`);
+                            loadMembers(currentBoardId, currentCardId);
+                        },
+                        error: function (jqXHR, textStatus, errorThrown) {
+                            console.error(`Error: ${textStatus} - ${errorThrown}`);
+                        }
+                    });
             }
         
             function removeUserFromCard(cardId, userGuid) {
@@ -1087,6 +1066,10 @@ $(document).ready(function () {
     $('.My-boards-container-dropdown-menu li').on('click', function () {
         $('.My-boards-container-dropdown-menu').removeClass('show');
     });
+
+    $(".header-main-text").on("click", function() {
+        window.location.href = "http://127.0.0.1:5500/home_page_layout.html";
+    })
 
     $(document).mouseup(function (e) {
         if (isPopupOpened &&

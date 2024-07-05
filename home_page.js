@@ -40,7 +40,7 @@ function generateName() {
 function boardCardRender(board, target="AllBoards"){
   getQuerryTemplate("Board", { name: board.name, id: board.id}).then(
     (resultHTML) => {
-      $("#" + target + ".sidenav-cards-container").append(resultHTML);
+      $("#" + target + ".sidenav-cards-container").prepend(resultHTML);
       stickerRender(board.id);
 
       clickReload();
@@ -69,14 +69,14 @@ function stickerRender(boardid){
 }
 
 function clickReload() {
-  $(".sidenav-card").on("click", function(){
+  $(".sidenav-card").off("click").on("click", function(){
     var recentArray = Cookies.get("recent") != undefined ? JSON.parse(Cookies.get("recent")) : null;
     var identifier = $(this).attr("id");
 
     if(recentArray != null) {
-      if(recentArray.includes(identifier)) {
-        let index = recentArray.indexOf(identifier);
-        recentArray.splice(index, index);
+      var index = recentArray.indexOf(identifier);
+      if(index != -1) {
+        recentArray.splice(index, 1);
       }
 
       recentArray.unshift(identifier);
@@ -95,8 +95,7 @@ function clickReload() {
   });
 }
 
-function createTeamAjax() {
-  // console.log(`${endpoint}${teamEndpoint}user=${Cookies.get("userGUID")}`);
+function createTeamAjax(teamName) {
   return new Promise((resolve, reject) => {
     $.ajax({
       type: "POST",
@@ -106,9 +105,10 @@ function createTeamAjax() {
         Accept: "application/json",
         "Content-Type": "application/json",
       },
-      data: JSON.stringify({name: "teamname"}),
+      data: JSON.stringify({name: teamName}),
 
       success: function(data) {
+        console.log(data);
         var teamid = data.id;
         resolve(teamid);
       },
@@ -186,7 +186,7 @@ function addUserAjax(teamid, userid) {
   })
 }
 
-function createBoard(teamid) {
+function createBoard(teamid, boardName) {
   $.ajax({
     type: "POST",
     url: `${endpoint}${boardsEndpoint}`,
@@ -194,9 +194,8 @@ function createBoard(teamid) {
       Accept: "application/json",
       "Content-Type": "application/json",
     },
-    data: JSON.stringify({name: generateName(), idTeam: teamid}),
+    data: JSON.stringify({name: boardName, idTeam: teamid}),
     success: function(board) {
-      console.log(board);
       boardCardRender(board);
     },
     error: function (jqXHR, textStatus, errorThrown) {
@@ -204,6 +203,23 @@ function createBoard(teamid) {
       console.log("Response:", jqXHR.responseText);
     },
   })
+
+  // $.ajax({
+  //   type: "PUT",
+  //   url: `${endpoint}${boardsEndpoint}isAdmin=${Cookies.get("userGUID")}`,
+  //   headers: {
+  //     Accept: "application/json",
+  //     "Content-Type": "application/json",
+  //   },
+  //   data: JSON.stringify({name: boardName}),
+  //   success: function(response) {
+  //     boardCardRender(response);
+  //   },
+  //   error: function (jqXHR, textStatus, errorThrown) {
+  //     console.log("AJAX error:", textStatus, errorThrown);
+  //     console.log("Response:", jqXHR.responseText);
+  //   },
+  // })
 }
 
 function getUser(username, guid = null) {
@@ -241,6 +257,10 @@ function userSelectReload() {
       console.log(user);
       getQuerryTemplate("ActualTeamusercard", {id: user.guid, username: user.userName}).then((resultHTML) => {
         $(".team-list-item").append(resultHTML);
+        
+        $(".cross-ico-team-list").off("click").on("click", function() {
+          $(this).closest(".team-list-item-content-act").remove();
+        })
 
         $(".users-select").hide();
       }) 
@@ -257,14 +277,9 @@ $(document).ready(function(){
       Accept: "application/json",
       "Content-Type": "application/json",
     },
-    // data: {"userGuid": Cookies.get("userGUID")},
     success: function (response) {
-      // console.log(response);
-
       var recentArray = Cookies.get("recent") != undefined ? JSON.parse(Cookies.get("recent")) : [];
       var favArray = Cookies.get("favorite") != undefined ? JSON.parse(Cookies.get("favorite")) : [];
-
-      // console.log(recentArray);
 
       Object.keys(response).forEach((item) => {
         boardCardRender(response[item]);
@@ -276,8 +291,6 @@ $(document).ready(function(){
         if(favArray.includes(response[item].id.toString())){
           boardCardRender(response[item], "Favorite");
         }
-
-        
       });
     },
     error: function (jqXHR, textStatus, errorThrown) {
@@ -285,7 +298,7 @@ $(document).ready(function(){
         `Ошибка при получении данных: ${textStatus} - ${errorThrown}`
       );
     },
-  });
+  }); 
 
   // $("#search_user_button").on("mouseup", function() {
   //   getUser($("#search_user_input").val()).then((user) => {
@@ -299,7 +312,7 @@ $(document).ready(function(){
   //   })
   // });
 
-  $("#searchButton").on("click", function() {
+  $("#searchButton").off("click").on("click", function() {
     $(".users-select").show();
     $(".users-select").html("");
 
@@ -318,28 +331,30 @@ $(document).ready(function(){
   })
   
 
-  $("#boardCreationWithoutTemplate").on("mouseup", function() {
-    createTeamAjax().then((teamid) => {
+  $("#boardCreationWithoutTemplate").off("mouseup").on("mouseup", function() {
+    var boardName = generateName();
+
+    createTeamAjax(boardName).then((teamid) => {
       pushUsersAjax(teamid);
-      createBoard(teamid);
+      createBoard(teamid, boardName);
 
       $("#create-board").hide();
     })
   })
 
-  $(".account-button").on("mouseup", function(e) {
+  $(".account-button").off("mouseup").on("mouseup", function(e) {
     if($(".user-settings-container").css("display") == "none") {
       $(".user-settings-container").show();
     }
   })
 
-  $(".logout-butt").on("click", function () {
+  $(".logout-butt").off("click").on("click", function () {
     // console.log(Cookies.get("userGUID"));
     if (Cookies.get("userGUID") != null) {
         Cookies.remove("userGUID");
         window.location.href = 'http://127.0.0.1:5500/reglog.html';
     }
-})
+  })
 
   $(document).on("click", function(e) {
     var t = $('#sidenav-button-temlates-menu-js');
@@ -368,7 +383,7 @@ $(document).ready(function(){
     }
   })
 
-  $(".sidenav-button-home-page").click(function(){
+  $(".sidenav-button-home-page").on("click", function(){
     window.location.href='http://127.0.0.1:5500/index.html' //пока что для проверки
   });
 });

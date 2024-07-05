@@ -20,7 +20,9 @@ function userSelectReload() {
           // data: JSON.stringify({team: teamid, user: userid}),
   
           success: function(data) {
-            console.log(data);
+            if(data == "User added to team") {
+              loadTeamUsers();
+            }
           },
           error: function (jqXHR, textStatus, errorThrown) {
             console.log("AJAX error:", textStatus, errorThrown);
@@ -79,10 +81,27 @@ function getUser(username, guid = null) {
       $.ajax({
         type: "DELETE",
         url: `${endpoint}${teamuserEndpoint}team=${teamid}&user=${userid}&isAdmin=${Cookies.get("userGUID")}`,
+        success: function(response) {
+          loadTeamUsers();
+        },
         error: function (jqXHR, textStatus, errorThrown) {
             console.error(`Error: ${textStatus} - ${errorThrown}`);
         }
     });
   }
 
-  
+  function loadTeamUsers() {
+    $(".team-list-item").html("");
+
+        getBoard().then(response => {
+            Object.keys(response.users).forEach(key => {
+                console.log(response.users[key]);
+                getQuerryTemplate("Teamusercard", response.users[key]).then(resultHTML => {
+                    $(".team-list-item").append(resultHTML);
+                    $("#" + response.users[key].guid + ".cross-ico-team-list").off("click").on("click", function() {
+                      deleteUserFromTeam(response.idTeam, response.users[key].guid);
+                    })
+                })
+            })
+        })
+}

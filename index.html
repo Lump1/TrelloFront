@@ -130,8 +130,9 @@
           </span>My boards<span class="icon-plus">&#43;</span>
         </button>
         <ul class="My-boards-container-dropdown-menu">
-          
-          <li><a type="button" href="http://127.0.0.1:5500/home_page_layout.html">...</a></li>
+          <a style="color: white; text-decoration: none;" href="http://127.0.0.1:5500/home_page_layout.html">
+            <li>...</li>
+          </a>
         </ul>
       </div>
 
@@ -250,8 +251,8 @@
             <i class="side-card-icon">👥</i>
             <span class="side-card-text">Members</span>
         </button>
-        
-        <div id="membersPopup" class="members-window" style="display: none;">
+        <div style="position: relative;">
+          <div id="membersPopup" class="members-window" style="display: none;">
             <div class="members-section">
                 <h3>Members on Card</h3>
                 <div id="cardMembersList"></div>
@@ -261,6 +262,8 @@
                 <div id="boardMembersList"></div>
             </div>
         </div>
+        </div>
+        
         
         <button id="showLabelsBtn">
           <i class="side-card-icon">🏷️</i>
@@ -269,8 +272,8 @@
       
       <div id="labelsPopup" class="labels-window" style="display: none;">
           <div id="labelsList"></div>
-          <input type="text" id="newLabelName" placeholder="Введите название тега">
-          <button id="createLabelBtn">Создать тег</button>
+          <input type="text" id="newLabelName" placeholder="enter tag name">
+          <button id="createLabelBtn">Create tag</button>
       </div>
       
         
