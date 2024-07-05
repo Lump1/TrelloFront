@@ -273,14 +273,9 @@ $(document).ready(function(){
       Accept: "application/json",
       "Content-Type": "application/json",
     },
-    // data: {"userGuid": Cookies.get("userGUID")},
     success: function (response) {
-      // console.log(response);
-
       var recentArray = Cookies.get("recent") != undefined ? JSON.parse(Cookies.get("recent")) : [];
       var favArray = Cookies.get("favorite") != undefined ? JSON.parse(Cookies.get("favorite")) : [];
-
-      // console.log(recentArray);
 
       Object.keys(response).forEach((item) => {
         boardCardRender(response[item]);
@@ -292,8 +287,6 @@ $(document).ready(function(){
         if(favArray.includes(response[item].id.toString())){
           boardCardRender(response[item], "Favorite");
         }
-
-        
       });
     },
     error: function (jqXHR, textStatus, errorThrown) {
@@ -301,7 +294,7 @@ $(document).ready(function(){
         `Ошибка при получении данных: ${textStatus} - ${errorThrown}`
       );
     },
-  });
+  }); 
 
   // $("#search_user_button").on("mouseup", function() {
   //   getUser($("#search_user_input").val()).then((user) => {
@@ -357,9 +350,9 @@ $(document).ready(function(){
         Cookies.remove("userGUID");
         window.location.href = 'http://127.0.0.1:5500/reglog.html';
     }
-})
+  })
 
-  $(document).off("click").on("click", function(e) {
+  $(document).on("click", function(e) {
     var t = $('#sidenav-button-temlates-menu-js');
     if (e.target.id === 'sidenav-button-temlates-js' || e.target.id === 'sidenav-button-temlates-menu-js') {
       t.slideToggle("slow");
@@ -369,7 +362,7 @@ $(document).ready(function(){
   });
   
 
-  $(document).off("click").on("click", function(e) {
+  $(document).on("click", function(e) {
     var w = $('#sidenav-button-bIerps-js');
     if (e.target.id === 'sidenav-button-Ws-js' || e.target.id === 'sidenav-button-bIerps-js') {
       w.slideToggle("slow");
@@ -378,7 +371,7 @@ $(document).ready(function(){
     }
   });
 
-  $(document).off("click").on("click", function(e) {
+  $(document).on("click", function(e) {
     if($(".user-settings-container").css("display") != "none" && 
     (!$(e.target).hasClass(".user-settings-container") &&
     $(e.target).closest(".account-button").length == 0)) {
@@ -386,7 +379,7 @@ $(document).ready(function(){
     }
   })
 
-  $(".sidenav-button-home-page").off("click").click(function(){
+  $(".sidenav-button-home-page").on("click", function(){
     window.location.href='http://127.0.0.1:5500/index.html' //пока что для проверки
   });
 });
