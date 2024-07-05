@@ -37,7 +37,7 @@ $(document).ready(function () {
         if (user) {
             $('.username').text(user.userName);
             $('.email').text(user.email);
-            console.log(user.configurationDTO); // Проверка данных
+            console.log(user.configurationDTO); 
             if (user.configurationDTO && user.configurationDTO.isprivateTeamNotification) {
                 $('#accessibilitySelect').val('private');
             } else {
@@ -74,13 +74,13 @@ $(document).ready(function () {
  
   var userGUID = getQueryParam('userGUID');
  
-  // Показать форму изменения имени пользователя при нажатии на кнопку
+
   $('#changeUsernameBtn').click(function () {
       $('#usernameChangeForm').toggle();
       console.log(userGUID);
   });
 
-  // Сохранить новое имя пользователя
+
   $('#saveUsernameBtn').click(function () {
       var newUsername = $('#newUsername').val().trim();
       if (newUsername === "") {
@@ -113,12 +113,12 @@ $(document).ready(function () {
 
 
 
-  // Показать форму изменения пароля при нажатии на кнопку
+ 
   $('#changePasswordBtn').click(function () {
     $('#passwordChangeForm').toggle();
   });
 
-  // Сохранить новый пароль
+
   $('#updatePasswordBtn').click(function () {
     var newPassword = $('#new-password').val().trim();
     var confirmNewPassword = $('#confirm-new-password').val().trim();
@@ -140,14 +140,14 @@ $(document).ready(function () {
     
     $.ajax({
       type: "PUT",
-      url: `${endpoint}api/users/`, // URL для смены пароля
+      url: `${endpoint}api/users/`, 
       contentType: "application/json",
       data: JSON.stringify(passwordUpdateData),
       success: function (response) {
         alert("Password successfully updated");
         $('#passwordChangeForm').hide();
 
-        $('#new-password').val(''); // Очистить поле нового пароля
+        $('#new-password').val(''); 
         $('#confirm-new-password').val('');
       },
       error: function (jqXHR, textStatus, errorThrown) {
