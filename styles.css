@@ -890,6 +890,16 @@ p {
 
 .helping-container {
   width: 100%;
+  height: fit-content;
+  min-height: 10px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.create-button-conteiner {
+  width: 100%;
 
   display: flex;
   flex-direction: column;
