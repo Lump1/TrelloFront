@@ -2,142 +2,122 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Profile Settings</title>
-  <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
-  <script src="jquery/node_modules/js-cookie/dist/js.cookie.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
-  <script src="profile-settings.js"></script>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
-    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-  <link rel="stylesheet" href="profile_settings.css">
+  <meta charset="UTF-8"> <!-- Устанавливаем кодировку символов для документа -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Устанавливаем мета-тег для корректного отображения на мобильных устройствах -->
+  <title>Profile Settings</title> <!-- Устанавливаем заголовок страницы -->
+  <script src="https://code.jquery.com/jquery-3.7.1.js"></script> <!-- Подключаем библиотеку jQuery -->
+  <script src="jquery/node_modules/js-cookie/dist/js.cookie.min.js"></script> <!-- Подключаем библиотеку для работы с cookie -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script> <!-- Подключаем библиотеку для модальных окон -->
+  <script src="profile-settings.js"></script> <!-- Подключаем собственный скрипт для настроек профиля -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous"> <!-- Подключаем стили Bootstrap -->
+  <link rel="stylesheet" href="profile_settings.css"> <!-- Подключаем собственный файл стилей -->
 </head>
 
 <body>
-  <div class="profile-settings-container">
-    <main class="profile-settings-main-content">
-      <div style="height: 100%; width: 13%; margin-right: 25px; min-width: 170px; padding-left: 15px; background-color: #2b2b2ee3;">
+  <div class="profile-settings-container"> <!-- Основной контейнер для настроек профиля -->
+    <main class="profile-settings-main-content"> <!-- Основной контент настроек профиля -->
+      <div class="profile-settings-main-content1"style=""> <!-- Боковая панель -->
 
-        <div class="profile-settings-container-sidebar">
-          <div class="profile-header">
-            <div class="profile-picture-container">
-              <img src="/assets/avatar_face_girl_female_woman_profile_smiley_happy_people_icon_181662.png" alt="pfp" class="profile-picture">
+        <div class="profile-settings-container-sidebar"> <!-- Контейнер боковой панели -->
+          <div class="profile-header"> <!-- Заголовок профиля -->
+            <div class="profile-picture-container"> <!-- Контейнер для изображения профиля -->
+              <img src="/assets/avatar_face_girl_female_woman_profile_smiley_happy_people_icon_181662.png" alt="pfp" class="profile-picture"> <!-- Изображение профиля -->
             </div>
             
-            <h1 style="margin-top: 10px;" class="username">username</h1>
-            <h1 style="margin-top: 10px;" class="email">email@example.com</h1>
+            <h1 style="margin-top: 10px;" class="username">username</h1> <!-- Имя пользователя -->
+            <h1 style="margin-top: 10px;" class="email">email@example.com</h1> <!-- Электронная почта пользователя -->
           </div>
-          <hr />
+          <hr /> <!-- Горизонтальная линия -->
 
-          <nav class="profile-sidebar-menu">
+          <nav class="profile-sidebar-menu"> <!-- Меню боковой панели -->
             <ul>
-              <li><a href="#public-profile">Public profile</a></li>
-              <li><a href="#account">Account</a></li>
-              <li><a href="#appaerance">Appearance</a></li>
-              <li><a href="#accessibility">Accessibility</a></li>
-              <li><a href="#notifications">Notifications</a></li>
+              <li><a href="#public-profile">Public profile</a></li> <!-- Ссылка на раздел "Public profile" -->
+              <li><a href="#account">Account</a></li> <!-- Ссылка на раздел "Account" -->
+              <li><a href="#accessibility">Accessibility</a></li> <!-- Ссылка на раздел "Accessibility" -->
+              <li><a href="#notifications">Notifications</a></li> <!-- Ссылка на раздел "Notifications" -->
             </ul>
           </nav>
         </div>
 
       </div>
 
-      <div style="width: 100%;">
+      <div style="width: 100%;"> <!-- Основной контент -->
 
         <div class="profile-main-container">
-          <h1 id="public-profile">Public profile</h1>
-          <button href="#" class="btn btn-outline-secondary profile-link" id="go-back-js">Go back</button>
+          <h1 id="public-profile">Public profile</h1> <!-- Заголовок "Public profile" -->
+          <button href="#" class="btn btn-outline-secondary profile-link" id="go-back-js">Go back</button> <!-- Кнопка "Go back" -->
         </div>
 
-        <form class="profile-form">
-
-          <label for="public-email">Public email</label>
-
-          <input type="text" id="name"
-            placeholder="Your email here">
-
-
-          <label for="bio">Bio</label>
-          <textarea id="bio" placeholder="Tell us a little bit about yourself"></textarea>
-          <button class="edit-picture">Save</button>
+        <form class="profile-form"> <!-- Форма для редактирования профиля -->
+          <label for="public-email">Public email</label> <!-- Метка для поля ввода email -->
+          <input type="text" id="name" placeholder="Your email here"> <!-- Поле ввода email -->
+        </form>
+          <form class="profile-form1">
+          <label for="bio">Bio</label> <!-- Метка для поля ввода биографии -->
+          <textarea id="bio" placeholder="Tell us a little bit about yourself"></textarea> <!-- Поле ввода биографии -->
+          <button class="edit-picture">Save</button> <!-- Кнопка сохранения -->
         </form>
 
         <div class="profile-main-container">
-          <h1 id="account">Account</h1>
+          <h1 id="account">Account</h1> <!-- Заголовок "Account" -->
         </div>
-
         <section class="setting-section">
-          <h2>Change username</h2>
-          <p>Changing your username can have <a href="#">unintended side effects</a>.</p>
-          <button class="btn btn-outline-secondary">Change username</button>
-          <p>Looking to manage account security settings? You can find them in the <a href="#">Password and
-              authentication</a> page.</p>
-        </section>
-
-        <section class="setting-section">
-          <h2>Export account data</h2>
-          <p>Export all repositories and profile metadata for @name. Exports will be available for 7 days.</p>
-          <button class="btn btn-outline-secondary">Start export</button>
-        </section>
-
-        <section class="setting-section">
-          <div class="d-flex justify-content-between align-items-center mb-3">
-            <h2>Password settings</h2>
-            <button type="button" class="btn btn-outline-secondary change-password-setting">Change password</button>
+          <h2>Change username</h2> <!-- Заголовок "Change username" -->
+          <p>Changing your username can have <a href="#">unintended side effects</a>.</p> <!-- Описание с ссылкой -->
+          <button id="changeUsernameBtn" class="btn btn-outline-secondary">Change username</button> <!-- Кнопка "Change username" -->
+          <div id="usernameChangeForm" style="display: none; display: flex; flex-direction: column; gap: 10px;"> <!-- Форма изменения имени пользователя, скрытая по умолчанию -->
+              <input type="text" id="newUsername" placeholder="Enter new username" style="margin-bottom: 10px;"> <!-- Поле ввода нового имени пользователя с отступом снизу -->
+              <button id="saveUsernameBtn" class="btn btn-outline-secondary">Save</button>   <!-- Кнопка сохранения нового имени пользователя -->
           </div>
-          <div id="password-fields">
-            <form>
-              <div class="mb-3">
-                <label for="old-password" class="form-label">Old password</label>
-                <input type="password" class="form-control" id="old-password">
-              </div>
-
-              <div class="mb-3">
-                <label for="new-password" class="form-label">New password</label>
-                <input type="password" class="form-control" id="new-password">
-              </div>
-
-              <div class="mb-3">
-                <label for="confirm-new-password" class="form-label">Confirm new password</label>
-                <input type="password" class="form-control" id="confirm-new-password">
-              </div>
-
-              <p>Make sure it's at least 15 characters OR at least 8 characters including a number and a lowercase letter.
-                <a href="#">Learn more</a>.</p>
-
-              <button type="submit" class="btn btn-outline-secondary">Update password</button>
-              <a href="#" class="btn btn-link">I forgot my password</a>
-            </form>
-          </div>
+          
+          <p>Looking to manage account security settings? You can find them in the <a href="#">Password and authentication</a> page.</p> <!-- Описание с ссылкой -->
         </section>
+        
+        <section class="setting-section">
+          <h2>Export account data</h2> <!-- Заголовок "Export account data" -->
+          <p>Export all repositories and profile metadata for @name. Exports will be available for 7 days.</p> <!-- Описание процесса экспорта данных -->
+          <button class="btn btn-outline-secondary">Start export</button> <!-- Кнопка "Start export" -->
+        </section>
+
+        <div class="setting-section">
+          <h2>Change password</h2> <!-- Заголовок "Change password" -->
+          <button id="changePasswordBtn" class="btn btn-outline-secondary">Change password</button> <!-- Кнопка "Change password" -->
+          <div id="passwordChangeForm" style="display: none;"> <!-- Форма смены пароля, скрытая по умолчанию -->
+              <div class="mb-3">
+                  <label for="new-password" class="form-label">New password</label> <!-- Метка для поля нового пароля -->
+                  <input type="password" class="form-control" id="new-password"> <!-- Поле ввода нового пароля -->
+              </div>
+        
+              <div class="mb-3">
+                  <label for="confirm-new-password" class="form-label">Confirm new password</label> <!-- Метка для поля подтверждения нового пароля -->
+                  <input type="password" class="form-control" id="confirm-new-password"> <!-- Поле ввода подтверждения нового пароля -->
+              </div>
+        
+              <p>Make sure it's at least 15 characters OR at least 8 characters including a number and a lowercase letter. <a href="#">Learn more</a>.</p> <!-- Подсказка с требованиями к паролю и ссылкой на дополнительную информацию -->
+              <button id="updatePasswordBtn" class="btn btn-outline-secondary">Update password</button> <!-- Кнопка "Update password" -->
+              <a href="#" class="btn btn-link">I forgot my password</a> <!-- Ссылка "I forgot my password" -->
+          </div>
+        </div>
+        
 
         <section class="setting-section delete-account">
-          <h2>Delete account</h2>
-          <p>Once you delete your account, there is no going back. Please be certain.</p>
-          <button class="btn btn-danger">Delete your account</button>
+          <h2>Delete account</h2> <!-- Заголовок "Delete account" -->
+          <p>Once you delete your account, there is no going back. Please be certain.</p> <!-- Предупреждение о необратимости удаления аккаунта -->
+          <button class="btn btn-danger">Delete your account</button> <!-- Кнопка "Delete your account" -->
         </section>
 
         <div class="profile-main-container">
-          <h1 id="appaerance">Appearance</h1>
+          <h1 id="appaerance">Appearance</h1> <!-- Заголовок "Appearance" -->
         </div>
 
-        <div class="profile-main-container">
-          <h1 id="accessibility">Accessibility</h1>
-        </div>
+        <select class="setting-section1" id="accessibilitySelect">
+          <option value="public">public</option> <!-- Опция "public" -->
+          <option value="private">private</option> <!-- Опция "private" -->
+      </select>
 
-        <select class="setting-section" id="accessibility">
-          <option>public</option>
-          <option>private</option>
-        </select>
-
-        <div class="profile-main-container">
-          <h1 id="notifications">Notifications</h1>
-        </div>
+        
 
       </div>
-      
-
     </main>
   </div>
 </body>

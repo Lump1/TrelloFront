@@ -1,232 +1,349 @@
-/* styles.css */
+/* Основные стили для body */
 body {
-  font-family: Arial, sans-serif;
-  background-color: #1e1e20; 
-  color: #c9d1d9;
-  margin: 0;
-  display: flex;
+  font-family: Arial, sans-serif; /* Устанавливаем шрифт Arial для всего тела страницы */
+  background: rgb(63, 113, 96);
+  background: linear-gradient(122deg,
+      rgba(63, 113, 96, 1) 0%,
+      rgba(58, 144, 113, 1) 30%,
+      rgba(63, 122, 83, 1) 61%,
+      rgba(73, 107, 75, 1) 100%);
+  color: #c9d1d9; /* Устанавливаем светлый цвет текста */
+  margin: 0; /* Убираем отступы вокруг страницы */
+  display: flex; /* Используем flexbox для главного контейнера */
 }
 
+/* Стили для элементов списка */
 li {
-  background-color: #36363a;
-  border-radius: 30px;
-  padding-left: 15px;
-  padding-bottom: 10px;
+  background-color: #36363a; /* Устанавливаем фон для элементов списка */
+  border-radius: 30px; /* Скругляем углы элементов списка */
+  padding-left: 15px; /* Устанавливаем отступ слева для элементов списка */
+  padding-bottom: 10px; /* Устанавливаем нижний отступ для элементов списка */
 }
 
+/* Основной контейнер настроек профиля */
 .profile-settings-container {
-  display: flex;
-  width: 100%;
-  height: 100%;
+  display: flex; /* Используем flexbox для контейнера */
+  width: 100%; /* Устанавливаем ширину 100% */
+  height: 100%; /* Устанавливаем высоту 100% */
+
+ 
 }
 
+/* Стили для боковой панели настроек профиля */
 .profile-settings-container-sidebar {
-  width: 100%;
-  height: 100vh;
-  
-  padding: 20px;
-  box-sizing: border-box;
-  font-size: 20px;
-  position: sticky;
-  top: 0;
-}
+  width: 100%; /* Устанавливаем ширину 100% */
+  height: 100%; /* Устанавливаем высоту на весь видимый экран */
+  padding: 20px; /* Устанавливаем внутренние отступы */
+  box-sizing: border-box; /* Включаем отступы и границы в ширину и высоту */
+  font-size: 20px; /* Устанавливаем размер шрифта */
+  position: sticky; /* Фиксируем боковую панель при прокрутке */
+  top: 0; /* Устанавливаем верхнюю границу фиксации */
 
+}
+.profile-settings-main-content1{
+
+  height: 100%; 
+  width: 13%; 
+  margin-right: 15px; 
+  min-width: 170px; 
+  padding-left: 15px; 
+  background: rgb(30, 32, 32);
+  opacity:0.7;
+}
+/* Стили для заголовка профиля */
 .profile-header {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-bottom: 15px;
+  display: flex; /* Используем flexbox для контейнера */
+  flex-direction: column; /* Устанавливаем направление элементов по вертикали */
+  align-items: center; /* Центрируем элементы по горизонтали */
+  margin-bottom: 15px; /* Устанавливаем нижний отступ */
 }
 
+/* Контейнер для изображения профиля */
 .profile-picture-container {
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  overflow: hidden;
-  background-color: white;
+  width: 50px; /* Устанавливаем ширину контейнера */
+  height: 50px; /* Устанавливаем высоту контейнера */
+  border-radius: 50%; /* Скругляем углы до круга */
+  overflow: hidden; /* Скрываем выходящее за границы содержимое */
+  background-color: white; /* Устанавливаем белый фон */
 }
 
+/* Изображение профиля */
 img.profile-picture {
-  width: 100%;
-  height: 100%;
+  width: 100%; /* Устанавливаем ширину изображения 100% */
+  height: 100%; /* Устанавливаем высоту изображения 100% */
 }
 
+/* Стили для имени пользователя и электронной почты */
 .username, .user-handle {
-  margin: 0;
-  font-size: 20px;
+  margin: 0; /* Убираем отступы */
+  font-size: 20px; /* Устанавливаем размер шрифта */
 }
 
 .email {
-  font-size: 14px;
+  font-size: 14px; /* Устанавливаем размер шрифта */
 }
 
 .user-handle {
-  font-size: 14px;
-  color: #8b949e;
+  font-size: 14px; /* Устанавливаем размер шрифта */
+  color: #8b949e; /* Устанавливаем цвет текста */
 }
 
+/* Стили для ссылок переключения контекста */
 .switch-context {
-  color: #58a6ff;
-  text-decoration: none;
-  font-size: 12px;
+  color: #58a6ff; /* Устанавливаем цвет текста */
+  text-decoration: none; /* Убираем подчеркивание у ссылок */
+  font-size: 12px; /* Устанавливаем размер шрифта */
 }
 
+
+/* Стили для меню боковой панели профиля */
 .profile-sidebar-menu ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-
-.profile-sidebar-menu ul li {
-  margin-bottom: 10px;
-}
-
-.profile-sidebar-menu ul li:hover {
-  background-color: #2d2d30;
-}
-
-.profile-sidebar-menu ul li a {
-  color: #ffffff;
-  text-decoration: none;
-  font-size: 14px;
-}
-
-.profile-settings-main-content {
-  flex-grow: 1;
-  box-sizing: border-box;
-  display: flex;
-  flex-wrap: nowrap;
-  padding-right: 20px;
-}
-
-/* public profile */
-
-.profile-main-container {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border-bottom: 1px solid #36363a;
-  padding-bottom: 10px;
-  padding-top: 20px;
-  margin-bottom: 20px;
-}
-
-.profile-link {
-  color: #58a6ff;
-  text-decoration: none;
-  font-size: 14px;
-}
-
-.profile-form {
-  display: flex;
-  flex-direction: column;
-}
-
-.profile-form label {
-  margin-bottom: 5px;
-}
-
-.profile-form input, .profile-form select, .profile-form textarea {
-  background-color: #36363a;
-  border: 1px solid #36363a;
-  color: #ffffff;
-  padding: 10px;
-  margin-bottom: 20px;
-  border-radius: 5px;
-}
-
-.email-info, .bio-info {
-  font-size: 12px;
-  color: #b0b7bf;
-}
-
-.profile-picture-section {
-  display: flex;
-  align-items: center;
-}
-
-.profile-picture-section img {
-  width: 150px;
-  height: 150px;
-  border-radius: 20%;
-  margin-right: 20px;
-}
-
-.edit-picture {
-  background-color: #36363a;
-  color: #c9d1d9;
-  border: 1px solid #36363a;
-  border-radius: 5px;
-  padding: 10px;
-  cursor: pointer;
-  width: 100px;
+  list-style: none; /* Убираем маркеры списка */
+  padding: 0; /* Убираем отступы */
+  margin: 0; /* Убираем отступы */
   
 }
 
-/* account */
+/* Стили для элементов списка меню боковой панели */
+.profile-sidebar-menu ul li {
+  margin-bottom: 10px; /* Устанавливаем нижний отступ */
 
-.setting-section {
+}
+
+.profile-sidebar-menu ul li:hover {
+  background-color: #2d2d30; /* Устанавливаем фон при наведении */
+}
+
+.profile-sidebar-menu ul li a {
+  color: #ffffff; /* Устанавливаем цвет текста ссылок */
+  text-decoration: none; /* Убираем подчеркивание у ссылок */
+  font-size: 14px; /* Устанавливаем размер шрифта */
+ 
+}
+
+/* Основной контент настроек профиля */
+.profile-settings-main-content {
+  flex-grow: 1; /* Элемент растет, чтобы заполнить доступное пространство */
+  box-sizing: border-box; /* Включаем отступы и границы в ширину и высоту */
+  display: flex; /* Используем flexbox для контейнера */
+  flex-wrap: nowrap; /* Элементы не переносятся на новую строку */
+  padding-right: 20px; /* Устанавливаем правый внутренний отступ */
+  background-color: #2b2b2e36
+  
+  
+}
+
+/* Стили для основного контейнера профиля */
+.profile-main-container {
+  display: flex; /* Используем flexbox для контейнера */
+  justify-content: space-between; /* Распределяем элементы по краям */
+  align-items: center; /* Выравниваем элементы по центру по вертикали */
+  border-bottom: 1px solid #36363a; /* Устанавливаем нижнюю границу */
+  padding-bottom: 10px; /* Устанавливаем нижний внутренний отступ */
+  padding-top: 20px; /* Устанавливаем верхний внутренний отступ */
+  margin-bottom: 20px; /* Устанавливаем нижний внешний отступ */
+  
+}
+
+/* Стили для ссылок профиля */
+.profile-link {
+  color: #58a6ff; /* Устанавливаем цвет текста ссылок */
+  text-decoration: none; /* Убираем подчеркивание у ссылок */
+  font-size: 14px; /* Устанавливаем размер шрифта */
+}
+
+/* Стили для формы профиля */
+.profile-form {
+  display: flex; /* Используем flexbox для формы */
+  flex-direction: column; /* Устанавливаем направление элементов по вертикали */
+  background-color: #2b2b2e36;
+  border-radius: 5px;
+}
+.profile-form1 {
+  display: flex; /* Используем flexbox для формы */
+  flex-direction: column; /* Устанавливаем направление элементов по вертикали */
+  background-color: #2b2b2e36;
+  border-radius: 5px;
   margin-top: 20px;
-  padding: 20px;
-  background-color: #36363a;
-  border-radius: 10px;
-  color: #ffffff;
+  border-radius: 5px;
+}
+
+
+
+.profile-form label,.profile-form1 label {
+  margin-bottom: 5px; /* Устанавливаем нижний отступ для меток */
+  margin-left: 10px;
+}
+
+
+.profile-form input, .profile-form select, .profile-form textarea,.profile-form1 input, .profile-form1 select, .profile-form1 textarea {
+  background-color: #2b2b2e36;
+  border: 1px solid #36363a;
+  color: #ffffff; /* Устанавливаем цвет текста */
+  padding: 10px; /* Устанавливаем внутренние отступы */
+  margin-bottom: 20px; /* Устанавливаем нижний внешний отступ */
+  border-radius: 5px; /* Скругляем углы */
+  width: 90%;
+  margin-left: 10px;
+}
+
+/* Стили для информации о почте и биографии */
+.email-info, .bio-info {
+  font-size: 12px; /* Устанавливаем размер шрифта */
+  color: #b0b7bf; /* Устанавливаем цвет текста */
+}
+
+/* Стили для секции с изображением профиля */
+.profile-picture-section {
+  display: flex; /* Используем flexbox для контейнера */
+  align-items: center; /* Выравниваем элементы по центру по вертикали */
+}
+
+.profile-picture-section img {
+  width: 150px; /* Устанавливаем ширину изображения */
+  height: 150px; /* Устанавливаем высоту изображения */
+  border-radius: 20%; /* Скругляем углы */
+  margin-right: 20px; /* Устанавливаем правый внешний отступ */
+}
+
+/* Стили для кнопки редактирования изображения */
+.edit-picture {
+  border-radius: 5px; /* Скругляем углы */
+  padding: 10px; /* Устанавливаем внутренние отступы */
+  cursor: pointer; /* Устанавливаем курсор указателя */
+  width: 100px; /* Устанавливаем ширину кнопки */
+  margin-left: 10px;
+  margin-bottom: 10px;
+  background-color: transparent; /* Устанавливаем прозрачный фон */
+  color: #c9d1d9; /* Устанавливаем цвет текста */
+  border: 1px solid #c9d1d9; /* Устанавливаем цвет границы */
+}
+.edit-picture:hover{
+  background-color:  #36363a;
+  border: none;
+}
+
+.form-control {
+  background-color: #2b2b2e36;
+  border: 1px solid #36363a;
+  width: 50%;
+}
+
+#password-fields input{
+  background-color: #2b2b2e36;
+
+}
+
+#usernameChangeForm input {
+  margin-top: 20px;
+  margin-bottom: 10px; /* Добавляет отступ снизу у поля ввода */
+  flex-grow: 1; /* Поле растет, чтобы заполнить доступное пространство */
+  padding: 10px; /* Устанавливаем внутренние отступы */
+  border: 1px solid #36363a; /* Устанавливаем границу для поля */
+  border-radius: 5px; /* Скругляем углы */
+  background-color: #2b2b2e36;
+  color: #c9d1d9; /* Устанавливаем цвет текста */
+  width: 50%;
+}
+
+#saveUsernameBtn{
+  width: 10%;
+}
+
+/* Стили для секций настроек */
+.setting-section {
+  margin-top: 20px; /* Устанавливаем верхний внешний отступ */
+  padding: 20px; /* Устанавливаем внутренние отступы */
+  border-radius: 10px; /* Скругляем углы */
+  color: #ffffff; /* Устанавливаем цвет текста */
+  background-color: #2b2b2e36;
+  
 }
 
 .setting-section h2 {
-  margin: 0 0 10px 0;
-  font-size: 20px;
+  margin: 0 0 10px 0; /* Убираем верхний и нижний отступы */
+  font-size: 20px; /* Устанавливаем размер шрифта */
 }
 
 .setting-section p {
-  margin: 10px 0;
-  font-size: 14px;
-  color: #8b949e;
+  margin: 10px 0; /* Устанавливаем верхний и нижний отступы */
+  font-size: 14px; /* Устанавливаем размер шрифта */
+  color: #8b949e; /* Устанавливаем цвет текста */
 }
 
 .setting-section a {
-  color: #58a6ff;
-  text-decoration: none;
+  color: #58a6ff; /* Устанавливаем цвет текста ссылок */
+  text-decoration: none; /* Убираем подчеркивание у ссылок */
 }
 
+/* Стили для поиска правопреемника */
 .successor-search {
-  display: flex;
-  align-items: center;
-  gap: 10px;
+  display: flex; /* Используем flexbox для контейнера */
+  align-items: center; /* Выравниваем элементы по центру по вертикали */
+  gap: 10px; /* Устанавливаем расстояние между элементами */
 }
 
 .successor-search input {
-  flex-grow: 1;
-  padding: 10px;
-  border: 1px solid #36363a;
-  border-radius: 5px;
-  background-color: #36363a;
-  color: #c9d1d9;
+  flex-grow: 1; /* Поле растет, чтобы заполнить доступное пространство */
+  padding: 10px; /* Устанавливаем внутренние отступы */
+  border: 1px solid #36363a; /* Устанавливаем границу для поля */
+  border-radius: 5px; /* Скругляем углы */
+  background-color: #36363a; /* Устанавливаем фон для поля */
+  color: #c9d1d9; /* Устанавливаем цвет текста */
+  
 }
 
+/* Стили для статуса правопреемника */
 .successor-status {
-  font-size: 14px;
-  color: #8b949e;
-  margin-top: 10px;
+  font-size: 14px; /* Устанавливаем размер шрифта */
+  color: #8b949e; /* Устанавливаем цвет текста */
+  margin-top: 10px; /* Устанавливаем верхний внешний отступ */
 }
 
+/* Стили для секции удаления аккаунта */
 .delete-account {
-  border-top: 1px solid #36363a;
-  padding-top: 20px;
+  border-top: 1px solid #36363a; /* Устанавливаем верхнюю границу */
+  padding-top: 20px; /* Устанавливаем верхний внутренний отступ */
 }
 
+/* Стили для кнопок */
 .btn-outline-secondary {
-  background-color: transparent;
-  color: #c9d1d9;
-  border: 1px solid #c9d1d9;
+  background-color: transparent; /* Устанавливаем прозрачный фон */
+  color: #c9d1d9; /* Устанавливаем цвет текста */
+  border: 1px solid #c9d1d9; /* Устанавливаем цвет границы */
 }
-
+.btn-outline-secondary:hover{
+  background-color:  #36363a;
+  border: none;
+}
 .btn-danger {
-  background-color: #d73a49;
+  background-color: #d73a49; /* Устанавливаем фон для опасной кнопки */
 }
 
+/* Стили для кнопки изменения пароля */
 .change-password-setting{
-  justify-content: space-between;
-  align-items: center;
+  justify-content: space-between; /* Распределяем элементы по краям */
+  align-items: center; /* Выравниваем элементы по центру по вертикали */
+}
+
+/* Стили для select элемента */
+.setting-section1 {
+  background-color: #2b2b2e36; /* Устанавливаем фон */
+  border: 1px solid #36363a; /* Устанавливаем цвет границы */
+  color: #ffffff; /* Устанавливаем цвет текста */
+  padding: 10px; /* Устанавливаем внутренние отступы */
+  margin-bottom: 70px; /* Устанавливаем нижний внешний отступ */
+  border-radius: 5px; /* Скругляем углы */
+  width: 10%; /* Устанавливаем ширину 100% */
+
+  background-position-x: 100%; /* Позиционируем фон по горизонтали */
+  background-position-y: 50%; /* Позиционируем фон по вертикали */
+  cursor: pointer; /* Устанавливаем курсор указателя */
+}
+
+.setting-section1 option {
+  background-color: #2b2b2e; /* Устанавливаем фон опций */
+  color: #ffffff; /* Устанавливаем цвет текста */
+  border-radius: 2px;
+  
 }
