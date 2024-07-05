@@ -164,6 +164,8 @@ img.profile-picture {
   border-radius: 5px;
   margin-top: 20px;
   border-radius: 5px;
+  width: 100%;
+  height: fit-content;
 }
 
 
