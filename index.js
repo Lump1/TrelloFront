@@ -616,7 +616,7 @@ $(document).ready(function () {
                     }
                 });
             
-                $('#createLabelBtn').on('click', function () {
+                $('#createLabelBtn').off("click").on('click', function () {
                     var newLabelName = $('#newLabelName').val().trim();
                     if (newLabelName === "") {
                         alert("Введите название тега");
