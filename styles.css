@@ -944,6 +944,7 @@ p {
 
 .card-header-man {
   display: inline-flex;
+  flex-wrap: wrap;
   margin-right: 16px;
   margin-left: 12px;
   margin-top: 16px;
