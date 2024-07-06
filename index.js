@@ -739,8 +739,6 @@ $(document).ready(function () {
             labelsPopup.toggle();
             if (labelsPopup.is(':visible')) {
                 labelsPopup.css({
-                    top: '10px',
-                    left: '10px'
                 });
                 loadBoardTags(currentBoardId);
             }
@@ -790,8 +788,6 @@ $(document).ready(function () {
         
                 if ($('#membersPopup').is(':visible')) {
                     $('#membersPopup').css({
-                        top: '10px',
-                        left: '10px'
                     });
         
                     loadMembers(currentBoardId, currentCardId);
