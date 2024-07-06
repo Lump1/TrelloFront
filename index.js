@@ -605,10 +605,7 @@ $(document).ready(function () {
                 $('#showLabelsBtn').on('click', function () {
                     labelsPopup.toggle();
                     if (labelsPopup.is(':visible')) {
-                        labelsPopup.css({
-                            top: '10px',
-                            left: '10px'
-                        });
+                        labelsPopup.css();
                         loadBoardTags(currentBoardId);
                     }
                 });
