@@ -325,6 +325,7 @@ function miniatureRender(card) {
         $("#" + card.id + ".card-footer-man").append(div);
     }
     if(card.userDtos.length != 0) {
+        console.log(card.userDtos.length);
         let styles = "width: 21px; height: 21px;";
 
         card.userDtos.forEach(item => {
@@ -344,10 +345,12 @@ function miniatureRender(card) {
 }
 
 function loadBoards() {
-    var boards = Cookies.get("recent") != undefined ? JSON.parse(Cookies.get("recent")) : [];
+    //var boards = Cookies.get("recent") != undefined ? JSON.parse(Cookies.get("recent")) : [];
+    var currentBoardId = getUrlParameter("boardid"); 
     var userGUID = Cookies.get("userGUID");
     var usedIdentifiers = [];
-    for(let i = 0; i < 3; i++) {
+    console.log("fffffffffffff", currentBoardId);
+    /* for(let i = 0; i < 3; i++) {
         let identifier;
         if(boards[i] != undefined) {
             identifier = boards[i];
@@ -355,17 +358,17 @@ function loadBoards() {
         else {
             continue;
         }
-
+ */
         $.ajax({
             type: "GET",
-            url: `${endpoint}${boardsEndpoint}${boards[i]}&user=${userGUID}`,
+            url: `${endpoint}${boardsEndpoint}${currentBoardId}&user=${userGUID}`,
             dataType: "json",
             headers: {
                 Accept: "application/json",
                 "Content-Type": "application/json",
             },
             success: function (response) {
-                $(".My-boards-container-dropdown-menu").prepend(`<li><a type="button" href="#http://127.0.0.1:5500/index.html?boardid=${boards[i]}">${response.name}</a></li>`)
+                $(".My-boards-container-dropdown-menu").prepend(`<li><a type="button" href="http://127.0.0.1:5500/index.html?boardid=${currentBoardId}">${response.name}</a></li>`)
             },
             error: function (jqXHR, textStatus, errorThrown) {
                 console.error(
@@ -373,7 +376,7 @@ function loadBoards() {
                 );
             },
         });
-    }
+   // }
 }
 
 $(document).ready(function () {
@@ -478,18 +481,6 @@ $(document).ready(function () {
             },
             dataType: "json",
         });
-      
-
-        
-
-
-
-
-
-
-
-
-
     });
 
     $(document).on("click", ".main-card", function () {
@@ -509,7 +500,8 @@ $(document).ready(function () {
 
         if (sidePanelObj.css("right")[0] == "-" || sidePanelObj.css("right")[0] == "0") {
             sidePanelObj.stop().animate({
-                "right": "10px"
+                "right": "0.1px"
+                
             }, 1500)
         }
         else {
@@ -575,6 +567,7 @@ $(document).ready(function () {
                 success: function (response) {
                     getCardObj(cardId).then(response => {
                         loadComments(response.cardCommentDTOs);
+                        $("#commentText").val("");
                     })
                 },
                 error: function (jqXHR, textStatus, errorThrown) {
@@ -597,141 +590,158 @@ $(document).ready(function () {
                 }
             });
         }
+        ////////////////////////////////////////////////////////////////////////////////////////////////////
+      
         
-        var labelsList = $('#labelsList'); 
-        var labelsPopup = $('#labelsPopup'); 
-        var currentBoardId = getUrlParameter("boardid"); 
-
-        currentCardId = cardId;
-
-        function loadBoardTags(boardId) {
-            $.ajax({
-                type: "GET",
-                url: `${endpoint}api/boards/${boardId}/tags`,
-                dataType: "json",
-                success: function (response) {
-                    loadCardTags(currentCardId, response);
-                },
-                error: function (jqXHR, textStatus, errorThrown) {
-                    console.error(`Error: ${textStatus} - ${errorThrown}`);
-                }
-            });
-        }
-
-        function loadCardTags(cardId, allTags) {
-            $.ajax({
-                type: "GET",
-                url: `${endpoint}${cardsEndpoint}${cardId}`,
-                dataType: "json",
-                success: function (card) {
-                    renderLabels(allTags, card.tagDTOs || []);
-                },
-                error: function (jqXHR, textStatus, errorThrown) {
-                    console.error(`Error fetching card ${cardId}: ${textStatus} - ${errorThrown}`);
-                }
-            });
-        }
-
-        function renderLabels(allLabels, cardLabels) {
-            labelsList.empty();
-            var cardLabelIds = cardLabels.map(label => label.id);
-        
-            if (allLabels && allLabels.length > 0) {
-                allLabels.forEach(function (label) {
-                    var labelItem = $(`<div class="label-item" data-id="${label.id}">🏷️${label.name}</div>`);
-                    if (cardLabelIds.includes(label.id)) {
-                        labelItem.addClass('selected');
+           
+            $(document).ready(function () {
+               
+              
+                var labelsList = $('#labelsList');
+                var labelsPopup = $('#labelsPopup');
+                var currentBoardId = getUrlParameter("boardid");
+                currentCardId = cardId;
+            
+                $('#showLabelsBtn').on('click', function () {
+                    labelsPopup.toggle();
+                    if (labelsPopup.is(':visible')) {
+                        labelsPopup.css({
+                            top: '10px',
+                            left: '10px'
+                        });
+                        loadBoardTags(currentBoardId);
                     }
-                    labelItem.hover(
-                        function () {
-                            $(this).css({ backgroundColor: 'black', border: '1px solid #fff' });
+                });
+            
+                $(document).mouseup(function (e) {
+                    if (!labelsPopup.is(e.target) && labelsPopup.has(e.target).length === 0) {
+                        labelsPopup.hide();
+                    }
+                });
+            
+                $('#createLabelBtn').on('click', function () {
+                    var newLabelName = $('#newLabelName').val().trim();
+                    if (newLabelName === "") {
+                        alert("Введите название тега");
+                        return;
+                    }
+            
+                    var newTag = {
+                        name: newLabelName,
+                        idBoard: currentBoardId
+                    };
+            
+                    $.ajax({
+                        type: "POST",
+                        url: `${endpoint}api/tags`,
+                        contentType: "application/json",
+                        data: JSON.stringify(newTag),
+                        success: function (response) {
+                            $('#newLabelName').val('');
+                            loadBoardTags(currentBoardId);
                         },
-                        function () {
-                            $(this).css({ backgroundColor: '', border: '' });
-                        }
-                    );
-                    labelItem.click(function () {
-                        var tagId = $(this).data('id');
-                        if (labelItem.hasClass('selected')) {
-                            removeTagFromCard(tagId);
-                            labelItem.removeClass('selected');
-                        } else {
-                            addTagToCard(tagId);
-                            labelItem.addClass('selected');
+                        error: function (jqXHR, textStatus, errorThrown) {
+                            console.error(`Error: ${textStatus} - ${errorThrown}`);
                         }
                     });
-                    labelsList.append(labelItem);
                 });
-            } else {
-                labelsList.append(`<div>Нет тегов, привязанных к этой карте</div>`);
-            }
-        }
-
-        function replaceCardTag(tagId) {
-
-            $.ajax({
-                type: "GET",
-                url: `${endpoint}${cardsEndpoint}${currentCardId}`,
-                dataType: "json",
-                success: function (card) {
-                    var currentTags = card.tagDTOs || []; 
-                    var tagIdsToRemove = currentTags.map(tag => tag.id); 
-                    console.log("fagIdsToRemove",tagIdsToRemove);
-
-                    if (tagIdsToRemove.length > 0) {
-                        var deletePromises = tagIdsToRemove.map(tagIdToRemove => {
-                            return $.ajax({
-                                type: "DELETE",
-                                url: `${endpoint}api/card-tags/card=${currentCardId}&tag=${tagIdToRemove}`,
-                                error: function (jqXHR, textStatus, errorThrown) {
-                                    console.error(`Error deleting tag ${tagIdToRemove}: ${textStatus} - ${errorThrown}`);
+            
+                function loadBoardTags(boardId) {
+                    $.ajax({
+                        type: "GET",
+                        url: `${endpoint}api/boards/${boardId}/tags`,
+                        dataType: "json",
+                        success: function (response) {
+                            loadCardTags(currentCardId, response);
+                        },
+                        error: function (jqXHR, textStatus, errorThrown) {
+                            console.error(`Error: ${textStatus} - ${errorThrown}`);
+                        }
+                    });
+                }
+            
+                function loadCardTags(cardId, allTags) {
+                    $.ajax({
+                        type: "GET",
+                        url: `${endpoint}${cardsEndpoint}${cardId}`,
+                        dataType: "json",
+                        success: function (card) {
+                            renderLabels(allTags, card.tagDTOs || []);
+                        },
+                        error: function (jqXHR, textStatus, errorThrown) {
+                            console.error(`Error fetching card ${cardId}: ${textStatus} - ${errorThrown}`);
+                        }
+                    });
+                }
+            
+                function renderLabels(allLabels, cardLabels) {
+                    labelsList.empty();
+                    var cardLabelIds = cardLabels.map(label => label.id);
+            
+                    if (allLabels && allLabels.length > 0) {
+                        allLabels.forEach(function (label) {
+                            var labelItem = $(`<div class="label-item" data-id="${label.id}">🏷️${label.name}</div>`);
+                            if (cardLabelIds.includes(label.id)) {
+                                labelItem.addClass('selected');
+                            }
+                            labelItem.hover(
+                                function () {
+                                    $(this).css({ backgroundColor: 'black', border: '1px solid #fff' });
+                                },
+                                function () {
+                                    $(this).css({ backgroundColor: '', border: '' });
+                                }
+                            );
+                            labelItem.click(function () {
+                                var tagId = $(this).data('id');
+                                if (labelItem.hasClass('selected')) {
+                                    removeTagFromCard(tagId);
+                                    labelItem.removeClass('selected');
+                                } else {
+                                    addTagToCard(tagId);
+                                    labelItem.addClass('selected');
                                 }
                             });
-                        });
-
-
-                        $.when.apply($, deletePromises).done(function () {
-                            addTagToCard(tagId);
+                            labelsList.append(labelItem);
                         });
                     } else {
-                        //
-                        addTagToCard(tagId);
+                        labelsList.append(`<div>Нет тегов, привязанных к этой карте</div>`);
                     }
-                },
-                error: function (jqXHR, textStatus, errorThrown) {
-                    console.error(`Error fetching card ${currentCardId}: ${textStatus} - ${errorThrown}`);
                 }
-            });
-        }
-
-        function addTagToCard(tagId) {
-            var cardTag = { idCard: currentCardId, idTags: tagId };
-            $.ajax({
-                type: "POST",
-                url: `${endpoint}api/card-tags`,
-                contentType: "application/json",
-                data: JSON.stringify(cardTag),
-                success: function (response) {
-                    console.log(`Тег добавлен на карту: ${tagId}`);
-                    loadBoardTags(currentBoardId);
-                },
-                error: function (jqXHR, textStatus, errorThrown) {
-                    console.error(`Error: ${textStatus} - ${errorThrown}`);
+            
+                function addTagToCard(tagId) {
+                    var cardTag = { idCard: currentCardId, idTags: tagId };
+                    $.ajax({
+                        type: "POST",
+                        url: `${endpoint}api/card-tags`,
+                        contentType: "application/json",
+                        data: JSON.stringify(cardTag),
+                        success: function (response) {
+                            console.log(`Тег добавлен на карту: ${tagId}`);
+                            loadBoardTags(currentBoardId);
+                            updateCardTags(currentCardId); 
+                        },
+                        error: function (jqXHR, textStatus, errorThrown) {
+                            console.error(`Error: ${textStatus} - ${errorThrown}`);
+                        }
+                    });
                 }
-            });
-        }
-        
-        function removeTagFromCard(tagId) {
-            $.ajax({
-                type: "DELETE",
-                url: `${endpoint}api/card-tags/card=${currentCardId}&tag=${tagId}`,
-                success: function (response) {
-                    console.log(`Тег удален с карты: ${tagId}`);
-                    loadBoardTags(currentBoardId);
-                },
-                error: function (jqXHR, textStatus, errorThrown) {
-                    console.error(`Error: ${textStatus} - ${errorThrown}`);
+            
+                function removeTagFromCard(tagId) {
+                    $.ajax({
+                        type: "DELETE",
+                        url: `${endpoint}api/card-tags/card=${currentCardId}&tag=${tagId}`,
+                        success: function (response) {
+                            console.log(`Тег удален с карты: ${tagId}`);
+                            loadBoardTags(currentBoardId);
+                            updateCardTags(currentCardId); 
+                        },
+                        error: function (jqXHR, textStatus, errorThrown) {
+                            console.error(`Error: ${textStatus} - ${errorThrown}`);
+                        }
+                    });
                 }
+<<<<<<< HEAD
             });
         }
         
@@ -773,12 +783,38 @@ $(document).ready(function () {
                 },
                 error: function (jqXHR, textStatus, errorThrown) {
                     console.error(`Error: ${textStatus} - ${errorThrown}`);
+=======
+            
+                function updateCardTags(cardId) {
+                    $.ajax({
+                        type: "GET",
+                        url: `${endpoint}${cardsEndpoint}${cardId}`,
+                        dataType: "json",
+                        success: function (card) {
+                            var cardTags = card.tagDTOs || [];
+                            var tagsHtml = cardTags.map(tag => `<p class="card-tag card-sm-text">${tag.name}</p>`).join('');
+                         
+                            $("#" + cardId + ".card-header-man").html(tagsHtml);
+                            console.log("aaaaa",cardId,tagsHtml)
+                        },
+                        error: function (jqXHR, textStatus, errorThrown) {
+                            console.error(`Error fetching card ${cardId}: ${textStatus} - ${errorThrown}`);
+                        }
+                    });
+>>>>>>> f61a9d1cc8fcdc7ad01ce0f43b46ccc608dbd8d8
                 }
+            
+                
+            
+                
+           
+                    
+                
             });
-        });
-
+            
         
-
+        
+         ///     //////////////////////////////////////////////////////////
         $(document).ready(function () {
             var currentBoardId = getUrlParameter("boardid"); 
             currentCardId = cardId;
@@ -787,9 +823,12 @@ $(document).ready(function () {
                 $('#membersPopup').toggle();
         
                 if ($('#membersPopup').is(':visible')) {
+<<<<<<< HEAD
                     $('#membersPopup').css({
                     });
         
+=======
+>>>>>>> f61a9d1cc8fcdc7ad01ce0f43b46ccc608dbd8d8
                     loadMembers(currentBoardId, currentCardId);
                 }
             });
@@ -808,6 +847,9 @@ $(document).ready(function () {
                     dataType: "json",
                     success: function (response) {
                         renderMembers(response, cardId);
+                        getCard(cardId).then(responseCard => {
+                            miniatureRender(responseCard);
+                        });
                     },
                     error: function (jqXHR, textStatus, errorThrown) {
                         console.error(`Error: ${textStatus} - ${errorThrown}`);
@@ -845,17 +887,17 @@ $(document).ready(function () {
             }
         
             function addUserToCard(cardId, userGuid) {
-                $.ajax({
-                    type: "POST",
-                    url: `${endpoint}api/user-card/cardId=${cardId}&userGuid=${userGuid}`,
-                    success: function (response) {
-                        console.log(`User added to card: ${userGuid}`);
-                        loadMembers(currentBoardId, currentCardId);
-                    },
-                    error: function (jqXHR, textStatus, errorThrown) {
-                        console.error(`Error: ${textStatus} - ${errorThrown}`);
-                    }
-                });
+                    $.ajax({
+                        type: "POST",
+                        url: `${endpoint}api/user-card/cardId=${cardId}&userGuid=${userGuid}`,
+                        success: function (response) {
+                            console.log(`User added to card: ${userGuid}`);
+                            loadMembers(currentBoardId, currentCardId);
+                        },
+                        error: function (jqXHR, textStatus, errorThrown) {
+                            console.error(`Error: ${textStatus} - ${errorThrown}`);
+                        }
+                    });
             }
         
             function removeUserFromCard(cardId, userGuid) {
@@ -1074,6 +1116,10 @@ $(document).ready(function () {
     $('.My-boards-container-dropdown-menu li').on('click', function () {
         $('.My-boards-container-dropdown-menu').removeClass('show');
     });
+
+    $(".header-main-text").on("click", function() {
+        window.location.href = "http://127.0.0.1:5500/home_page_layout.html";
+    })
 
     $(document).mouseup(function (e) {
         if (isPopupOpened &&

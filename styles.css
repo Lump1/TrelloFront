@@ -56,6 +56,7 @@ aside {
   font-size: 40px;
   font-weight: 500;
   font-family: "Florida Vibes";
+  cursor: pointer;
 }
 
 .aside-h-container {
@@ -890,6 +891,16 @@ p {
 
 .helping-container {
   width: 100%;
+  height: fit-content;
+  min-height: 10px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.create-button-conteiner {
+  width: 100%;
 
   display: flex;
   flex-direction: column;
@@ -1536,6 +1547,8 @@ input[type="text"]:focus {
   overflow-y: scroll;
   overflow-x: hidden;
   background-color: #222224;
+
+  z-index: 2;
   
   border-radius: 10px;
   box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.226);
@@ -1693,7 +1706,6 @@ input[type="text"]:focus {
   width: 65%;
   height: 99%;
   z-index: 999;
-
   display: flex;
   justify-content: center;
   align-items: center;
@@ -1744,11 +1756,16 @@ input[type="text"]:focus {
 
 .members-window {
   position: absolute;
+<<<<<<< HEAD
   left: 10px;
+=======
+  top: 0px;
+>>>>>>> f61a9d1cc8fcdc7ad01ce0f43b46ccc608dbd8d8
   background:#404042;
   padding: 10px;
   width: 300px;
   max-height: 400px;
+  border-radius: 10px;
   overflow-y: auto;
 }
 
@@ -1765,11 +1782,7 @@ input[type="text"]:focus {
   cursor: pointer;
   background: #222;
   border-radius: 5px;
-}
-
-.member-item:hover {
-
-  border: 1px solid #fff;
+  margin-bottom: 5px;
 }
 
 

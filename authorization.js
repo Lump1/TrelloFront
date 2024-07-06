@@ -9,8 +9,9 @@ $(document).ready(function () {
         window.location.href = 'http://127.0.0.1:5500/home_page_layout.html';
     }
    
-    function emailValidator(email){    
-        const emailPattern = /^[a-zA-Z0-9_]+@[a-zA-Z0-9_]+\.[a-zA-Z]{2,}$/;
+   
+    function emailValidator(email) {
+        const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
         return emailPattern.test(email);
     }
 
