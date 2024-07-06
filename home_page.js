@@ -391,7 +391,15 @@ $(document).ready(function(){
 // BUTTON SETTINGS ROOTING
 
 $(document).ready(function () {
-  $("#settings-button-js").click(function () {
-    window.location.href = 'http://127.0.0.1:5500/profile-settings/profile_settings.html?#public-profile'
-  });
+      $("#settings-button-js").click(function () {
+        var userGUID = Cookies.get("userGUID");
+        if (userGUID != null) {
+            var targetUrl = 'http://127.0.0.1:5500/profile-settings/profile_settings.html?userGUID=' + encodeURIComponent(userGUID) + '#public-profile';
+            window.location.href = targetUrl;
+        } else {
+            console.log("userGUID is not available");
+        }
+    });
+
+
 });

@@ -1706,7 +1706,6 @@ input[type="text"]:focus {
   width: 65%;
   height: 99%;
   z-index: 999;
-
   display: flex;
   justify-content: center;
   align-items: center;
