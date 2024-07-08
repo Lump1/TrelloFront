@@ -605,10 +605,7 @@ $(document).ready(function () {
                 $('#showLabelsBtn').on('click', function () {
                     labelsPopup.toggle();
                     if (labelsPopup.is(':visible')) {
-                        labelsPopup.css({
-                            top: '10px',
-                            left: '10px'
-                        });
+                        labelsPopup.css();
                         loadBoardTags(currentBoardId);
                     }
                 });
@@ -619,7 +616,7 @@ $(document).ready(function () {
                     }
                 });
             
-                $('#createLabelBtn').on('click', function () {
+                $('#createLabelBtn').off("click").on('click', function () {
                     var newLabelName = $('#newLabelName').val().trim();
                     if (newLabelName === "") {
                         alert("Введите название тега");
