@@ -1,6 +1,5 @@
 class ChangingInput {
     #changeToInput(element) {
-        //console.log("Changing to input for element:", element);
         const self = this;
 
         var newElement = $(`<input 
@@ -14,14 +13,11 @@ class ChangingInput {
                                 value="${$(element).html().trim()}"
                                 style="font-size: 80%"
                             />`);
-    
-        //console.log("New input element created:", newElement);
         $(element).before(newElement);
         $(element).remove();
     }
     
     #changeFromInput(element) {
-        //console.log("Changing from input for element:", element);
         const self = this;
 
         var newElement = $(`<${$(element).data('element-type')} 
@@ -34,7 +30,6 @@ class ChangingInput {
                             >
                                 ${$(element).val().trim()}
                             </${$(element).data('element-type')}>`);
-        //console.log("New non-input element created:", newElement);
         $(element).before(newElement);
         $(element).remove();
 
@@ -43,33 +38,26 @@ class ChangingInput {
 
     #initialization() {
         const self = this;
-        //console.log("Initialization started");
         $(`[data-ci-id]`).off("click").on("click", function() {
-            //console.log("On click event triggered");
             var selectedElement = $(this);
-            //console.log("Selected element:", selectedElement);
             self.#changeToInput(selectedElement);
-            //console.log("Changed to input");
 
             setTimeout(() => {
                 var selectedInput = $(`input#${selectedElement.data("ci-id")}.ci-input-form`);
-                //console.log("Selected input after 100ms delay:", selectedInput);
 
                 if (selectedInput.length > 0) {
                     selectedInput.focus();
                     selectedInput.on("blur", function() {
-                        //console.log("Input blur event triggered");
                         var data = { id: selectedInput.attr("id") };
                         data[selectedInput.data("req-var-name")] = selectedInput.val();
-                        //console.log("Data to send:", data);
                         Ajax.request(selectedInput.data("ci-url"), "PUT", data).then(() => {
                             self.#changeFromInput(selectedInput);
                         }).catch(err => {
-                            //console.error("Ajax request failed:", err);
+                            console.error("Ajax request failed:", err);
                         });
                     });
                 } else {
-                    //console.error("Selected input not found:", selectedInput);
+                    console.error("Selected input not found:", selectedInput);
                 }
             }, 100);
         });
@@ -77,47 +65,35 @@ class ChangingInput {
 
     reloadElement(reloadingElement) {
         const self = this;
-        //console.log("Reloading specific element:", reloadingElement);
         self.#reload(reloadingElement);
     }
 
     reload() {
         const self = this;
-        //console.log("Reloading all elements");
         self.#initialization();
     }
 
     #reload(reloadingElement) {
         const self = this;
-
-        //console.log("Reloading specific element:", reloadingElement);
         reloadingElement.off("click").on("click", function() {
-            //console.log("On click event triggered");
             var selectedElement = $(this);
-            //console.log("Selected element:", selectedElement);
             self.#changeToInput(selectedElement);
-            //console.log("Changed to input");
-
-            // Небольшая задержка перед привязкой событий
             setTimeout(() => {
                 var selectedInput = $(`input#${selectedElement.data("ci-id")}.ci-input-form`);
-                //console.log("Selected input after 100ms delay:" + `input#${selectedElement.data("ci-id")}.ci-input-form`);
 
                 if (selectedInput.length > 0) {
                     selectedInput.focus();
                     selectedInput.on("blur", function() {
-                        //console.log("Input blur event triggered");
                         var data = { id: selectedInput.attr("id") };
                         data[selectedInput.data("req-var-name")] = selectedInput.val();
-                        //console.log("Data to send:", data);
                         Ajax.request(selectedInput.data("ci-url"), "PUT", data).then(() => {
                             self.#changeFromInput(selectedInput);
                         }).catch(err => {
-                            //console.error("Ajax request failed:", err);
+                            console.error("Ajax request failed:", err);
                         });
                     });
                 } else {
-                    //console.error("Selected input not found:", selectedInput);
+                    console.error("Selected input not found:", selectedInput);
                 }
             }, 100);
         });
@@ -125,8 +101,14 @@ class ChangingInput {
 
     constructor() {
         this.#initialization();
-        //console.log("Constructor was called");
     }
+
+    // #subRequest(url, sendingDataName, sendingData) {
+    //     var data = {};
+    //     data[sendingDataName] = sendingData;
+
+    //     Ajax.request(url, "PUT", data);
+    // }
 }
 
 class Ajax {
