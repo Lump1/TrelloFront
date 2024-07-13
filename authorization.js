@@ -61,11 +61,13 @@ $(document).ready(function () {
             success: function(data) {
                 showNotification("Registration successful.", "success");
                 console.log(data);
+                $('form').animate({height: "toggle", opacity: "toggle"}, "slow");
             },
             error: function(jqXHR, textStatus, errorThrown) {
                 showNotification(jqXHR.responseText, "error");
             }
         });
+      
     });
 
     $("#loginButton").on("click", function() {
