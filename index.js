@@ -773,6 +773,7 @@ $(document).ready(function () {
             currentCardId = cardId;
             var userGUID = Cookies.get("userGUID");
             $('#showMembersBtn').on('click', function () {
+                console.log("members");
                 $('#membersPopup').toggle();
         
                 if ($('#membersPopup').is(':visible')) {

@@ -480,6 +480,7 @@ header {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  z-index: 999;
 }
 
 #project-title {
@@ -893,6 +894,7 @@ p {
   width: 100%;
   height: fit-content;
   min-height: 10px;
+  margin-bottom: 5px;
 
   display: flex;
   flex-direction: column;
@@ -948,6 +950,7 @@ p {
   margin-right: 16px;
   margin-left: 12px;
   margin-top: 16px;
+  margin-bottom: 10px;
 }
 
 .main-card {
@@ -974,6 +977,7 @@ p {
   background: rgb(33, 33, 34);
   padding: 3px;
   margin-right: 5px;
+  margin-bottom: 5px;
   width: fit-content;
 }
 
